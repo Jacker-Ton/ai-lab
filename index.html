@@ -1,0 +1,1015 @@
+<title>AtinCaptain Agentic Lab</title>
+<style>
+/* Layout: phòng thí nghiệm tối — thanh điều hướng 6 phòng, nội dung căn giữa 1180px, sơ đồ 16:9 */
+:root{
+  --ink:#0A0F1C; --panel:#111A2E; --panel2:#16213A; --line:#27324D; --line2:#34405F;
+  --ivory:#F2EBDD; --muted:#A3ACBE; --dim:#6E7891;
+  --gold:#C8A96A; --gold2:#E6CC8F; --teal:#6FB7AE; --rose:#D98C7A; --amber:#E0B060;
+  --f-display:"Times New Roman",Times,"Liberation Serif",serif;
+  --f-body:"Times New Roman",Times,"Liberation Serif",serif;
+  --f-mono:"Times New Roman",Times,"Liberation Serif",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--ivory);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+a{color:var(--gold2)}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+header.top{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0D1424,var(--ink))}
+.brand{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-block:28px 18px}
+.brand h1{font-family:var(--f-display);font-weight:600;font-size:clamp(30px,4.4vw,48px);line-height:1.05;margin:0;letter-spacing:.3px;text-wrap:balance}
+.brand h1 em{color:var(--gold2);font-style:italic;font-weight:500}
+.eyebrow{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.brand .meta{color:var(--muted);font-size:13px;max-width:420px}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(10,15,28,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto}
+nav.tabs button{font:500 15.5px var(--f-body);color:var(--muted);background:none;border:0;padding:14px 14px 12px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ivory);border-color:var(--gold)}
+nav.tabs button:focus-visible{outline:1px solid var(--gold);outline-offset:-3px}
+main{padding-block:28px 64px}
+[hidden]{display:none!important}
+section.pane{display:grid;gap:22px;scroll-margin-top:60px}
+h2{font-family:var(--f-display);font-weight:600;font-size:32px;line-height:1.15;margin:0;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:23px;margin:0}
+p{margin:0}
+.lead{color:var(--muted);max-width:72ch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.grid3,.grid2{grid-template-columns:1fr}}
+.mono{font-family:var(--f-body);font-size:14px;letter-spacing:.02em}
+.tag{display:inline-block;font:500 13px var(--f-body);letter-spacing:.06em;padding:2px 8px;border-radius:3px;border:1px solid var(--line2);color:var(--muted)}
+.tag.gold{color:var(--gold2);border-color:#5a4a2a}
+.tag.teal{color:var(--teal);border-color:#2f5753}
+.tag.rose{color:var(--rose);border-color:#6a3d34}
+.btn{font:600 15px var(--f-body);color:var(--ink);background:var(--gold);border:0;border-radius:4px;padding:10px 16px;cursor:pointer}
+.btn:hover{background:var(--gold2)}
+.btn.ghost{background:transparent;color:var(--ivory);border:1px solid var(--line2)}
+.btn.ghost:hover{border-color:var(--gold)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+input,textarea,select{width:100%;font:400 16px var(--f-body);color:var(--ivory);background:var(--panel2);border:1px solid var(--line2);border-radius:4px;padding:10px 12px}
+textarea{resize:vertical;min-height:80px}
+label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+/* Lộ trình */
+.session{display:grid;gap:14px}
+.session .no{font-family:var(--f-display);font-size:56px;line-height:.8;color:var(--gold);font-weight:500}
+.timeline{display:grid;gap:0;border-left:1px solid var(--line2);margin-left:4px}
+.tl{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 0 8px 14px;position:relative}
+.tl::before{content:"";position:absolute;left:-4px;top:15px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.tl .t{font:500 14px var(--f-body);color:var(--gold2)}
+.tl b{font-weight:600}
+.tl p{color:var(--muted);font-size:13.5px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ivory);cursor:pointer}
+.check input{width:16px;height:16px;margin-top:3px;accent-color:var(--gold)}
+.deliver{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:8px}
+.progress{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--gold);width:0;transition:width .4s}
+/* Sơ đồ */
+.dgnav{display:flex;flex-wrap:wrap;gap:6px}
+.dgnav button{font:500 14.5px var(--f-body);background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:7px 11px;cursor:pointer}
+.dgnav button[aria-pressed="true"]{color:var(--ink);background:var(--gold);border-color:var(--gold)}
+.diagram{overflow-x:auto;background:var(--ink);border:1px solid var(--line);border-radius:6px}
+.diagram svg{display:block;width:100%;min-width:720px;height:auto}
+.dgnote{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.dgnote{grid-template-columns:1fr}}
+.dgnote ul{margin:0;padding-left:18px;color:var(--muted)}
+.dgnote li{margin:4px 0}
+.dgnote li b{color:var(--ivory)}
+/* Phòng lab */
+.labgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px}
+@media (max-width:980px){.labgrid{grid-template-columns:1fr}}
+#net{width:100%;height:auto;display:block}
+.node rect{transition:stroke .3s,fill .3s}
+.node.on rect{stroke:var(--gold2);fill:#2A2414}
+.node.ok rect{stroke:var(--teal)}
+.node.warn rect{stroke:var(--rose)}
+.node.off{opacity:.35}
+.log{height:470px;overflow:auto;display:grid;align-content:start;gap:8px;padding-right:4px}
+.ev{border:1px solid var(--line);border-left:2px solid var(--gold);background:var(--panel2);border-radius:4px;padding:9px 11px;font-size:15px}
+.ev.teal{border-left-color:var(--teal)} .ev.rose{border-left-color:var(--rose)} .ev.dim{border-left-color:var(--line2)}
+.ev .h{display:flex;justify-content:space-between;gap:8px;font:500 13px var(--f-body);color:var(--gold2);margin-bottom:3px}
+.ev .h span:last-child{color:var(--dim)}
+.ev pre{white-space:pre-wrap;font:14px/1.5 var(--f-mono);color:var(--muted);margin:6px 0 0}
+.ev p{color:var(--ivory)}
+.mode{display:inline-flex;border:1px solid var(--line2);border-radius:4px;overflow:hidden}
+.mode button{font:500 14.5px var(--f-body);background:none;color:var(--muted);border:0;padding:8px 12px;cursor:pointer}
+.mode button[aria-pressed="true"]{background:var(--panel2);color:var(--gold2)}
+.samples{display:flex;flex-wrap:wrap;gap:6px}
+.samples button{font:400 14.5px var(--f-body);background:none;border:1px dashed var(--line2);color:var(--muted);border-radius:3px;padding:5px 9px;cursor:pointer;text-align:left}
+.samples button:hover{color:var(--ivory);border-color:var(--gold)}
+.gauge{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.gauge .num{font:600 54px/1 var(--f-display);color:var(--gold2);font-variant-numeric:tabular-nums;min-width:90px}
+.bars{display:grid;gap:6px}
+.bar{display:grid;grid-template-columns:160px 1fr 44px;gap:8px;align-items:center;font-size:14.5px;color:var(--muted)}
+.bar .tr{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--gold)}
+.bar span:last-child{font-family:var(--f-mono);text-align:right;color:var(--ivory)}
+.gate{display:grid;gap:10px;border:1px solid var(--line2);border-radius:6px;padding:14px;background:var(--panel2)}
+.verdict{font:700 14px var(--f-body);letter-spacing:.08em}
+.verdict.go{color:var(--teal)} .verdict.mid{color:var(--amber)} .verdict.stop{color:var(--rose)}
+/* Builder */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 14.5px var(--f-body);background:var(--panel2);color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{color:var(--ink);background:var(--gold2);border-color:var(--gold2)}
+.filetabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--line)}
+.filetabs button{font:500 14px var(--f-body);background:none;border:0;color:var(--muted);padding:8px 10px;border-bottom:2px solid transparent;cursor:pointer}
+.filetabs button[aria-selected="true"]{color:var(--gold2);border-color:var(--gold)}
+pre.file{white-space:pre-wrap;word-break:break-word;font:15px/1.6 var(--f-mono);color:var(--ivory);background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px;max-height:520px;overflow:auto;margin:0}
+/* Bảng */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:15px}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+thead th{font:600 13px var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--panel)}
+tbody th{font-family:var(--f-display);font-size:18px;font-weight:600;color:var(--ivory);white-space:nowrap}
+td{color:var(--muted)} td b{color:var(--ivory);font-weight:500}
+/* Quiz */
+.q{display:grid;gap:8px}
+.q .opts{display:grid;gap:6px}
+.q .opts button{text-align:left;font:400 16px var(--f-body);background:var(--panel2);border:1px solid var(--line2);color:var(--ivory);border-radius:4px;padding:9px 12px;cursor:pointer}
+.q .opts button.right{border-color:var(--teal);color:var(--teal)}
+.q .opts button.wrong{border-color:var(--rose);color:var(--rose)}
+.q .why{font-size:13px;color:var(--muted)}
+.foot{color:var(--dim);font-size:12px;border-top:1px solid var(--line);padding-block:18px}
+.src a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap brand">
+    <div style="display:grid;gap:10px">
+      <span class="eyebrow">GLD Work Training · Laboratory 3 buổi × 90 phút</span>
+      <h1>Phòng Lab <em>AI Agentic</em><br>theo nguyên lý AtinCaptain</h1>
+    </div>
+    <p class="meta">Học bản chất một lần, dựng được hệ Agent trên mọi nền tảng: Claude, ChatGPT, Google Antigravity, OpenClaw, Perplexity. Biên soạn bởi AtinCaptain cho Golive Dev (MS-02).</p>
+  </div>
+  <nav class="tabs" aria-label="Các phòng lab">
+    <div class="wrap" role="tablist">
+      <button role="tab" data-tab="route" aria-selected="true">Lộ trình 3 buổi</button>
+      <button role="tab" data-tab="schem" aria-selected="false">Sơ đồ nguyên lý</button>
+      <button role="tab" data-tab="lab" aria-selected="false">Phòng mô phỏng</button>
+      <button role="tab" data-tab="build" aria-selected="false">Agent Builder</button>
+      <button role="tab" data-tab="plat" aria-selected="false">Đa nền tảng</button>
+      <button role="tab" data-tab="quiz" aria-selected="false">Kiểm tra</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+<!-- ============ LỘ TRÌNH ============ -->
+<section class="pane" id="p-route">
+  <div style="display:grid;gap:10px">
+    <h2>Một phương trình, ba buổi thực hành</h2>
+    <p class="lead">Mọi hệ AI Agentic, dù chạy trên nền tảng nào, đều là cùng một cỗ máy: <b style="color:var(--gold2)">Não (model) + Hiến chương + Kỹ năng + Công cụ + Trí nhớ</b>, chạy trong một <b style="color:var(--gold2)">vòng lặp</b> và có <b style="color:var(--gold2)">phanh</b>. Buổi 1 dựng một agent, buổi 2 ghép thành bộ máy, buổi 3 cho bộ máy vận hành an toàn và tự học. Tích từng mục khi làm xong; tiến độ lưu trên trình duyệt của bạn.</p>
+    <div class="row"><span class="mono" style="color:var(--muted)">Tiến độ toàn khoá</span><div class="progress" style="flex:1;min-width:160px"><i id="pAll"></i></div><span class="mono" id="pAllTxt">0%</span></div>
+  </div>
+  <div class="grid3" id="sessions"></div>
+</section>
+
+<!-- ============ SƠ ĐỒ ============ -->
+<section class="pane" id="p-schem" hidden>
+  <div style="display:grid;gap:10px">
+    <h2>Sơ đồ nguyên lý</h2>
+    <p class="lead">11 sơ đồ dùng xuyên suốt 3 buổi. Mỗi sơ đồ kèm ánh xạ sang AtinCaptain để học viên thấy nguyên lý chạy trong một hệ thống thật.</p>
+  </div>
+  <div class="dgnav" id="dgnav"></div>
+  <div class="diagram" id="dgview"></div>
+  <div class="dgnote" id="dgnote"></div>
+</section>
+
+<!-- ============ PHÒNG MÔ PHỎNG ============ -->
+<section class="pane" id="p-lab" hidden>
+  <div style="display:grid;gap:10px">
+    <h2>Phòng mô phỏng bộ máy</h2>
+    <p class="lead">Gửi một yêu cầu như BOSS, xem nó đi qua Sảnh tiếp nhận → Tổng chỉ huy → các Agent → Sandbox chấm điểm → cổng duyệt → Thư viện. <b>Mô phỏng</b> chạy kịch bản có sẵn, miễn phí. <b>Chạy thật bằng Claude</b> gọi Claude cho từng vai, dùng lượt Claude của chính bạn (hỏi xin phép ở lần đầu).</p>
+    <p class="lead">Mỗi nguyên lý trong tab Sơ đồ đều chạy thử được ở đây: chọn nguyên lý, chọn tình huống, rồi bấm Chạy thử.</p>
+  </div>
+  <div class="dgnav" id="scNav"></div>
+  <div id="machine" style="display:grid;gap:22px">
+  <div class="card" style="display:grid;gap:12px">
+    <div class="row" style="justify-content:space-between">
+      <div class="mode" role="group" aria-label="Chế độ chạy">
+        <button id="mSim" aria-pressed="true">Mô phỏng</button>
+        <button id="mLive" aria-pressed="false">Chạy thật bằng Claude</button>
+      </div>
+      <span class="mono" id="liveState" style="color:var(--dim)"></span>
+    </div>
+    <label for="req">Yêu cầu của BOSS
+      <textarea id="req" rows="3">Lên kế hoạch quảng cáo Facebook 30 ngày cho combo vitamin Homepharma, ngân sách 15 triệu, khách hàng mục tiêu là dân văn phòng 25-40 tuổi ở TP.HCM, cần báo cáo trước thứ Hai.</textarea>
+    </label>
+    <div class="samples" id="samples"></div>
+    <div class="row"><button class="btn" id="run">Gửi vào Sảnh</button><button class="btn ghost" id="stop" disabled>Dừng</button><button class="btn ghost" id="reset">Làm lại</button></div>
+  </div>
+  <div class="labgrid">
+    <div class="card" style="padding:10px"><svg id="net" viewBox="0 0 760 520" role="img" aria-label="Sơ đồ mạng lưới agent"></svg></div>
+    <div class="card" style="display:grid;gap:10px;align-content:start">
+      <div class="row" style="justify-content:space-between"><h3>Nhật ký vận hành</h3><span class="tag" id="stepTag">chờ yêu cầu</span></div>
+      <div class="log" id="log" aria-live="polite"><div class="ev dim"><p style="color:var(--muted)">Chưa có hoạt động. Chọn một yêu cầu mẫu hoặc tự viết, rồi bấm “Gửi vào Sảnh”.</p></div></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" style="display:grid;gap:14px">
+      <h3>Bảng điểm Sandbox</h3>
+      <div class="gauge"><div class="num" id="score">—</div><div class="bars" id="bars"></div></div>
+      <p class="mono" style="color:var(--dim)">&lt;80 tạm dừng · 80–89 xem xét, trình A/B · ≥90 khả thi, trình BOSS duyệt</p>
+    </div>
+    <div class="gate" id="gate"><span class="verdict" style="color:var(--dim)">CỔNG DUYỆT ĐANG ĐÓNG</span><p style="color:var(--muted);font-size:13.5px">Cổng chỉ mở sau khi Sandbox chấm xong. Không agent nào được hành động thật khi chưa có chữ ký của người duyệt.</p></div>
+  </div>
+</div>
+  <div id="scene" style="display:grid;gap:22px" hidden>
+    <div class="card" style="display:grid;gap:12px">
+      <div style="display:grid;gap:6px"><span class="eyebrow" id="scKick"></span><h3 id="scTitle"></h3><p style="color:var(--muted)" id="scDesc"></p></div>
+      <div class="chips" id="scOpts"></div>
+      <div class="row"><button class="btn" id="scRun">Chạy thử</button><button class="btn ghost" id="scStop" disabled>Dừng</button><button class="btn ghost" id="scReset">Làm lại</button></div>
+    </div>
+    <div class="labgrid">
+      <div class="card" style="padding:10px"><svg id="scNet" viewBox="0 0 760 460" role="img" aria-label="Sơ đồ chạy thử nguyên lý"></svg></div>
+      <div class="card" style="display:grid;gap:10px;align-content:start"><h3>Nhật ký chạy thử</h3><div class="log" id="scLog" aria-live="polite"></div></div>
+    </div>
+    <div class="gate" id="scRes"></div>
+  </div>
+</section>
+
+<!-- ============ BUILDER ============ -->
+<section class="pane" id="p-build" hidden>
+  <div style="display:grid;gap:10px">
+    <h2>Agent Builder — bộ Agent Kit mang đi mọi nền tảng</h2>
+    <p class="lead">Điền 6 ô, nhận 5 tệp Markdown: Hiến chương, Sơ đồ tổ chức, Quy trình 7 bước, SKILL.md mẫu và hướng dẫn cài cho nền tảng bạn chọn. Đây là sản phẩm nộp của Lab 1 và Lab 2.</p>
+  </div>
+  <div class="grid2">
+    <div class="card" style="display:grid;gap:12px;align-content:start">
+      <label for="bName">Tên hệ thống<input id="bName" value="GLD-Captain"></label>
+      <label for="bBiz">Doanh nghiệp / ngành<input id="bBiz" value="Golive Dev — công ty lập trình phần mềm và đào tạo"></label>
+      <label for="bMission">Sứ mệnh (1 câu)<textarea id="bMission" rows="2">Rút ngắn 50% thời gian từ lúc nhận yêu cầu khách đến lúc bàn giao, không phát sinh lỗi do quên bước.</textarea></label>
+      <label for="bBoss">Người duyệt cuối (BOSS)<input id="bBoss" value="Giám đốc GLD"></label>
+      <div style="display:grid;gap:6px"><span style="font-size:13px;color:var(--muted)">Chọn 3–5 agent chuyên trách</span><div class="chips" id="bAgents"></div></div>
+      <label for="bBan">Điều tuyệt đối cấm agent tự quyết (mỗi dòng 1 điều)<textarea id="bBan" rows="4">Deploy code lên production
+Gửi báo giá hoặc sửa hợp đồng với khách
+Chi tiền hoặc bật quảng cáo trả phí
+Xoá bất kỳ file hay dữ liệu nào</textarea></label>
+      <div class="grid2" style="gap:12px">
+        <label for="bGate">Ngưỡng khả thi<input id="bGate" type="number" min="50" max="100" value="90"></label>
+        <label for="bPlat">Nền tảng cài đặt<select id="bPlat"><option value="claude">Claude</option><option value="chatgpt">ChatGPT</option><option value="antigravity">Google Antigravity</option><option value="openclaw">OpenClaw</option><option value="perplexity">Perplexity</option></select></label>
+      </div>
+    </div>
+    <div class="card" style="display:grid;gap:12px;align-content:start;min-width:0">
+      <div class="filetabs" id="fTabs" role="tablist"></div>
+      <pre class="file" id="fView"></pre>
+      <div class="row"><button class="btn" id="fCopy">Sao chép tệp này</button><button class="btn ghost" id="fSave" hidden>Tải tệp .md</button><button class="btn ghost" id="fSaveAll" hidden>Tải trọn bộ (1 tệp gộp)</button><button class="btn ghost" id="fSkill" hidden>Nhờ Claude viết SKILL chi tiết</button></div>
+      <p class="mono" id="fMsg" style="color:var(--dim)"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ĐA NỀN TẢNG ============ -->
+<section class="pane" id="p-plat" hidden>
+  <div style="display:grid;gap:10px">
+    <h2>Một bản chất, năm nơi cài đặt</h2>
+    <p class="lead">Mỗi nền tảng gọi tên khác nhau nhưng đều có đủ 6 khối. Học viên chỉ cần biết “khối này nằm ở menu nào”. Thông tin đối chiếu theo tài liệu công khai tại thời điểm 10/2026; tính năng các nền tảng thay đổi nhanh, kiểm tra lại trước buổi học.</p>
+  </div>
+  <div class="tablewrap"><table id="platTable"></table></div>
+  <div class="card" style="display:grid;gap:8px">
+    <h3>Đa agent thật hay “một model đóng nhiều vai”?</h3>
+    <p style="color:var(--muted)">Ở giao diện chat thông thường (Claude Projects, ChatGPT Projects, Perplexity Spaces) một model lần lượt đóng vai Tổng chỉ huy rồi từng Agent theo Hiến chương: đây là <b style="color:var(--ivory)">chuỗi prompt</b>, đủ cho 80% nhu cầu và rẻ nhất. Khi cần chạy song song thật, dùng nơi có điều phối nhiều agent: subagents trong Claude Code/Cowork, Agent Manager của Antigravity, nhiều agent trong OpenClaw, Perplexity Computer chạy song song nhiều model. Nguyên tắc chọn: <b style="color:var(--gold2)">bắt đầu từ cách đơn giản nhất, chỉ thêm agent khi đo được lợi ích</b>.</p>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="pane" id="p-quiz" hidden>
+  <div style="display:grid;gap:10px">
+    <h2>Kiểm tra cuối khoá</h2>
+    <p class="lead">8 câu, mỗi câu 12,5 điểm. Đạt từ 90 điểm là “khả thi” theo đúng thang của hệ thống.</p>
+  </div>
+  <div class="grid2" id="quiz"></div>
+  <div class="card row" style="justify-content:space-between"><span>Điểm của bạn: <b id="qScore" style="font:600 28px var(--f-display);color:var(--gold2)">0</b> / 100</span><button class="btn ghost" id="qReset">Làm lại bài</button></div>
+</section>
+
+<footer class="foot src" style="margin-top:40px">
+  Nguồn nguyên lý: <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Anthropic — Building effective agents</a> ·
+  <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">Anthropic — Multi-agent research system</a> ·
+  <a href="https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf" target="_blank" rel="noopener">OpenAI — A practical guide to building agents</a> ·
+  <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Model Context Protocol</a> ·
+  <a href="https://agents.md" target="_blank" rel="noopener">AGENTS.md</a> ·
+  <a href="https://antigravity.google/docs/ide/workflows/" target="_blank" rel="noopener">Antigravity Workflows/Skills</a> ·
+  <a href="https://www.stack-junkie.com/blog/openclaw-workspace-architecture" target="_blank" rel="noopener">OpenClaw workspace files</a> ·
+  <a href="https://releasebot.io/updates/perplexity-ai" target="_blank" rel="noopener">Perplexity release notes 2026</a>.
+  Kiến trúc tham chiếu: Hiến chương AtinCaptain v1.0 (Homepharma).
+</footer>
+</main>
+
+<script>
+/* ===================== DỮ LIỆU KHOÁ HỌC ===================== */
+const SESSIONS=[
+ {no:"01",title:"Giải phẫu một Agent",goal:"Hiểu 6 khối + vòng lặp; tự viết Hiến chương và sinh ra agent đầu tiên.",
+  blocks:[["0–20′","Mở đầu","Khai giảng (3′), đội ngũ (5′), dẫn dắt bằng biểu đồ 74% / 81% (8′), cam kết đầu ra + lộ trình 3 buổi (4′)."],
+          ["20–32′","Giải phẫu một Agent","Phổ Chatbot → Workflow → Agent. Sơ đồ 6 khối và vòng lặp Nhận–Nghĩ–Làm–Quan sát."],
+          ["32–47′","Prompt & Hiến chương","Prompt tạo agent theo chủ đề, yêu cầu, ngành nghề (8′); Hiến chương, quy tắc, điều lệ vận hành (7′)."],
+          ["47–55′","Kết nối ngoài","API, MCP, A2A: khi nào dùng cái nào; cắm 1 connector."],
+          ["55–80′","Lab 1","Builder → Hiến chương 1 trang → cài lên nền tảng của bạn → chạy 3 bài thử chuẩn."],
+          ["80–90′","Demo & chấm","2–3 nhóm demo, chấm 3 bài thử (7′); chốt buổi, giao bài về nhà (3′)."]],
+  checks:["Vẽ lại được 6 khối của một agent","Hoàn thành tệp 00-HIEN-CHUONG.md","Agent trả lời đúng phạm vi (bài thử A)","Agent hỏi lại khi thiếu dữ liệu (bài thử B)","Agent từ chối/trình duyệt việc bị cấm (bài thử C)"],
+  out:"00-HIEN-CHUONG.md + agent đạt 3/3 bài thử"},
+ {no:"02",title:"Từ một Agent thành Bộ máy",goal:"Dựng Tổng chỉ huy + 3–5 agent chuyên trách, giao việc bằng phiếu chuẩn, cắm công cụ.",
+  blocks:[["0–5′","Ôn Buổi 1","Bao nhiêu nhóm đạt 3/3; 3 vai agent làm ở nhà là nguyên liệu tối nay."],
+          ["5–22′","Kiến trúc","Orchestrator–Workers, vai từng thành phần (10′); phiếu giao việc 8 trường + phiếu kết quả (7′)."],
+          ["22–42′","Dòng dữ liệu","Bố trí database + trí nhớ 3 tầng (13′); ứng dụng cần cài: Docker, PostgreSQL, Redis (7′)."],
+          ["42–55′","Website 3D","Agent sinh một trang web 3D cơ bản: model-viewer + nền Three.js, nhẹ trên điện thoại."],
+          ["55–80′","Lab 2","Phòng mô phỏng → chọn 3 agent → 3 SKILL.md → cắm 1 công cụ, chạy thông 1 phiếu giao việc."],
+          ["80–90′","Demo & chấm","Demo 3 phút/nhóm, chấm theo 4 tiêu chí đạt (7′); chốt, giao bài (3′)."]],
+  checks:["Hoàn thành 01-SO-DO-TO-CHUC.md","Viết 3 tệp SKILL.md cho 3 agent","Một phiếu giao việc chạy thông từ đầu đến cuối","Kết nối được ít nhất 1 công cụ (Drive, Gmail, web…)"],
+  out:"01-SO-DO-TO-CHUC.md + 3 SKILL.md + 1 trang web 3D"},
+ {no:"03",title:"Vận hành an toàn & tự tiến hoá",goal:"Cổng chấm điểm, người duyệt, sandbox, nhật ký; đóng gói vào thư viện; chuyển sang nền tảng thứ hai.",
+  blocks:[["0–5′","Ôn Buổi 2","Kiểm nhiệm vụ thật mỗi nhóm đã chọn ở nhà."],
+          ["5–23′","Kỷ luật","Sandbox + quyền Đọc/Đề xuất/Thực thi (10′); dây chuyền 7 bước có cổng, thang 100: <80 dừng · 80–89 A/B · ≥90 trình duyệt (8′)."],
+          ["23–45′","Giám sát & token","Giám sát agent bằng Langfuse, gắn điểm 100 vào trace (12′); cơ chế tiết kiệm token, đo trước–sau (10′)."],
+          ["45–70′","Lab 3","Chạy 1 nhiệm vụ thật qua 7 bước, đo bằng Langfuse, chuyển Agent Kit sang nền tảng thứ hai."],
+          ["70–78′","Kiểm tra","Bài kiểm tra 8 câu ở tab Kiểm tra; đạt từ 90 điểm."],
+          ["78–90′","Nghiệm thu","Demo nhóm xuất sắc (7′); 5 nguyên tắc vàng + bế giảng (5′)."]],
+  checks:["Nhiệm vụ thật có bảng điểm 100","Có phương án A/B khi dưới ngưỡng","Có bước người duyệt trước hành động thật","Agent Kit chạy được trên nền tảng thứ hai","Bài kiểm tra đạt ≥ 90 điểm"],
+  out:"Agent Kit trên 2 nền tảng + bài kiểm tra ≥ 90 điểm"}
+];
+
+/* ===================== THƯ VIỆN VẼ SƠ ĐỒ ===================== */
+const C={ink:"#0A0F1C",panel:"#111A2E",panel2:"#16213A",line:"#34405F",ivory:"#F2EBDD",muted:"#A3ACBE",dim:"#6E7891",gold:"#C8A96A",gold2:"#E6CC8F",teal:"#6FB7AE",rose:"#D98C7A",amber:"#E0B060"};
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const F={d:"Times New Roman, Times, Liberation Serif, serif",b:"Times New Roman, Times, Liberation Serif, serif",m:"Times New Roman, Times, Liberation Serif, serif"};
+function defs(){return `<defs>
+ <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.gold}"/></marker>
+ <marker id="ahT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.teal}"/></marker>
+ <marker id="ahR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.rose}"/></marker>
+ <marker id="ahD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.dim}"/></marker>
+ <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${C.gold}" stop-opacity=".22"/><stop offset="1" stop-color="${C.gold}" stop-opacity="0"/></radialGradient>
+</defs>`}
+function frame(title,kicker,inner,foot){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" font-family="${F.b}">${defs()}
+<rect width="1200" height="675" fill="${C.ink}"/>
+<g stroke="${C.line}" stroke-opacity=".28">${Array.from({length:23},(_,i)=>`<line x1="${(i+1)*50}" y1="0" x2="${(i+1)*50}" y2="675"/>`).join("")}${Array.from({length:13},(_,i)=>`<line x1="0" y1="${(i+1)*50}" x2="1200" y2="${(i+1)*50}"/>`).join("")}</g>
+<text x="48" y="52" fill="${C.gold}" font-size="13" letter-spacing="3.5" font-weight="500">${esc(kicker.toUpperCase())}</text>
+<text x="48" y="92" fill="${C.ivory}" font-family="${F.d}" font-size="38" font-weight="600">${esc(title)}</text>
+<line x1="48" y1="110" x2="128" y2="110" stroke="${C.gold}" stroke-width="1.5"/>
+${inner}
+${foot?`<text x="48" y="648" fill="${C.dim}" font-size="12.5" font-family="${F.m}">${esc(foot)}</text>`:""}
+<text x="1152" y="648" fill="${C.dim}" font-size="11" text-anchor="end" font-family="${F.m}">AtinCaptain Lab · by AI</text>
+</svg>`}
+function box(x,y,w,h,t,s,o={}){const tone=o.tone||"base";const st=tone==="gold"?C.gold:tone==="teal"?C.teal:tone==="rose"?C.rose:C.line;const fill=tone==="gold"?"#1E1A12":o.fill||C.panel;
+ const lines=(s||"").split("\n");const off=o.tag?9:0;const ty=(s?y+h/2-(lines.length*9)+4:y+h/2+7)+off;
+ return `<g${o.id?` id="${o.id}" class="node"`:""}><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${o.r??6}" fill="${fill}" stroke="${st}" stroke-width="${tone==="base"?1:1.4}"/>
+ ${o.tag?`<text x="${x+14}" y="${y+20}" fill="${C.gold}" font-size="10.5" letter-spacing="2" font-family="${F.m}">${esc(o.tag)}</text>`:""}
+ <text x="${x+w/2}" y="${ty}" fill="${C.ivory}" font-size="${o.fs||17}" font-weight="600" text-anchor="middle" font-family="${o.serif?F.d:F.b}">${esc(t)}</text>
+ ${lines.map((l,i)=>`<text x="${x+w/2}" y="${ty+21+i*17}" fill="${C.muted}" font-size="12.5" text-anchor="middle">${esc(l)}</text>`).join("")}</g>`}
+function arrow(x1,y1,x2,y2,o={}){const col=o.c||C.gold;const mk=o.c===C.teal?"ahT":o.c===C.rose?"ahR":o.c===C.dim?"ahD":"ah";
+ const d=o.curve?`M${x1},${y1} Q${o.curve[0]},${o.curve[1]} ${x2},${y2}`:`M${x1},${y1} L${x2},${y2}`;
+ const lx=o.lx??(o.curve?o.curve[0]:(x1+x2)/2), ly=o.ly??(o.curve?o.curve[1]:(y1+y2)/2)-8;
+ return `<path d="${d}" fill="none" stroke="${col}" stroke-width="${o.w||1.4}" ${o.dash?'stroke-dasharray="5 5"':""} marker-end="url(#${mk})" ${o.both?`marker-start="url(#${mk})"`:""}/>${o.label?`<text x="${lx}" y="${ly}" fill="${o.lc||C.gold2}" font-size="12" text-anchor="middle" font-family="${F.m}">${esc(o.label)}</text>`:""}`}
+const txt=(x,y,t,o={})=>`<text x="${x}" y="${y}" fill="${o.c||C.muted}" font-size="${o.fs||13}" ${o.a?`text-anchor="${o.a}"`:""} font-family="${o.f||F.b}" ${o.w?`font-weight="${o.w}"`:""} ${o.ls?`letter-spacing="${o.ls}"`:""}>${esc(t)}</text>`;
+
+/* ===================== 11 SƠ ĐỒ ===================== */
+const DIAGRAMS=[
+{id:"d1",nav:"1 · Phổ tự chủ",s:1,
+ svg:()=>frame("Chatbot, Workflow, Agent: khác nhau ở ai cầm lái","Sơ đồ 1 · Buổi 1",
+ `${arrow(80,560,1120,560,{c:C.dim,w:1.2})}${txt(1120,590,"MỨC TỰ CHỦ TĂNG DẦN →",{a:"end",fs:11,ls:2.5,f:F.m,c:C.dim})}
+ ${box(60,215,250,250,"Chatbot","Hỏi → đáp 1 lượt\nKhông công cụ\nKhông tự hành động\n\nNgười cầm lái 100%",{serif:1,fs:28,tag:"MỨC 0"})}
+ ${box(340,215,250,250,"Workflow","Các bước định sẵn\nLLM xử lý từng bước\nĐường đi cố định\n\nNgười viết sẵn lộ trình",{serif:1,fs:28,tag:"MỨC 1"})}
+ ${box(620,215,250,250,"Agent","LLM tự chọn bước kế tiếp\nGọi công cụ, quan sát kết quả\nLặp đến khi đạt mục tiêu\n\nModel cầm lái, có phanh",{serif:1,fs:28,tag:"MỨC 2",tone:"gold"})}
+ ${box(900,215,250,250,"Hệ đa Agent","Tổng chỉ huy chia việc\nAgent chuyên trách song song\nChấm điểm, người duyệt\n\nAtinCaptain nằm ở đây",{serif:1,fs:28,tag:"MỨC 3",tone:"gold"})}
+ ${arrow(312,340,336,340)}${arrow(592,340,616,340)}${arrow(872,340,896,340)}
+ ${txt(600,160,"Quy tắc vàng: chọn mức THẤP NHẤT giải được bài toán — mỗi mức cao hơn tốn thêm chi phí, độ trễ và rủi ro.",{a:"middle",c:C.gold2,fs:15})}`,
+ "Theo phân loại workflow / agent của Anthropic, “Building effective agents” (2024)"),
+ notes:["<b>Workflow</b>: đường đi do người viết sẵn; LLM chỉ là một mắt xích. Rẻ, dễ đoán.","<b>Agent</b>: LLM tự quyết bước tiếp theo dựa trên kết quả quan sát được từ công cụ.","<b>Hệ đa agent</b>: nhiều agent chuyên môn hoá, một chỉ huy điều phối. Mạnh nhất nhưng tốn token nhất."],
+ ac:"AtinCaptain là mức 3. Nhưng nhiều việc lặp lại bên trong (báo cáo 8h sáng, đồng bộ git) được hạ xuống mức 1 — đúng tiêu chí tối cao “tiết kiệm”."},
+{id:"d2",nav:"2 · Giải phẫu Agent",s:1,
+ svg:()=>frame("Giải phẫu một Agent: 6 khối","Sơ đồ 2 · Buổi 1",
+ `<circle cx="600" cy="380" r="230" fill="url(#glow)"/><circle cx="600" cy="380" r="180" fill="none" stroke="${C.gold}" stroke-dasharray="3 7" stroke-opacity=".7"/>
+ ${box(510,320,180,120,"NÃO","Model ngôn ngữ\nClaude · GPT · Gemini",{tone:"gold",fs:24,serif:1})}
+ ${box(120,150,260,96,"Hiến chương","Vai trò, mục tiêu, luật, giọng văn\n(system prompt / AGENTS.md)",{tag:"1 · INSTRUCTIONS"})}
+ ${box(820,150,260,96,"Kỹ năng","Quy trình mẫu theo việc\n(SKILL.md / workflow)",{tag:"2 · SKILLS"})}
+ ${box(60,332,260,96,"Trí nhớ","Ngữ cảnh · bộ nhớ dài hạn\n· kho tri thức",{tag:"3 · MEMORY"})}
+ ${box(880,332,260,96,"Công cụ","Tìm kiếm, file, API, MCP\n— đôi tay của agent",{tag:"4 · TOOLS"})}
+ ${box(120,516,260,96,"Phanh","Ngưỡng điểm, người duyệt,\nquyền hạn, nhật ký",{tag:"5 · GUARDRAILS",tone:"rose"})}
+ ${box(820,516,260,96,"Vòng lặp","Nhận → Nghĩ → Làm → Quan sát\nlặp đến khi đạt",{tag:"6 · LOOP",tone:"teal"})}
+ ${arrow(380,210,505,335,{dash:1})}${arrow(820,210,695,335,{dash:1})}${arrow(320,380,505,380,{dash:1})}${arrow(880,380,695,380,{dash:1,both:1})}
+ ${arrow(380,560,520,445,{c:C.rose,dash:1})}${arrow(820,560,680,445,{c:C.teal,dash:1})}`,
+ "AGENT = NÃO × (HIẾN CHƯƠNG + KỸ NĂNG + TRÍ NHỚ + CÔNG CỤ), chạy trong VÒNG LẶP, có PHANH"),
+ notes:["<b>Não</b> chỉ suy luận. Mọi thứ còn lại là “hệ điều hành” bạn dựng quanh nó.","<b>Hiến chương</b> nạp ở MỌI lượt → ngắn, rõ, có ví dụ. <b>Kỹ năng</b> chỉ nạp khi cần → tiết kiệm token.","<b>Công cụ</b> biến lời nói thành hành động. Không công cụ = chatbot.","<b>Phanh</b> là khác biệt giữa demo và hệ thống dùng được trong doanh nghiệp."],
+ ac:"Hiến chương = AGENTS.md + .agents/rules · Kỹ năng = .agents/skills (51 ngành) · Trí nhớ = AC-LIBR + Memory · Công cụ = Meta API, Pancake, Drive · Phanh = ASUVI + thang 100 + BOSS duyệt · Vòng lặp = 7 quy trình."},
+{id:"d3",nav:"3 · Vòng lặp Agent",s:1,
+ svg:()=>frame("Vòng lặp: điều làm nên một Agent","Sơ đồ 3 · Buổi 1",
+ `${box(70,300,190,90,"Mục tiêu","từ người dùng",{tone:"gold",serif:1,fs:22})}
+ ${box(360,170,200,90,"Nhận","đọc mục tiêu + ngữ cảnh",{tag:"PERCEIVE"})}
+ ${box(660,170,200,90,"Nghĩ","lập kế hoạch bước kế",{tag:"REASON"})}
+ ${box(660,430,200,90,"Làm","gọi công cụ / viết",{tag:"ACT"})}
+ ${box(360,430,200,90,"Quan sát","đọc kết quả trả về",{tag:"OBSERVE"})}
+ <polygon points="1010,345 1080,300 1150,345 1080,390" fill="${C.panel}" stroke="${C.teal}" stroke-width="1.4"/>${txt(1080,342,"Đạt",{a:"middle",c:C.ivory,w:600,fs:14})}${txt(1080,360,"mục tiêu?",{a:"middle",fs:12})}
+ ${arrow(262,345,356,220)}${arrow(562,215,656,215)}${arrow(760,262,760,426)}${arrow(656,475,564,475)}${arrow(460,428,460,264,{label:"chưa đạt → lặp",lx:520,ly:350})}
+ ${arrow(862,215,1040,322,{c:C.teal,curve:[980,215],label:"kiểm tra"})}
+ ${arrow(1080,392,1080,560,{c:C.teal,label:"đạt",lx:1104,ly:480})}${box(960,560,240,64,"Trả kết quả","+ ghi nhật ký",{tone:"teal"})}
+ ${arrow(1010,345,864,440,{c:C.rose,dash:1,label:"chưa → làm tiếp",lx:930,ly:420,lc:C.rose})}
+ ${txt(70,450,"Điểm dừng bắt buộc:",{c:C.gold2,w:600})}${txt(70,472,"• hết số vòng tối đa")}${txt(70,492,"• thiếu dữ liệu → hỏi người")}${txt(70,512,"• việc nhạy cảm → xin duyệt")}`,
+ "Mẫu ReAct: Reason + Act xen kẽ, kết quả mỗi bước là đầu vào bước sau"),
+ notes:["Chatbot dừng sau 1 lượt; agent <b>lặp</b> cho đến khi đạt hoặc chạm điểm dừng.","Luôn đặt <b>điều kiện dừng</b>: số vòng tối đa, thiếu dữ liệu, việc cần duyệt.","Mỗi vòng tốn token → vòng lặp càng ngắn, càng tiết kiệm."],
+ ac:"Quy trình 1 của AtinCaptain: thiếu dữ liệu → hỏi BOSS, không suy đoán. Đó chính là điểm dừng “thiếu dữ liệu” trong vòng lặp."},
+{id:"d4",nav:"4 · Bộ máy AtinCaptain",s:2,
+ svg:()=>frame("Bộ máy AtinCaptain: chỉ huy, 5 agent, 3 kho","Sơ đồ 4 · Buổi 2",
+ `${box(500,130,200,60,"BOSS","người duyệt cuối",{tone:"rose"})}
+ ${box(140,230,220,70,"AC-LOBB","Sảnh: tiếp nhận, bóc tách",{tag:"ROUTER"})}
+ ${box(470,228,260,92,"AtinCaptain","Tổng chỉ huy · lập kế hoạch\nphản biện · trình A/B",{tone:"gold",serif:1,fs:26})}
+ ${box(840,230,220,70,"AC-LIBR","Thư viện mẫu tham chiếu",{tag:"MEMORY"})}
+ ${arrow(600,192,600,224,{both:1,c:C.rose})}${arrow(362,265,466,272)}${arrow(732,272,836,265,{both:1,dash:1})}
+ ${[["AMKTing","Marketing\ncontent · ads · SEO"],["APRDU","Sản phẩm\nCSKH · chốt deal"],["APROJ","Dự án\nhợp đồng · rủi ro"],["AINT","Nội bộ\nkế toán · chấm điểm"],["ASUVI","Giám sát\npháp chế · bảo mật"]].map((a,i)=>{const x=60+i*222;return box(x,410,196,96,a[0],a[1],{tone:i===4?"rose":"base",serif:1,fs:22})+arrow(600,322,x+98,406,{dash:i===4?0:0,c:i===4?C.rose:C.gold})}).join("")}
+ ${box(380,560,440,60,"AC-SANB · Sandbox","kiểm thử, chấm điểm thang 100 trước khi làm thật",{tone:"teal"})}
+ ${arrow(158,508,380,588,{c:C.teal,dash:1})}${arrow(1042,508,822,588,{c:C.teal,dash:1})}`,
+ "Mẫu Orchestrator–Workers: chỉ huy không làm thay, chỉ chia việc – tổng hợp – chịu trách nhiệm"),
+ notes:["<b>Sảnh (Router)</b>: một cửa duy nhất nhận việc, phân loại trước khi tốn token cho agent.","<b>Chỉ huy</b> chia việc, gom kết quả, phản biện — không tự làm chuyên môn.","<b>ASUVI</b> đứng ngoài dây chuyền sản xuất để giám sát độc lập.","<b>Sandbox</b> là nơi được phép sai."],
+ ac:"Đây là sơ đồ tổ chức thật trong Hiến chương v1.0 (06/08/2026). Mỗi agent tiếp tục điều phối sub-agent của mình."},
+{id:"d5",nav:"5 · Phiếu giao việc",s:2,
+ svg:()=>frame("Phiếu giao việc: hợp đồng giữa các agent","Sơ đồ 5 · Buổi 2",
+ `${box(60,250,200,110,"Tổng chỉ huy","giao việc",{tone:"gold",serif:1,fs:24})}
+ <rect x="330" y="150" width="520" height="330" rx="6" fill="${C.panel}" stroke="${C.gold}"/>
+ ${txt(354,182,"PHIẾU GIAO VIỆC · AC-VIEC-014",{c:C.gold,f:F.m,fs:12,ls:1.5})}
+ ${[["agent","AMKTing"],["yeu_cau","Kế hoạch ads 30 ngày, combo vitamin"],["dau_vao","ngân sách 15tr · KH 25–40 · HCM"],["dau_ra","bảng kế hoạch + 3 mẫu content"],["tieu_chi","đúng yêu cầu · có số liệu · có nguồn"],["han","thứ Hai 09:00"],["quyen","ĐỀ XUẤT (không được bật ads)"],["thieu","CPM tham chiếu ngành → hỏi lại"]].map((r,i)=>txt(354,220+i*32,r[0],{f:F.m,c:C.dim,fs:12.5})+txt(500,220+i*32,r[1],{c:i===6?C.rose:C.ivory,fs:14})).join("")}
+ ${box(930,250,210,110,"Agent","nhận phiếu, làm,\ntrả phiếu kết quả",{serif:1,fs:24})}
+ ${arrow(262,305,326,305)}${arrow(852,290,926,290,{label:"giao"})}${arrow(926,330,852,330,{c:C.teal,label:"trả kết quả",ly:352})}
+ ${txt(600,540,"Không có phiếu = không có việc. Phiếu rõ ràng thì agent rẻ (model nhỏ) cũng làm tốt.",{a:"middle",c:C.gold2,fs:15})}`,
+ "Handoff contract: đầu vào · đầu ra · tiêu chí chấm · hạn · quyền hạn · dữ liệu còn thiếu"),
+ notes:["Lỗi phổ biến nhất của hệ đa agent: <b>giao việc mơ hồ</b> → agent làm trùng hoặc sai hướng.","8 trường bắt buộc: agent, yêu cầu, đầu vào, đầu ra, tiêu chí, hạn, quyền, dữ liệu thiếu.","Trường <b>quyền</b> quyết định agent được Đọc, Đề xuất hay Thực thi."],
+ ac:"Mỗi việc của AtinCaptain có mã AC-VIEC-XXX, lưu ở AC-LOBB/viec-dang-cho — chính là phiếu giao việc."},
+{id:"d6",nav:"6 · Công cụ & MCP",s:2,
+ svg:()=>frame("MCP: một cổng chuẩn để cắm mọi công cụ","Sơ đồ 6 · Buổi 2",
+ `${box(70,250,250,150,"Ứng dụng AI","Claude · ChatGPT · Antigravity\nOpenClaw · Perplexity",{tone:"gold",serif:1,fs:24,tag:"HOST"})}
+ ${box(410,280,170,90,"MCP client","nói chuẩn MCP",{tag:"CLIENT"})}
+ ${arrow(322,325,406,325,{both:1})}
+ ${[["Google Drive","đọc / ghi tài liệu"],["Gmail · Lịch","thư, lịch họp"],["Meta Marketing API","số liệu & ads"],["Cơ sở dữ liệu","CRM, đơn hàng"],["Trình duyệt","đọc, điền web"]].map((s,i)=>{const y=140+i*92;return box(760,y,250,70,s[0],s[1],{tag:"MCP SERVER"})+arrow(582,325,756,y+35,{both:1,dash:1,c:C.teal})}).join("")}
+ ${txt(70,470,"Mỗi server khai báo:",{c:C.gold2,w:600})}${txt(70,494,"• tools — hành động được gọi")}${txt(70,516,"• resources — dữ liệu được đọc")}${txt(70,538,"• prompts — mẫu thao tác")}
+ ${txt(1040,600,"Viết 1 lần, dùng ở mọi nền tảng hỗ trợ MCP",{a:"end",c:C.gold2,fs:14})}`,
+ "Model Context Protocol — chuẩn mở do Anthropic công bố 2024, nay được nhiều nền tảng hỗ trợ"),
+ notes:["Trước MCP: mỗi nền tảng × mỗi công cụ cần một tích hợp riêng.","Với MCP: công cụ viết <b>một server</b>, nền tảng nào hỗ trợ MCP cũng cắm được.","Cấp quyền tối thiểu: chỉ mở đúng tool agent cần."],
+ ac:"AGADS đọc dữ liệu Meta Ads → đề xuất → BOSS duyệt → mới gọi Meta Marketing API thực thi."},
+{id:"d7",nav:"7 · Trí nhớ 3 tầng",s:2,
+ svg:()=>frame("Trí nhớ 3 tầng: nhớ đúng chỗ, tốn đúng mức","Sơ đồ 7 · Buổi 2",
+ `${[["Ngữ cảnh phiên","Tầng 1 · ngắn hạn","Cuộc trò chuyện hiện tại.\nMất khi đóng phiên. Càng dài càng đắt.",C.gold,"#1E1A12"],["Bộ nhớ dài hạn","Tầng 2 · về người dùng & dự án","Sở thích, quyết định, quy tắc đã chốt.\nTự nạp ở phiên sau.",C.teal,C.panel],["Kho tri thức","Tầng 3 · thư viện","Tài liệu, mẫu chuẩn, SOP, dữ liệu.\nChỉ tra cứu khi cần (RAG / tìm file).",C.line,C.panel]].map((l,i)=>{const w=820-i*0+0, x=190+i*0, y=150+i*150;return `<rect x="${190-i*60}" y="${y}" width="${820+i*120}" height="120" rx="6" fill="${l[4]}" stroke="${l[3]}" stroke-width="1.3"/>`+txt(230-i*60,y+34,l[1].toUpperCase(),{c:C.gold,f:F.m,fs:11,ls:2})+txt(230-i*60,y+70,l[0],{c:C.ivory,f:F.d,fs:30,w:600})+l[2].split("\n").map((t,j)=>txt(620,y+52+j*22,t,{fs:14})).join("")}).join("")}
+ ${arrow(1165,160,1165,560,{c:C.dim})}${txt(1180,145,"rẻ hơn, bền hơn ↓",{a:"end",f:F.m,fs:12,c:C.gold2})}`,
+ "Nguyên tắc: thứ dùng mọi lượt để ở tầng 1–2 (ngắn), thứ thỉnh thoảng dùng để ở tầng 3"),
+ notes:["Phiên quá dài là “thủ phạm” lớn nhất làm tốn usage: mỗi lượt đọc lại toàn bộ.","Quyết định quan trọng → ghi vào <b>bộ nhớ dài hạn</b> rồi mở phiên mới.","Tài liệu lớn → để ở <b>kho tri thức</b>, agent tìm đúng đoạn cần."],
+ ac:"Tầng 1 = phiên Cowork · Tầng 2 = Memory + CLAUDE.md · Tầng 3 = AC-LIBR, AC-INDUSTRIES. Quy tắc tối ưu token của BOSS chính là quản trị 3 tầng này."},
+{id:"d8",nav:"8 · Dây chuyền 7 bước",s:3,
+ svg:()=>frame("Dây chuyền 7 bước có cổng chấm điểm","Sơ đồ 8 · Buổi 3",
+ `${[["1","Tiếp nhận","Sảnh bóc tách"],["2","Giao việc","phiếu + bảng điểm"],["3","Bổ sung","dữ liệu + nguồn"],["4","Chấm điểm","Sandbox · 100"],["5","Thực thi","hành động thật"],["6","Nghiệm thu","BOSS đánh giá"],["7","Tối ưu","lưu thư viện"]].map((s,i)=>{const x=40+i*162;return box(x,190,142,110,s[1],s[2],{tag:"BƯỚC "+s[0],tone:i===3?"gold":i===4?"teal":"base"})+(i<6?arrow(x+144,245,x+160,245):"")}).join("")}
+ <polygon points="590,360 650,330 710,360 650,390" fill="${C.panel}" stroke="${C.gold}"/>${txt(650,365,"điểm?",{a:"middle",c:C.ivory,w:600})}
+ ${arrow(560,302,620,345)}
+ ${box(250,450,250,90,"< 80 · Tạm dừng","quay lại bước 2, bổ sung dữ liệu",{tone:"rose"})}
+ ${box(525,450,250,90,"80–89 · Xem xét","phản biện + trình ≥2 phương án A/B",{fill:C.panel})}
+ ${box(800,450,250,90,"≥ 90 · Khả thi","kế hoạch chi tiết → BOSS duyệt",{tone:"teal"})}
+ ${arrow(615,380,380,446,{c:C.rose})}${arrow(650,392,650,446,{c:C.amber})}${arrow(685,380,920,446,{c:C.teal})}
+ ${arrow(925,448,690,302,{c:C.teal,dash:1,curve:[900,330],label:"đã duyệt"})}
+ ${arrow(1180,300,1180,600,{c:C.dim,dash:1})}${arrow(1180,600,60,600,{c:C.dim,dash:1})}${arrow(60,600,60,304,{c:C.dim,dash:1,label:"vòng lặp tuần",lx:130,ly:590})}`,
+ "Không bước nào được nhảy cóc: chưa qua cổng 90 điểm + chữ ký người duyệt thì không hành động thật"),
+ notes:["Bước 4 là <b>cổng</b>: biến một agent “thông minh” thành một agent “đáng tin”.","Vùng 80–89 không bị loại mà phải <b>phản biện</b> và đưa phương án để người quyết.","Bước 7 khép vòng: quy trình đạt chuẩn trở thành mẫu cho lần sau."],
+ ac:"Đây nguyên văn là 7 quy trình (Qtr 1–7) trong Hiến chương AtinCaptain."},
+{id:"d9",nav:"9 · Bảng điểm 100",s:3,
+ svg:()=>frame("Evaluator–Optimizer: chấm, sửa, chấm lại","Sơ đồ 9 · Buổi 3",
+ `${box(70,250,220,110,"Agent làm","tạo bản nháp",{serif:1,fs:24})}
+ ${box(420,250,220,110,"Agent chấm","độc lập với người làm",{tone:"gold",serif:1,fs:24})}
+ ${arrow(292,290,416,290,{label:"bản nháp"})}${arrow(416,330,292,330,{c:C.rose,label:"góp ý cụ thể",ly:352,lc:C.rose})}
+ ${arrow(530,362,530,470,{c:C.teal,label:"đạt ngưỡng",lx:590,ly:420})}${box(420,470,220,70,"Trình người duyệt","",{tone:"teal"})}
+ <rect x="720" y="150" width="430" height="420" rx="6" fill="${C.panel}" stroke="${C.line}"/>
+ ${txt(746,182,"THANG 100 ĐIỂM MẪU",{c:C.gold,f:F.m,fs:12,ls:2})}
+ ${[["Đúng yêu cầu",25],["Dữ liệu & nguồn",20],["Khả thi thực thi",20],["An toàn & tuân thủ",20],["Tiết kiệm",15]].map((r,i)=>{const y=222+i*62;return txt(746,y,r[0],{c:C.ivory,fs:15})+txt(1124,y,String(r[1]),{a:"end",c:C.gold2,f:F.m,fs:15})+`<rect x="746" y="${y+12}" width="378" height="6" rx="3" fill="${C.line}"/><rect x="746" y="${y+12}" width="${378*r[1]/25}" height="6" rx="3" fill="${C.gold}"/>`}).join("")}
+ ${txt(746,548,"Tổng 100 · ≥90 khả thi · 80–89 xem xét · <80 dừng",{fs:12.5,f:F.m})}`,
+ "Tách người làm và người chấm: model tự chấm bài mình thường chấm dễ"),
+ notes:["Agent chấm nên dùng <b>tiêu chí viết sẵn</b>, không chấm cảm tính.","Góp ý phải cụ thể đến mức agent làm sửa được ngay.","Đặt <b>số vòng sửa tối đa</b> (ví dụ 2) để không đốt token vô hạn."],
+ ac:"AINT giữ vai “Sub-AI chấm điểm”; ASUVI giám sát; AC-SANB là nơi chạy vòng chấm–sửa."},
+{id:"d10",nav:"10 · Quyền hạn & duyệt",s:3,
+ svg:()=>frame("Ba cấp quyền và người trong vòng lặp","Sơ đồ 10 · Buổi 3",
+ `${[["ĐỌC","Xem dữ liệu, tra cứu, tổng hợp","Tự do","teal"],["ĐỀ XUẤT","Soạn nháp, lập kế hoạch, mô phỏng","Tự do trong Sandbox","gold"],["THỰC THI","Gửi, chi tiền, deploy, xoá, ký","Chỉ khi ≥90 điểm + người duyệt","rose"]].map((r,i)=>{const y=150+i*140;return box(70,y,300,110,r[0],"",{tone:r[3],serif:1,fs:30})+txt(410,y+48,r[1],{c:C.ivory,fs:17})+txt(410,y+76,r[2],{c:r[3]==="rose"?C.rose:r[3]==="teal"?C.teal:C.gold2,f:F.m,fs:13})}).join("")}
+ <rect x="830" y="150" width="320" height="390" rx="6" fill="${C.panel}" stroke="${C.rose}"/>
+ ${txt(856,184,"VIỆC LUÔN CẦN NGƯỜI",{c:C.rose,f:F.m,fs:12,ls:2})}
+ ${["Tiêu tiền thật","Gửi thư, nhắn tin thay người","Deploy lên production","Ký, sửa hợp đồng, báo giá","Xoá file / dữ liệu","Đổi quyền, mật khẩu"].map((t,i)=>txt(856,224+i*40,"— "+t,{c:C.ivory,fs:15})).join("")}
+ ${txt(856,520,"AtinCaptain: không xoá, chỉ “đóng băng”",{fs:12.5,c:C.gold2})}`,
+ "Mặc định thấp nhất; nâng quyền theo từng việc, có nhật ký"),
+ notes:["Mọi agent mới khởi đầu ở quyền <b>Đọc</b>.","Quyền <b>Thực thi</b> gắn với từng việc cụ thể, không cấp vĩnh viễn.","Ghi <b>nhật ký</b> mọi lần đăng nhập, hành động, đăng xuất."],
+ ac:"Quy tắc đóng băng (07/08/2026) và quy tắc không tự đặt điều kiện (02/10/2026) là hai ví dụ thật về phanh."},
+{id:"d11",nav:"11 · Agent Kit đa nền tảng",s:3,
+ svg:()=>frame("Agent Kit: viết một lần, cài ở mọi nơi","Sơ đồ 11 · Buổi 3",
+ `<rect x="70" y="150" width="330" height="430" rx="6" fill="#1E1A12" stroke="${C.gold}"/>
+ ${txt(96,186,"AGENT KIT",{c:C.gold,f:F.m,fs:12,ls:3})}
+ ${["00-HIEN-CHUONG.md","01-SO-DO-TO-CHUC.md","02-QUY-TRINH-7-BUOC.md","skills/<agent>/SKILL.md","knowledge/ (tài liệu)","tools: danh sách MCP"].map((f,i)=>`<rect x="96" y="${210+i*58}" width="278" height="44" rx="4" fill="${C.panel}" stroke="${C.line}"/>`+txt(112,238+i*58,f,{c:C.ivory,f:F.m,fs:13.5})).join("")}
+ ${[["Claude","Project instructions · Skills · Connectors · CLAUDE.md"],["ChatGPT","Project/GPT instructions · Files · Apps · AGENTS.md (Codex)"],["Google Antigravity","Rules · Skills · Agent Manager"],["OpenClaw","AGENTS.md · SOUL.md · MEMORY.md · skills/"],["Perplexity","Space instructions · Files · Skills · Connectors"]].map((p,i)=>{const y=150+i*88;return box(560,y,590,70,p[0],p[1],{serif:1,fs:22})+arrow(402,365,556,y+35,{dash:1})}).join("")}`,
+ "Bản chất đóng gói trong tệp Markdown thuần → chuyển nền tảng chỉ là dán vào đúng ô"),
+ notes:["Viết Hiến chương và Skill bằng <b>Markdown thuần</b>, không phụ thuộc định dạng riêng.","Tách luật (Hiến chương) khỏi quy trình (Skill) khỏi dữ liệu (Knowledge).","Chuẩn mở <b>AGENTS.md</b> và <b>SKILL.md</b> đang được nhiều công cụ đọc trực tiếp."],
+ ac:"Kho AI AtinCaptain đã có sẵn AGENTS.md + .agents/rules + .agents/skills, đồng bộ cho Claude, Codex, Cursor — chính là một Agent Kit."}
+];
+
+/* ===================== TIỆN ÍCH ===================== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem("acLab:"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("acLab:"+k,JSON.stringify(v))}catch(e){}}};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* Tabs */
+function openTab(name){$$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===name));$$("section.pane").forEach(p=>p.hidden=p.id!=="p-"+name);store.set("tab",name)}
+$$("nav.tabs button").forEach(b=>b.onclick=()=>{openTab(b.dataset.tab);$("#p-"+b.dataset.tab).scrollIntoView({block:"start"})});
+
+/* Lộ trình */
+function renderRoute(){const done=store.get("checks",{});
+ $("#sessions").innerHTML=SESSIONS.map((s,si)=>`<article class="card session">
+  <div class="row" style="justify-content:space-between;align-items:flex-end"><span class="no">${s.no}</span><span class="tag gold">90 phút</span></div>
+  <h3>${s.title}</h3><p style="color:var(--muted);font-size:13.5px">${s.goal}</p>
+  <div class="timeline">${s.blocks.map(b=>`<div class="tl"><span class="t">${b[0]}</span><div><b>${b[1]}</b><p>${b[2]}</p></div></div>`).join("")}</div>
+  <div class="deliver"><span class="eyebrow" style="font-size:10.5px">Tiêu chí hoàn thành</span>
+  ${s.checks.map((c,ci)=>{const id=`c${si}_${ci}`;return `<label class="check" for="${id}"><input type="checkbox" id="${id}" ${done[id]?"checked":""}><span>${c}</span></label>`}).join("")}
+  <p class="mono" style="color:var(--gold2)">Nộp: ${s.out}</p>
+  <button class="btn ghost" data-dg="${si+1}">Xem sơ đồ buổi ${s.no}</button></div></article>`).join("");
+ $$("#sessions input").forEach(i=>i.onchange=()=>{const d=store.get("checks",{});d[i.id]=i.checked;store.set("checks",d);prog()});
+ $$("#sessions [data-dg]").forEach(b=>b.onclick=()=>{openTab("schem");showDg(DIAGRAMS.find(d=>d.s==b.dataset.dg).id)});prog()}
+function prog(){const all=$$("#sessions input"),n=all.filter(i=>i.checked).length;const p=Math.round(n/all.length*100);$("#pAll").style.width=p+"%";$("#pAllTxt").textContent=p+"%"}
+
+/* Sơ đồ */
+function showDg(id){const d=DIAGRAMS.find(x=>x.id===id);$$("#dgnav button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));
+ $("#dgview").innerHTML=d.svg();
+ $("#dgnote").innerHTML=`<div class="card"><span class="eyebrow">Ý chính để giảng</span><ul style="margin-top:8px">${d.notes.map(n=>`<li>${n}</li>`).join("")}</ul><button class="btn" id="dgDemo" style="margin-top:14px">Chạy thử nguyên lý này ở Phòng mô phỏng</button></div><div class="card" style="border-color:#5a4a2a"><span class="eyebrow">Trong AtinCaptain</span><p style="margin-top:8px;color:var(--muted)">${d.ac}</p></div>`;$("#dgDemo").onclick=()=>{openTab("lab");scShow(id);$("#p-lab").scrollIntoView({block:"start"})};store.set("dg",id)}
+$("#dgnav").innerHTML=DIAGRAMS.map(d=>`<button data-id="${d.id}" aria-pressed="false">${d.nav}</button>`).join("");
+$$("#dgnav button").forEach(b=>b.onclick=()=>showDg(b.dataset.id));
+</script>
+<script>
+/* ===================== PHÒNG MÔ PHỎNG ===================== */
+const AG={
+ BOSS:{x:330,y:20,w:100,h:44,label:"BOSS",sub:"người duyệt"},
+ LOBB:{x:30,y:110,w:150,h:56,label:"AC-LOBB",sub:"Sảnh tiếp nhận"},
+ CAP:{x:290,y:110,w:180,h:64,label:"AtinCaptain",sub:"Tổng chỉ huy"},
+ LIBR:{x:580,y:110,w:150,h:56,label:"AC-LIBR",sub:"Thư viện"},
+ AMKTing:{x:10,y:260,w:136,h:60,label:"AMKTing",sub:"Marketing"},
+ APRDU:{x:160,y:260,w:136,h:60,label:"APRDU",sub:"Sản phẩm"},
+ APROJ:{x:312,y:260,w:136,h:60,label:"APROJ",sub:"Dự án"},
+ AINT:{x:464,y:260,w:136,h:60,label:"AINT",sub:"Nội bộ · chấm"},
+ ASUVI:{x:614,y:260,w:136,h:60,label:"ASUVI",sub:"Giám sát"},
+ TOOLS:{x:60,y:420,w:250,h:60,label:"Công cụ / MCP",sub:"web · Drive · Meta API"},
+ SANB:{x:420,y:420,w:280,h:60,label:"AC-SANB",sub:"Sandbox · chấm thang 100"}
+};
+const EDGES=[["BOSS","LOBB"],["LOBB","CAP"],["CAP","LIBR"],["CAP","BOSS"],...["AMKTing","APRDU","APROJ","AINT","ASUVI"].flatMap(a=>[["CAP",a],[a,"TOOLS"],[a,"SANB"]]),["SANB","CAP"]];
+const ctr=n=>({x:AG[n].x+AG[n].w/2,y:AG[n].y+AG[n].h/2});
+function drawNet(){const net=$("#net");let h=`<defs><marker id="na" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.line}"/></marker></defs><rect width="760" height="520" fill="${C.ink}" rx="4"/>`;
+ h+=EDGES.map(([a,b])=>{const p=ctr(a),q=ctr(b);return `<line id="e-${a}-${b}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke="${C.line}" stroke-width="1" stroke-dasharray="${b==="TOOLS"||b==="SANB"?"3 4":"0"}"/>`}).join("");
+ h+=Object.entries(AG).map(([k,n])=>`<g class="node" id="n-${k}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="5" fill="${k==="CAP"?"#1E1A12":C.panel}" stroke="${k==="CAP"?C.gold:k==="BOSS"||k==="ASUVI"?C.rose:k==="SANB"?C.teal:C.line}" stroke-width="1.3"/><text x="${n.x+n.w/2}" y="${n.y+n.h/2-2}" text-anchor="middle" fill="${C.ivory}" font-family="${k==="CAP"?F.d:F.b}" font-size="${k==="CAP"?20:14}" font-weight="600">${n.label}</text><text x="${n.x+n.w/2}" y="${n.y+n.h/2+15}" text-anchor="middle" fill="${C.muted}" font-size="11">${n.sub}</text></g>`).join("");
+ h+=`<g id="packets"></g><text x="750" y="512" text-anchor="end" fill="${C.dim}" font-size="10" font-family="${F.m}">nét liền: giao việc · nét đứt: công cụ / kiểm thử</text>`;net.innerHTML=h}
+function lightNode(k,cls){const g=$("#n-"+k);if(!g)return;g.classList.remove("on","ok","warn");if(cls)g.classList.add(cls)}
+function packet(a,b,col=C.gold2,ms=700){return new Promise(res=>{const p=ctr(a),q=ctr(b);const c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("r","6");c.setAttribute("fill",col);c.setAttribute("filter","drop-shadow(0 0 6px "+col+")");$("#packets").appendChild(c);
+ const ln=$(`#e-${a}-${b}`)||$(`#e-${b}-${a}`);if(ln){ln.setAttribute("stroke",col);ln.setAttribute("stroke-width","2")}
+ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;const t0=performance.now();const dur=reduce?1:ms;
+ (function f(t){const k=Math.min(1,(t-t0)/dur);const e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;c.setAttribute("cx",p.x+(q.x-p.x)*e);c.setAttribute("cy",p.y+(q.y-p.y)*e);if(k<1)requestAnimationFrame(f);else{c.remove();if(ln){ln.setAttribute("stroke",C.line);ln.setAttribute("stroke-width","1")}res()}})(t0)})}
+function log(who,html,tone="",extra=""){const el=document.createElement("div");el.className="ev "+tone;const t=new Date().toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit",second:"2-digit"});el.innerHTML=`<div class="h"><span>${esc(who)}</span><span>${t}</span></div><p>${html}</p>${extra}`;$("#log").appendChild(el);$("#log").scrollTop=1e6;return el}
+function step(t){$("#stepTag").textContent=t}
+
+const SAMPLES=["Lên kế hoạch quảng cáo Facebook 30 ngày cho combo vitamin Homepharma, ngân sách 15 triệu, khách hàng mục tiêu là dân văn phòng 25-40 tuổi ở TP.HCM, cần báo cáo trước thứ Hai.",
+ "Viết chatbot CSKH cho khoá học lập trình của GLD, trả lời học phí và lịch khai giảng.",
+ "Làm cho doanh thu tăng lên.",
+ "Soạn quy trình bàn giao dự án phần mềm cho khách, có checklist kiểm thử, hạn 7 ngày, áp dụng cho 3 dự án đang chạy.",
+ "Xoá hết dữ liệu khách hàng cũ trên CRM rồi gửi email khuyến mãi cho toàn bộ danh sách ngay hôm nay."];
+$("#samples").innerHTML=SAMPLES.map((s,i)=>`<button data-i="${i}">${["Ads 30 ngày (brief tốt)","Chatbot CSKH","Brief mơ hồ","Quy trình bàn giao","Yêu cầu nguy hiểm"][i]}</button>`).join("");
+$$("#samples button").forEach(b=>b.onclick=()=>{$("#req").value=SAMPLES[b.dataset.i]});
+
+let MODE="sim", RUN=null, sampleFn=null;
+$("#mSim").onclick=()=>{MODE="sim";$("#mSim").setAttribute("aria-pressed","true");$("#mLive").setAttribute("aria-pressed","false");$("#liveState").textContent=""};
+$("#mLive").onclick=()=>{if(!sampleFn){$("#liveState").textContent="Chạy thật chưa khả dụng ở chế độ xem này — dùng Mô phỏng.";return}MODE="live";$("#mLive").setAttribute("aria-pressed","true");$("#mSim").setAttribute("aria-pressed","false");$("#liveState").textContent="Dùng lượt Claude của bạn · ~5 lượt gọi/yêu cầu"};
+
+/* ---- Phân tích kịch bản (chế độ mô phỏng) ---- */
+const KW={AMKTing:/quảng cáo|ads|facebook|content|nội dung|seo|website|video|fanpage|marketing|lead|khuyến mãi|email/i,
+ APRDU:/sản phẩm|khách hàng|cskh|chatbot|chốt|bán|hậu mãi|học viên|học phí|combo/i,
+ APROJ:/dự án|hợp đồng|kế hoạch|bàn giao|triển khai|quy trình|tiến độ|rủi ro/i,
+ AINT:/ngân sách|chi phí|kế toán|doanh thu|báo cáo|nhân sự|thị trường|đối thủ|lợi nhuận/i};
+const DANGER=/xoá|xóa|delete|gửi .*toàn bộ|chuyển tiền|deploy|ký hợp đồng|ngay hôm nay/i;
+function analyse(r){const agents=Object.keys(KW).filter(k=>KW[k].test(r));if(!agents.length)agents.push("APROJ","AINT");
+ const has={so:/\d/.test(r),han:/ngày|tuần|tháng|thứ|hạn|trước/i.test(r),kh:/khách|đối tượng|học viên|tuổi|nhóm/i.test(r),muc:/\d+\s*(triệu|tr|%|ngày|khách|dự án|đơn)/i.test(r),dai:r.length>90};
+ const danger=DANGER.test(r);
+ const thieu=[];if(!has.so)thieu.push("con số cụ thể (ngân sách, số lượng)");if(!has.han)thieu.push("thời hạn");if(!has.kh)thieu.push("đối tượng / khách hàng mục tiêu");if(!has.muc)thieu.push("chỉ tiêu đo được");
+ const d={dung:has.dai?23:has.muc?21:14,dulieu:(has.so?8:2)+(has.kh?6:1)+(has.muc?5:1),khathi:(has.han?9:4)+(has.muc?7:3)+(agents.length<=3?4:2),antoan:danger?4:19,tietkiem:agents.length<=3?14:11};
+ d.dulieu=Math.min(20,d.dulieu);d.khathi=Math.min(20,d.khathi);
+ return {agents,thieu,danger,d,tong:d.dung+d.dulieu+d.khathi+d.antoan+d.tietkiem}}
+const WORK={AMKTing:"Đề xuất phễu 3 tầng (nhận biết → cân nhắc → chuyển đổi), 3 góc nội dung, lịch đăng 30 ngày. Bản nháp nằm trong Sandbox, chưa bật quảng cáo.",
+ APRDU:"Chuẩn hoá thông điệp sản phẩm, kịch bản trả lời 10 câu hỏi thường gặp, luồng chuyển người thật khi khách hỏi ngoài phạm vi.",
+ APROJ:"Chia việc thành mốc tuần, gán người chịu trách nhiệm, lập bảng rủi ro 5 dòng và checklist nghiệm thu.",
+ AINT:"Phân bổ ngân sách/chi phí theo tuần, dựng bảng chấm điểm 100, đối chiếu dữ liệu thị trường kèm nguồn.",
+ ASUVI:"Rà soát chính sách nền tảng & pháp chế, kiểm tra quyền hạn: mọi hành động thật đều đang ở chế độ ĐỀ XUẤT."};
+
+function setScore(d,tong){$("#score").textContent=tong??"—";const L=[["Đúng yêu cầu","dung",25],["Dữ liệu & nguồn","dulieu",20],["Khả thi thực thi","khathi",20],["An toàn & tuân thủ","antoan",20],["Tiết kiệm","tietkiem",15]];
+ $("#bars").innerHTML=L.map(l=>{const v=d?d[l[1]]:0;return `<div class="bar"><span>${l[0]}</span><div class="tr"><i style="width:${v/l[2]*100}%;background:${v/l[2]<.6?C.rose:C.gold}"></i></div><span>${d?v+"/"+l[2]:"—"}</span></div>`}).join("")}
+setScore(null);
+
+function gate(tong,ab){const g=$("#gate");
+ if(tong<80){lightNode("SANB","warn");g.innerHTML=`<span class="verdict stop">TẠM DỪNG · ${tong} ĐIỂM</span><p style="font-size:13.5px;color:var(--muted)">Dưới 80 điểm: không giao tiếp cho agent, quay lại bước 2. Tổng chỉ huy cần BOSS bổ sung: ${ab?.thieu?.length?esc(ab.thieu.join("; ")):"dữ liệu còn thiếu"}.</p>${ab?.danger?`<p style="font-size:13.5px;color:var(--rose)">ASUVI chặn: yêu cầu chứa hành động không thể hoàn tác (xoá dữ liệu / gửi hàng loạt). Phải tách thành bước có duyệt riêng.</p>`:""}<button class="btn ghost" id="gFix">Bổ sung yêu cầu</button>`;$("#gFix").onclick=()=>$("#req").focus();return}
+ if(tong<90){g.innerHTML=`<span class="verdict mid">XEM XÉT · ${tong} ĐIỂM</span><p style="font-size:13.5px;color:var(--muted)">80–89 điểm: Tổng chỉ huy phản biện và trình 2 phương án. BOSS chọn một.</p>${(ab?.ab||[]).map((p,i)=>`<button class="btn ghost" data-ab="${i}" style="text-align:left"><b style="color:var(--gold2)">Phương án ${"AB"[i]}:</b> ${esc(p)}</button>`).join("")}`;
+  $$("#gate [data-ab]").forEach(b=>b.onclick=()=>approve(tong,"Phương án "+"AB"[b.dataset.ab]));return}
+ g.innerHTML=`<span class="verdict go">KHẢ THI · ${tong} ĐIỂM</span><p style="font-size:13.5px;color:var(--muted)">Kế hoạch chi tiết đã sẵn sàng. Hành động thật chỉ chạy khi người duyệt ký.</p><div class="row"><button class="btn" id="gOk">BOSS duyệt thực thi</button><button class="btn ghost" id="gNo">Không duyệt</button></div>`;
+ $("#gOk").onclick=()=>approve(tong,"Kế hoạch chính");$("#gNo").onclick=()=>{log("BOSS","Không duyệt. Tổng chỉ huy ghi nhận và đề xuất phương án mới ở vòng sau.","rose");$("#gate").innerHTML=`<span class="verdict stop">KHÔNG DUYỆT</span><p style="font-size:13.5px;color:var(--muted)">Đã ghi nhật ký. Không hành động nào được thực thi.</p>`}}
+async function approve(tong,what){$("#gate").innerHTML=`<span class="verdict go">ĐÃ DUYỆT · ${esc(what)}</span><p style="font-size:13.5px;color:var(--muted)">Đang thực thi và nghiệm thu…</p>`;
+ lightNode("BOSS","ok");await packet("BOSS","CAP",C.teal);step("5 · Thực thi");log("BOSS → AtinCaptain",`Duyệt <b>${esc(what)}</b>. Lệnh hành động thật được phát.`,"teal");
+ lightNode("TOOLS","on");await packet("CAP","AMKTing",C.teal,400);await packet("AMKTing","TOOLS",C.teal,500);lightNode("TOOLS","ok");
+ log("Công cụ / MCP","Trong phòng lab, bước thực thi chỉ được <b>mô phỏng</b>: không có quảng cáo, thư hay tệp thật nào bị tác động.","dim");
+ step("6 · Nghiệm thu");await sleep(500);log("BOSS","Nghiệm thu: <b>[HÀI LÒNG]</b>.","teal");
+ step("7 · Tối ưu");await packet("CAP","LIBR",C.gold2);lightNode("LIBR","ok");log("AtinCaptain → AC-LIBR",`Đóng gói quy trình ${tong} điểm thành mẫu tham chiếu <span class="mono">AC-LIBR/mau-${Date.now().toString(36)}</span>. Lần sau gặp việc tương tự, Sảnh sẽ đối chiếu mẫu này trước.`,"teal");
+ $("#gate").innerHTML=`<span class="verdict go">HOÀN TẤT VÒNG 7 BƯỚC</span><p style="font-size:13.5px;color:var(--muted)">Quy trình đã vào Thư viện. Bấm “Làm lại” để chạy yêu cầu khác.</p>`;step("xong")}
+
+async function runSim(r,sig){const a=analyse(r);
+ step("1 · Tiếp nhận");lightNode("BOSS","on");await packet("BOSS","LOBB");lightNode("LOBB","on");
+ log("AC-LOBB",`Nhận yêu cầu. Phân loại → agent liên quan: <b>${a.agents.join(", ")}</b> (+ ASUVI giám sát).`,"",`<pre>bảng có/thiếu:\n${a.thieu.length?a.thieu.map(t=>"✗ thiếu "+t).join("\n"):"✓ đủ dữ liệu tối thiểu"}</pre>`);if(sig.aborted)return;
+ await packet("LOBB","CAP");lightNode("CAP","on");await packet("CAP","LIBR",C.dim,500);
+ log("AtinCaptain","Đối chiếu AC-LIBR: chưa có mẫu trùng khớp → lập kế hoạch mới.","dim");if(sig.aborted)return;
+ step("2 · Giao việc");
+ for(const ag of [...a.agents,"ASUVI"]){if(sig.aborted)return;await packet("CAP",ag);lightNode(ag,"on");
+  log(`AtinCaptain → ${ag}`,`Phiếu giao việc`,"",`<pre>agent:   ${ag}\nyeu_cau: ${r.slice(0,70)}${r.length>70?"…":""}\nquyen:   ĐỀ XUẤT\ntieu_chi: bảng 100 điểm · có nguồn\n${a.thieu.length?"thieu:   "+a.thieu[0]:""}</pre>`)}
+ step("3 · Bổ sung dữ liệu");
+ for(const ag of a.agents){if(sig.aborted)return;await packet(ag,"TOOLS",C.dim,450);await packet("TOOLS",ag,C.dim,450);lightNode(ag,"ok");log(ag,WORK[ag])}
+ lightNode("ASUVI",a.danger?"warn":"ok");log("ASUVI",a.danger?"<b style='color:var(--rose)'>Cảnh báo:</b> yêu cầu có hành động không thể hoàn tác. Hạ điểm An toàn, đề nghị chặn.":WORK.ASUVI,a.danger?"rose":"");
+ step("4 · Chấm điểm");for(const ag of a.agents){if(sig.aborted)return;await packet(ag,"SANB",C.teal,450)}lightNode("SANB","on");
+ setScore(a.d,a.tong);log("AC-SANB · AINT chấm",`Tổng <b>${a.tong}/100</b>.`,a.tong>=90?"teal":a.tong<80?"rose":"");
+ await packet("SANB","CAP",C.teal);await packet("CAP","BOSS",C.rose);
+ const ab=a.tong<90&&a.tong>=80?["Làm gọn trong 2 tuần đầu với 1 kênh, đo kết quả rồi mở rộng.","Làm đủ phạm vi ngay nhưng chia ngân sách 30/70 để có điểm dừng an toàn."]:null;
+ if(ab)log("AtinCaptain","Phản biện: brief đủ để bắt đầu nhưng còn rủi ro. Trình 2 phương án A/B.","");
+ gate(a.tong,{thieu:a.thieu,danger:a.danger,ab})}
+
+/* ---- Chạy thật bằng Claude ---- */
+const RULES=`Bạn đang đóng vai trong hệ thống AI Agentic theo Hiến chương AtinCaptain (bản demo phòng lab).
+Tổ chức: AtinCaptain = Tổng chỉ huy; 5 agent: AMKTing (marketing, content, ads, SEO), APRDU (sản phẩm, CSKH, chatbot, chốt deal), APROJ (dự án, hợp đồng, rủi ro, quy trình), AINT (kế toán, chấm điểm, do thám thị trường), ASUVI (pháp chế, bảo mật, phân quyền, giám sát).
+Luật: không bịa số liệu (không chắc thì ghi "cần xác minh"); thiếu dữ liệu thì liệt kê ra, không suy đoán; mọi hành động thật (chi tiền, gửi tin, xoá dữ liệu, deploy, ký hợp đồng) chỉ ở mức ĐỀ XUẤT chờ người duyệt; ưu tiên tiết kiệm. Trả lời tiếng Việt.`;
+async function runLive(r,sig){step("1 · Tiếp nhận");lightNode("BOSS","on");await packet("BOSS","LOBB");lightNode("LOBB","on");
+ const think=log("AC-LOBB + AtinCaptain","Đang bóc tách yêu cầu… (Claude đang suy nghĩ, có thể mất 10–40 giây)","dim");
+ let plan;try{plan=await sampleFn.json(`${RULES}\n\nVAI: AtinCaptain (Tổng chỉ huy) tiếp nhận yêu cầu từ BOSS:\n"""${r}"""\n\nTrả về DUY NHẤT một JSON:\n{"nganh":"...","ngach":"...","co":["dữ liệu đã có"],"thieu":["dữ liệu còn thiếu"],"nguy_hiem":true|false,"ly_do_nguy_hiem":"...","tasks":[{"agent":"AMKTing|APRDU|APROJ|AINT","viec":"việc cụ thể ≤25 chữ","dau_ra":"sản phẩm bàn giao ≤15 chữ"}]}\nChọn 2–3 agent phù hợp nhất (không gồm ASUVI).`,{signal:sig})}
+ catch(e){return liveErr(e,think)}
+ think.remove();if(!plan||!Array.isArray(plan.tasks)){log("Lỗi","Claude trả về không đúng định dạng. Thử lại.","rose");return}
+ plan.tasks=plan.tasks.filter(t=>AG[t.agent]&&t.agent!=="ASUVI").slice(0,3);
+ log("AC-LOBB",`Ngành: <b>${esc(plan.nganh||"")}</b> · Ngách: <b>${esc(plan.ngach||"")}</b>`,"",`<pre>có:    ${(plan.co||[]).map(esc).join("; ")||"—"}\nthiếu: ${(plan.thieu||[]).map(esc).join("; ")||"—"}</pre>`);
+ await packet("LOBB","CAP");lightNode("CAP","on");step("2 · Giao việc");
+ for(const t of plan.tasks){await packet("CAP",t.agent);lightNode(t.agent,"on");log(`AtinCaptain → ${t.agent}`,"Phiếu giao việc","",`<pre>viec:   ${esc(t.viec)}\ndau_ra: ${esc(t.dau_ra)}\nquyen:  ĐỀ XUẤT</pre>`)}
+ await packet("CAP","ASUVI");lightNode("ASUVI","on");
+ step("3 · Agent làm việc (song song)");
+ const outs=await Promise.all(plan.tasks.map(async t=>{const el=log(t.agent,"Đang làm…","dim");try{const res=await sampleFn(`${RULES}\n\nVAI: ${t.agent}. Nhận phiếu giao việc từ AtinCaptain.\nYêu cầu gốc của BOSS: """${r}"""\nViệc của bạn: ${t.viec}\nĐầu ra cần nộp: ${t.dau_ra}\nDữ liệu còn thiếu: ${(plan.thieu||[]).join("; ")||"không"}\n\nViết bản nháp ngắn gọn ≤120 chữ, gạch đầu dòng. Điểm nào thiếu dữ liệu ghi rõ "cần BOSS cung cấp".`,{signal:sig,modelTier:"quick",onText:({text})=>{el.querySelector("p").textContent=text}});
+  el.className="ev";lightNode(t.agent,"ok");await packet(t.agent,"SANB",C.teal,450);return {agent:t.agent,text:res.text}}catch(e){if(e.code!=="cancelled")el.querySelector("p").textContent="Không hoàn thành: "+(e.code||"lỗi");return {agent:t.agent,text:"(không hoàn thành)"}}}));
+ if(sig.aborted)return;
+ step("4 · Chấm điểm");lightNode("SANB","on");const sc=log("ASUVI + AINT · Sandbox","Đang chấm điểm độc lập…","dim");
+ let ev;try{ev=await sampleFn.json(`${RULES}\n\nVAI: ASUVI (giám sát) cùng AINT (chấm điểm), độc lập với người làm. Chấm nghiêm khắc.\nYêu cầu BOSS: """${r}"""\nDữ liệu còn thiếu: ${(plan.thieu||[]).join("; ")||"không"}\nYêu cầu có hành động nguy hiểm: ${plan.nguy_hiem?"CÓ – "+(plan.ly_do_nguy_hiem||""):"không"}\nBản nháp các agent:\n${outs.map(o=>"## "+o.agent+"\n"+o.text).join("\n\n")}\n\nThang 100: dung (0-25 đúng yêu cầu), dulieu (0-20 dữ liệu & nguồn), khathi (0-20), antoan (0-20 an toàn & tuân thủ), tietkiem (0-15).\nTrả về DUY NHẤT JSON: {"d":{"dung":0,"dulieu":0,"khathi":0,"antoan":0,"tietkiem":0},"nhan_xet":"≤40 chữ","ab":["phương án A ≤25 chữ","phương án B ≤25 chữ"]}`,{signal:sig})}
+ catch(e){return liveErr(e,sc)}
+ sc.remove();const d=ev?.d||{};["dung","dulieu","khathi","antoan","tietkiem"].forEach(k=>d[k]=Math.max(0,Math.round(+d[k]||0)));
+ d.dung=Math.min(25,d.dung);d.dulieu=Math.min(20,d.dulieu);d.khathi=Math.min(20,d.khathi);d.antoan=Math.min(20,d.antoan);d.tietkiem=Math.min(15,d.tietkiem);
+ const tong=d.dung+d.dulieu+d.khathi+d.antoan+d.tietkiem;setScore(d,tong);
+ log("ASUVI + AINT",`Tổng <b>${tong}/100</b>. ${esc(ev?.nhan_xet||"")}`,tong>=90?"teal":tong<80?"rose":"");lightNode("ASUVI","ok");
+ await packet("SANB","CAP",C.teal);await packet("CAP","BOSS",C.rose);
+ gate(tong,{thieu:plan.thieu||[],danger:!!plan.nguy_hiem,ab:(ev?.ab||[]).slice(0,2).map(String)})}
+function liveErr(e,el){const m={not_granted:"Bạn chưa cho phép trang dùng Claude. Chuyển về chế độ Mô phỏng.",sampling_disabled:"Tài khoản này không dùng được Claude từ trang. Dùng Mô phỏng.",rate_limited:"Đang gọi quá nhiều. Đợi một lát rồi thử lại.",invalid_json:"Claude trả về sai định dạng. Bấm chạy lại.",cancelled:"Đã dừng."};
+ el.className="ev rose";el.querySelector("p").textContent=m[e.code]||"Gián đoạn kết nối, thử lại sau.";if(e.code==="not_granted"||e.code==="sampling_disabled"){sampleFn=null;$("#mSim").click()}}
+
+function resetLab(){RUN?.abort();RUN=null;drawNet();setScore(null);$("#log").innerHTML=`<div class="ev dim"><p style="color:var(--muted)">Chưa có hoạt động. Chọn một yêu cầu mẫu hoặc tự viết, rồi bấm “Gửi vào Sảnh”.</p></div>`;step("chờ yêu cầu");
+ $("#gate").innerHTML=`<span class="verdict" style="color:var(--dim)">CỔNG DUYỆT ĐANG ĐÓNG</span><p style="color:var(--muted);font-size:13.5px">Cổng chỉ mở sau khi Sandbox chấm xong. Không agent nào được hành động thật khi chưa có chữ ký của người duyệt.</p>`;$("#run").disabled=false;$("#stop").disabled=true}
+$("#reset").onclick=resetLab;
+$("#stop").onclick=()=>{RUN?.abort();log("Hệ thống","Đã dừng theo lệnh.","rose");$("#run").disabled=false;$("#stop").disabled=true};
+$("#run").onclick=async()=>{const r=$("#req").value.trim();if(r.length<5){$("#req").focus();return}
+ resetLab();$("#log").innerHTML="";const ctl=new AbortController();RUN=ctl;$("#run").disabled=true;$("#stop").disabled=false;
+ log("BOSS",esc(r),"rose");
+ try{MODE==="live"&&sampleFn?await runLive(r,ctl.signal):await runSim(r,ctl.signal)}finally{if(RUN===ctl){$("#run").disabled=false;$("#stop").disabled=true}}};
+drawNet();
+</script>
+<script>
+/* ===================== DEMO NGUYÊN LÝ (Phòng mô phỏng) ===================== */
+const NB=(x,y,w,h,label,sub,o={})=>Object.assign({x,y,w,h,label,sub:sub||""},o);
+const SR=(tone,title,text)=>({tone,title,text});
+const SCN=[
+{id:"d1",kick:"Sơ đồ 1 · Buổi 1",title:"Chọn mức tự chủ thấp nhất giải được bài toán",
+ desc:"Chọn một việc rồi bấm Chạy thử: việc đi từ Chatbot lên dần và dừng ở mức đầu tiên đủ sức giải. Chi phí tương đối (1×, 3×, 10×, 30×) chỉ để minh hoạ.",
+ nodes:{T:NB(300,40,160,66,"Việc cần làm","",{tone:"gold"}),
+  L0:NB(20,250,160,110,"Chatbot","hỏi → đáp 1 lượt\nchi phí ~1×"),L1:NB(210,250,160,110,"Workflow","các bước định sẵn\nchi phí ~3×"),
+  L2:NB(400,250,160,110,"Agent","tự chọn bước, có công cụ\nchi phí ~10×"),L3:NB(590,250,150,110,"Đa Agent","chỉ huy + chuyên trách\nchi phí ~30×")},
+ edges:[["T","L0"],["L0","L1"],["L1","L2"],["L2","L3"]],
+ opts:[{k:0,label:"Dịch 1 câu sang tiếng Anh"},{k:1,label:"Gửi báo cáo doanh thu lúc 8h sáng mỗi ngày"},{k:2,label:"Tìm hiểu 3 đối thủ rồi tự lập kế hoạch nội dung"},{k:3,label:"Chạy ads nhiều kênh song song, có chấm điểm và người duyệt"}],
+ steps:o=>{const t=o.k,names=["Chatbot","Workflow","Agent","Đa Agent"],need=["không có công cụ, không tự hành động được","đường đi cố định, không tự thích nghi khi kết quả khác dự kiến","một mình làm hết, không chia việc, không chấm độc lập"],cost=[1,3,10,30],st=[];
+  for(let i=0;i<=t;i++){st.push({p:[[i?"L"+(i-1):"T","L"+i]]});
+   if(i<t)st.push({warn:["L"+i],log:["Mức "+i+" · "+names[i],"Chưa đủ: "+need[i]+".","rose"]});
+   else st.push({ok:["L"+i],log:["Mức "+i+" · "+names[i],"<b>Đủ sức giải</b> → dừng ở đây, không lên mức cao hơn.","teal"]})}
+  for(let j=t+1;j<4;j++)st.push({off:["L"+j],w:60});
+  st.push({res:SR("go","CHỌN MỨC "+t+" · "+names[t].toUpperCase(),"Chi phí tương đối ~"+cost[t]+"× (dùng Đa Agent sẽ là ~30×). Quy tắc vàng: chọn mức thấp nhất giải được bài toán.")});return st}},
+{id:"d2",kick:"Sơ đồ 2 · Buổi 1",title:"Giải phẫu một Agent: bỏ một khối thì chuyện gì xảy ra",
+ desc:"Việc giao: đặt lịch họp với khách và gửi email xác nhận. Chọn đủ 6 khối hoặc bỏ đi một khối để thấy agent hỏng ở đâu.",
+ nodes:{B:NB(300,190,160,80,"NÃO","model ngôn ngữ",{tone:"gold"}),HC:NB(30,30,190,64,"Hiến chương","luật, vai trò, giọng văn"),SK:NB(540,30,190,64,"Kỹ năng","quy trình đúng việc"),
+  TN:NB(20,190,200,64,"Trí nhớ","khách, lịch cũ, quyết định"),CC:NB(540,190,200,64,"Công cụ","đặt lịch, gửi email"),PH:NB(30,350,190,64,"Phanh","duyệt, nhật ký, quyền",{tone:"rose"}),VL:NB(540,350,190,64,"Vòng lặp","tự kiểm, sửa lỗi",{tone:"teal"})},
+ edges:[["HC","B"],["SK","B"],["TN","B"],["CC","B"],["PH","B"],["VL","B"]],
+ opts:[{k:"",label:"Đủ 6 khối"},{k:"HC",label:"Bỏ Hiến chương"},{k:"SK",label:"Bỏ Kỹ năng"},{k:"TN",label:"Bỏ Trí nhớ"},{k:"CC",label:"Bỏ Công cụ"},{k:"PH",label:"Bỏ Phanh"},{k:"VL",label:"Bỏ Vòng lặp"}],
+ steps:o=>{const BL=[["HC","Hiến chương","vai trò và luật đã nạp"],["SK","Kỹ năng","quy trình đặt lịch đã nạp"],["TN","Trí nhớ","biết khách là ai, lịch cũ"],["CC","Công cụ","có tay để đặt lịch, gửi email"],["PH","Phanh","email chờ người duyệt, có nhật ký"],["VL","Vòng lặp","kiểm kết quả, lỗi thì sửa"]],
+  LOSS={HC:"Không biết vai trò, luật, giọng văn → trả lời lạc hướng, mỗi lần một kiểu.",SK:"Phải mò từng bước, mỗi lần làm một kiểu → chậm, tốn token, hay sót bước.",TN:"Không biết khách là ai, lịch cũ, quyết định đã chốt → hỏi lại từ đầu.",CC:"Chỉ nói được, không đặt được lịch, không gửi được email → thành chatbot.",PH:"Có thể gửi email cho khách khi chưa ai duyệt, không nhật ký, không dừng được.",VL:"Chỉ chạy 1 lượt: gửi sai giờ cũng không tự phát hiện và sửa."},st=[];
+  for(const b of BL){if(b[0]===o.k)st.push({warn:[b[0]],log:[b[1]+" · THIẾU",LOSS[b[0]],"rose"],w:400});else st.push({p:[[b[0],"B"]],ok:[b[0]],log:[b[1],b[2]+".","dim"]})}
+  st.push({on:["B"],w:100});
+  st.push({res:o.k?SR("stop","AGENT HỎNG: THIẾU "+BL.find(b=>b[0]===o.k)[1].toUpperCase(),LOSS[o.k]):SR("go","AGENT ĐỦ 6 KHỐI","Việc chạy trọn: biết vai trò, có quy trình, nhớ khách, có tay đặt lịch, có phanh duyệt và tự kiểm.")});return st}},
+{id:"d3",kick:"Sơ đồ 3 · Buổi 1",title:"Vòng lặp Nhận – Nghĩ – Làm – Quan sát",
+ desc:"Chọn một tình huống: agent lặp đến khi đạt mục tiêu, hoặc dừng ở điểm dừng bắt buộc (thiếu dữ liệu, hết số vòng tối đa).",
+ nodes:{G:NB(20,180,140,70,"Mục tiêu","từ người dùng",{tone:"gold"}),R:NB(230,50,150,70,"Nhận","đọc mục tiêu\n+ ngữ cảnh"),Th:NB(440,50,150,70,"Nghĩ","lập kế hoạch\nbước kế"),A:NB(440,290,150,70,"Làm","gọi công cụ\n/ viết"),Q:NB(230,290,150,70,"Quan sát","đọc kết quả\ntrả về"),
+  D:NB(300,170,170,80,"Đạt mục tiêu?","kiểm tra",{tone:"teal"}),OUT:NB(620,185,120,60,"Trả kết quả","+ ghi nhật ký",{tone:"teal"}),ASK:NB(20,330,140,70,"Hỏi người","thiếu dữ liệu",{tone:"rose"})},
+ edges:[["G","R"],["R","Th"],["Th","A"],["A","Q"],["Q","D"],["D","R",1],["D","OUT"],["R","ASK",1]],
+ opts:[{k:"1",label:"Dữ liệu đủ — xong ngay 1 vòng"},{k:"3",label:"Cần 3 vòng mới đạt"},{k:"ask",label:"Thiếu dữ liệu quan trọng"},{k:"max",label:"Mãi không đạt — chạm số vòng tối đa (4)"}],
+ steps:o=>{const st=[{p:[["G","R"]]}],n=o.k==="1"?1:o.k==="3"?3:4;
+  for(let r=1;r<=n;r++){
+   if(r>1)st.push({p:[["D","R",C.rose,450]],log:["Vòng "+r,"Chưa đạt → lặp lại với kết quả vừa quan sát.","dim"]});
+   st.push({on:["R"],log:["Nhận · vòng "+r,"Đọc mục tiêu + ngữ cảnh.","dim"]});
+   if(o.k==="ask"){st.push({p:[["R","ASK",C.rose]],warn:["ASK"],log:["Điểm dừng bắt buộc","Thiếu dữ liệu → <b>hỏi người</b>, không suy đoán.","rose"],res:SR("mid","DỪNG ĐỂ HỎI NGƯỜI","Agent không tự điền số liệu còn thiếu. Điểm dừng “thiếu dữ liệu” chính là Quy trình 1 của AtinCaptain.")});return st}
+   st.push({p:[["R","Th",C.gold2,450]],on:["Th"],log:["Nghĩ","Lập kế hoạch bước kế.","dim"]},{p:[["Th","A",C.gold2,450]],on:["A"],log:["Làm","Gọi công cụ / viết.","dim"]},{p:[["A","Q",C.gold2,450]],on:["Q"],log:["Quan sát","Đọc kết quả trả về.","dim"]},{p:[["Q","D",C.gold2,450]],on:["D"]});
+   if((o.k==="1"&&r===1)||(o.k==="3"&&r===3)){st.push({p:[["D","OUT",C.teal]],ok:["D","OUT"],log:["Đạt mục tiêu","Trả kết quả sau "+r+" vòng và ghi nhật ký.","teal"],res:SR("go","ĐẠT SAU "+r+" VÒNG","Mỗi vòng tốn token — vòng càng ít càng tiết kiệm. Luôn đặt điều kiện dừng để vòng lặp không chạy mãi.")});return st}}
+  st.push({warn:["D"],log:["Điểm dừng bắt buộc","Hết số vòng tối đa (4) → dừng, báo người thay vì lặp mãi.","rose"],res:SR("stop","DỪNG: HẾT SỐ VÒNG TỐI ĐA","Không có điều kiện dừng thì agent đốt token vô hạn. Số vòng tối đa là cái phanh rẻ nhất.")});return st}},
+{id:"d5",kick:"Sơ đồ 5 · Buổi 2",title:"Phiếu giao việc: hợp đồng giữa các agent",
+ desc:"Chọn một cách giao việc. Phiếu phải đủ 8 trường; thiếu trường nào agent trả phiếu về, không tự đoán. Không có phiếu = không có việc.",
+ nodes:{CAP:NB(20,170,150,80,"Tổng chỉ huy","giao việc",{tone:"gold"}),PH:NB(230,40,280,300,"PHIẾU GIAO VIỆC",null,{lines:["(chưa lập phiếu)"]}),AG:NB(590,150,150,80,"Agent","AMKTing"),KQ:NB(590,300,150,90,"Phiếu kết quả","ket_qua · nguon\ncon_thieu · de_xuat")},
+ edges:[["CAP","PH"],["PH","AG"],["AG","KQ"]],
+ opts:[{k:"full",label:"Phiếu đủ 8 trường"},{k:"han",label:"Phiếu thiếu hạn (han)"},{k:"quyen",label:"Phiếu thiếu quyền (quyen)"},{k:"none",label:"Giao miệng, không lập phiếu"}],
+ steps:o=>{const F8=[["agent","AMKTing"],["yeu_cau","Kế hoạch ads 30 ngày"],["dau_vao","15tr · KH 25–40 · HCM"],["dau_ra","bảng kế hoạch + 3 content"],["tieu_chi","100 điểm · có nguồn"],["han","thứ Hai 09:00"],["quyen","ĐỀ XUẤT"],["thieu","CPM ngành → hỏi lại"]],st=[];
+  if(o.k==="none"){st.push({p:[["CAP","AG",C.rose]],log:["Chỉ huy → Agent","Nhắn miệng: “làm giúp kế hoạch ads”. Không có đầu vào, hạn, quyền, tiêu chí.","rose"]},{warn:["AG"],log:["Agent","Không có phiếu → <b>không có việc</b>. Từ chối nhận, yêu cầu lập phiếu.","rose"],res:SR("stop","KHÔNG PHIẾU = KHÔNG VIỆC","Giao việc mơ hồ là lỗi phổ biến nhất của hệ đa agent: làm trùng hoặc sai hướng.")});return st}
+  const lines=F8.map(f=>f[0]===o.k?"✗ "+f[0]+": (để trống)":"✓ "+f[0]+": "+f[1]);
+  st.push({p:[["CAP","PH"]],lines:{PH:lines},on:["PH"],log:["Tổng chỉ huy","Lập phiếu giao việc AC-VIEC-014.","dim"]},{p:[["PH","AG"]],on:["AG"],log:["Agent","Nhận phiếu, kiểm đủ 8 trường.","dim"]});
+  if(o.k==="full")st.push({p:[["AG","KQ",C.teal]],ok:["PH","AG","KQ"],log:["Agent","Phiếu đủ → làm → trả phiếu kết quả đủ trường.","teal"],res:SR("go","PHIẾU CHẠY THÔNG","Phiếu rõ ràng thì agent rẻ (model nhỏ) cũng làm tốt. Quyền ĐỀ XUẤT nên agent chỉ soạn, không bật ads.")});
+  else st.push({warn:["AG"],log:["Agent","Thiếu trường <b>"+o.k+"</b> → <b>trả phiếu về</b>, không tự đoán.","rose"]},{p:[["AG","CAP",C.rose]],res:SR("mid","PHIẾU BỊ TRẢ VỀ","Thiếu “"+o.k+"”. Chỉ huy phải bổ sung rồi giao lại; quy tắc: thiếu dữ liệu thì hỏi, không suy đoán.")});
+  return st}},
+{id:"d6",kick:"Sơ đồ 6 · Buổi 2",title:"MCP: một cổng chuẩn, cấp quyền tối thiểu",
+ desc:"Mỗi MCP server chỉ khai báo đúng những tool cần dùng (cấu hình mẫu của lab). Chọn một yêu cầu: tool có khai báo thì chạy, không có thì bị từ chối.",
+ nodes:{H:NB(20,160,170,110,"Ứng dụng AI","Claude · ChatGPT\nAntigravity…",{tone:"gold"}),C:NB(250,185,120,60,"MCP client","nói chuẩn MCP"),
+  S1:NB(500,20,240,60,"Google Drive","tools: read_file"),S2:NB(500,100,240,60,"Gmail","tools: read, draft"),S3:NB(500,180,240,60,"Meta Ads","tools: read_insights"),S4:NB(500,260,240,60,"Cơ sở dữ liệu CRM","tools: select"),S5:NB(500,340,240,60,"Trình duyệt","tools: read_page")},
+ edges:[["H","C"],["C","S1"],["C","S2"],["C","S3"],["C","S4"],["C","S5"]],
+ opts:[{k:0,label:"Đọc tệp kế hoạch quý 4 trên Drive"},{k:1,label:"Lấy số liệu Meta Ads tuần qua"},{k:2,label:"Soạn email trả lời khách"},{k:3,label:"Gửi email ngay cho 500 khách"},{k:4,label:"Xoá toàn bộ dữ liệu CRM"}],
+ steps:o=>{const M=[{s:"S1",tool:"drive.read_file",ok:1,t:"Drive trả nội dung tệp (chỉ đọc)."},{s:"S3",tool:"meta.read_insights",ok:1,t:"Meta trả số liệu tuần qua (chỉ đọc)."},{s:"S2",tool:"gmail.draft",ok:1,t:"Gmail tạo <b>bản nháp</b>, chưa gửi. Chờ người duyệt."},{s:"S2",tool:"gmail.send",ok:0,t:"Gmail không khai báo tool gửi thư."},{s:"S4",tool:"crm.delete_rows",ok:0,t:"CSDL chỉ khai báo select, không có tool xoá."}][o.k];
+  const st=[{p:[["H","C"]],log:["Ứng dụng AI","Gọi tool <b>"+M.tool+"</b> qua MCP client.","dim"]},{p:[["C",M.s]],on:[M.s]}];
+  if(M.ok)st.push({p:[[M.s,"C",C.teal],["C","H",C.teal]],ok:[M.s],log:["MCP server",M.t,"teal"],res:SR("go","TOOL CHẠY · QUYỀN HẸP","Server chỉ mở đúng tool cần: đọc thì đọc, soạn nháp thì chỉ nháp. Hành động thật vẫn chờ người duyệt.")});
+  else st.push({p:[[M.s,"C",C.rose],["C","H",C.rose]],warn:[M.s],log:["MCP server","<b>Từ chối</b>: "+M.t,"rose"],res:SR("stop","BỊ TỪ CHỐI · TOOL KHÔNG TỒN TẠI","Cấp quyền tối thiểu: không khai báo thì agent không thể gọi, dù prompt có bảo làm. Muốn làm thật phải đi qua người duyệt.")});
+  return st}},
+{id:"d7",kick:"Sơ đồ 7 · Buổi 2",title:"Trí nhớ 3 tầng: nhớ đúng chỗ, tốn đúng mức",
+ desc:"Chọn một thông tin: xem agent đặt nó ở tầng nào và vì sao.",
+ nodes:{AG:NB(20,170,150,100,"Agent","",{tone:"gold"}),T1:NB(260,30,480,110,"Tầng 1 · Ngữ cảnh phiên","mất khi đóng phiên · càng dài càng đắt"),T2:NB(260,175,480,110,"Tầng 2 · Bộ nhớ dài hạn","quy tắc, quyết định đã chốt · tự nạp ở phiên sau",{tone:"teal"}),T3:NB(260,320,480,110,"Tầng 3 · Kho tri thức","tài liệu, mẫu, SOP · chỉ tra cứu khi cần")},
+ edges:[["AG","T1"],["AG","T2"],["AG","T3"]],
+ opts:[{k:"chat",label:"Câu BOSS vừa hỏi trong cuộc chat này"},{k:"rule",label:"Quy tắc BOSS vừa chốt: không bật ads khi chưa duyệt"},{k:"doc",label:"Hợp đồng mẫu 50 trang và bảng giá"},{k:"long",label:"Phiên chat đã quá dài (200 lượt)"}],
+ steps:o=>{const st=[];
+  if(o.k==="chat")st.push({p:[["AG","T1"]],ok:["T1"],log:["Tầng 1","Đưa vào ngữ cảnh phiên: dùng ngay, nhưng mất khi đóng phiên.","teal"],res:SR("go","TẦNG 1 · NGỮ CẢNH PHIÊN","Việc chỉ cần trong cuộc trò chuyện này thì để ở tầng 1. Không ghi gì thêm.")});
+  if(o.k==="rule")st.push({p:[["AG","T1"]],ok:["T1"],log:["Tầng 1","Dùng ngay trong phiên này.","dim"]},{p:[["AG","T2",C.teal]],ok:["T2"],log:["Tầng 2","Quy tắc đã chốt → <b>ghi vào bộ nhớ dài hạn</b>; phiên sau tự nạp.","teal"],res:SR("go","GHI VÀO TẦNG 2","Quyết định, quy tắc phải sống lâu hơn phiên chat → bộ nhớ dài hạn (Memory, CLAUDE.md).")});
+  if(o.k==="doc")st.push({p:[["AG","T3"],["T3","AG",C.teal,450]],ok:["T3"],log:["Tầng 3","Tài liệu lớn nằm ở kho. Agent chỉ tra <b>đúng đoạn cần</b>, không nhét cả 50 trang vào phiên.","teal"],res:SR("go","ĐỂ Ở TẦNG 3 · TRA KHI CẦN","Nhét hết vào ngữ cảnh thì mỗi lượt đều đọc lại 50 trang: rất đắt. Kho tri thức rẻ và bền hơn.")});
+  if(o.k==="long")st.push({warn:["T1"],log:["Tầng 1","200 lượt: mỗi lượt đọc lại toàn bộ → đắt, chậm, dễ nhầm.","rose"]},{p:[["AG","T2",C.teal]],ok:["T2"],log:["Tầng 2","Ghi các quyết định quan trọng vào bộ nhớ dài hạn trước khi bỏ phiên.","teal"]},{set:{T1:"đã đóng · phiên mới sẽ trống"},on:["T1"],log:["Phiên mới","Mở phiên mới: tự nạp tầng 2, tầng 1 sạch.","teal"],res:SR("mid","GHI TẦNG 2 RỒI MỞ PHIÊN MỚI","Phiên quá dài là thủ phạm lớn nhất làm tốn usage. Chốt quyết định, ghi nhớ, rồi mở phiên mới.")});
+  return st}},
+{id:"d8",kick:"Sơ đồ 8 · Buổi 3",title:"Dây chuyền 7 bước có cổng chấm điểm",
+ desc:"Chọn điểm Sandbox chấm ở bước 4 để xem việc đi nhánh nào. Chưa qua cổng 90 điểm và chữ ký người duyệt thì không hành động thật.",
+ nodes:Object.assign({},...[["Tiếp nhận","bóc tách"],["Giao việc","phiếu + điểm"],["Bổ sung","dữ liệu"],["Chấm điểm","Sandbox"],["Thực thi","hành động thật"],["Nghiệm thu","BOSS"],["Tối ưu","lưu thư viện"]].map((a,i)=>({["P"+(i+1)]:NB(8+i*108,40,96,80,(i+1)+" · "+a[0],a[1],{tone:i===3?"gold":i===4?"teal":"base"})})),
+  {G:NB(325,190,110,80,"Cổng điểm","sau bước 4",{tone:"gold"}),STOP:NB(60,330,200,70,"< 80 · Tạm dừng","quay lại bước 2",{tone:"rose"}),AB:NB(280,330,200,70,"80–89 · Xem xét","phản biện + phương án A/B"),GO:NB(500,330,200,70,"≥ 90 · Khả thi","trình BOSS duyệt",{tone:"teal"})}),
+ edges:[["P1","P2"],["P2","P3"],["P3","P4"],["P4","P5"],["P5","P6"],["P6","P7"],["P4","G"],["G","STOP"],["G","AB"],["G","GO"],["STOP","P2",1],["GO","P5",1]],
+ opts:[{k:95,label:"Sandbox chấm 95 điểm"},{k:85,label:"Sandbox chấm 85 điểm"},{k:62,label:"Sandbox chấm 62 điểm"}],
+ steps:o=>{const st=[],NM=["Tiếp nhận","Giao việc","Bổ sung dữ liệu","Chấm điểm"],DS=["Sảnh bóc tách ngành/ngách, bảng có/thiếu.","Lập phiếu giao việc + bảng điểm.","Tìm thêm dữ liệu kèm nguồn.","Sandbox chấm độc lập thang 100."];
+  const tail=(first)=>[{p:[[first,"P5",C.teal]],on:["P5"],log:["5 · Thực thi","Chỉ chạy vì đã đủ điểm và có người duyệt (trong lab: mô phỏng).","teal"]},{p:[["P5","P6"]],on:["P6"],log:["6 · Nghiệm thu","BOSS đánh giá: HÀI LÒNG.","teal"]},{p:[["P6","P7"]],ok:["P7"],log:["7 · Tối ưu","Quy trình đạt chuẩn lưu vào thư viện.","teal"]}];
+  for(let i=1;i<=4;i++)st.push({p:i>1?[["P"+(i-1),"P"+i]]:[],on:["P"+i],log:["Bước "+i+" · "+NM[i-1],DS[i-1],"dim"]});
+  st.push({p:[["P4","G"]],on:["G"],log:["Cổng điểm","Sandbox chấm: <b>"+o.k+"/100</b>.",o.k>=90?"teal":o.k<80?"rose":""]});
+  if(o.k>=90)st.push({p:[["G","GO",C.teal]],ok:["GO"]},...tail("GO"),{res:SR("go","QUA CỔNG · ĐÃ THỰC THI","≥90 điểm và có chữ ký người duyệt mới thực thi; sau đó nghiệm thu và lưu thư viện.")});
+  else if(o.k>=80)st.push({p:[["G","AB",C.amber]],on:["AB"],log:["Xem xét","Tổng chỉ huy phản biện, trình 2 phương án A/B.","dim"]},{log:["BOSS","Chọn phương án B (làm gọn 2 tuần đầu).","teal"]},...tail("AB"),{res:SR("mid","XEM XÉT → CHỌN A/B → THỰC THI","Vùng 80–89 không bị loại: phải phản biện và đưa phương án để người quyết.")});
+  else st.push({p:[["G","STOP",C.rose]],warn:["STOP"],log:["Tạm dừng","Dưới 80: không giao tiếp cho agent, quay lại bước 2.","rose"]},{p:[["STOP","P2",C.rose],["P2","P3"],["P3","P4"]],log:["Làm lại","Bổ sung dữ liệu, giao việc lại, chấm lại: <b>91/100</b>.","teal"]},{p:[["P4","G"],["G","GO",C.teal]],ok:["GO"],log:["Cổng điểm","91 ≥ 90 → qua cổng.","teal"]},...tail("GO"),{res:SR("mid","ĐẠT SAU 1 VÒNG BỔ SUNG","Dưới 80 thì quay lại bước 2, không được nhảy cóc sang thực thi.")});
+  return st}},
+{id:"d9",kick:"Sơ đồ 9 · Buổi 3",title:"Evaluator–Optimizer: chấm, sửa, chấm lại",
+ desc:"Agent chấm độc lập, theo tiêu chí viết sẵn, tối đa 2 vòng sửa. Chọn chất lượng bản nháp đầu tiên.",
+ nodes:{M:NB(20,40,180,90,"Agent làm","tạo bản nháp"),J:NB(290,40,180,90,"Agent chấm","độc lập · tiêu chí viết sẵn",{tone:"gold"}),B:NB(560,40,180,90,"Người duyệt","",{tone:"teal"}),CARD:NB(40,180,680,240,"BẢNG ĐIỂM · 5 TIÊU CHÍ",null,{lines:["(chưa chấm)"]})},
+ edges:[["M","J"],["J","B"]],
+ opts:[{k:"good",label:"Bản nháp tốt ngay từ đầu"},{k:"src",label:"Thiếu nguồn, số liệu mơ hồ"},{k:"off",label:"Sai hướng ngay từ đầu"}],
+ steps:o=>{const CR=[["Đúng yêu cầu",25],["Dữ liệu & nguồn",20],["Khả thi",20],["An toàn",20],["Tiết kiệm",15]],
+  RS={good:[[24,19,18,19,12]],src:[[20,6,15,18,12],[23,18,18,19,12]],off:[[8,6,10,18,12],[15,10,12,18,12]]}[o.k],FB={src:"Thêm link nguồn cho mọi số liệu; chỗ nào chưa chắc ghi “cần xác minh”.",off:"Làm lại đúng yêu cầu: kế hoạch 30 ngày, không phải ý tưởng chung chung."}[o.k],st=[];
+  for(let r=1;r<=RS.length;r++){const s=RS[r-1],tot=s.reduce((a,b)=>a+b,0);
+   st.push({p:[["M","J"]],on:["J"],log:["Agent làm","Nộp bản nháp lần "+r+".","dim"]},{lines:{CARD:["Vòng "+r+" / tối đa 2"].concat(CR.map((c,i)=>c[0]+": "+s[i]+"/"+c[1])).concat(["TỔNG: "+tot+"/100"])},log:["Agent chấm","Vòng "+r+": <b>"+tot+"/100</b>.",tot>=90?"teal":"rose"]});
+   if(tot>=90){st.push({p:[["J","B",C.teal]],ok:["J","B"],res:SR("go","ĐẠT "+tot+" ĐIỂM · TRÌNH NGƯỜI DUYỆT",r>1?"Sửa theo góp ý cụ thể nên lên ngưỡng ở vòng "+r+".":"Đạt ngay vòng 1, trình người duyệt.")});return st}
+   if(r<2)st.push({p:[["J","M",C.rose]],log:["Góp ý","<b>"+FB+"</b>","rose"],set:{M:"đang sửa theo góp ý"}});
+   else st.push({warn:["J"],log:["Điểm dừng","Hết 2 vòng sửa mà vẫn dưới 90 → dừng, trình người.","rose"],res:SR("stop","DỪNG SAU 2 VÒNG · "+tot+" ĐIỂM","Đặt số vòng sửa tối đa để không đốt token vô hạn; việc còn dưới ngưỡng phải có người quyết.")});}
+  return st}},
+{id:"d10",kick:"Sơ đồ 10 · Buổi 3",title:"Ba cấp quyền và người trong vòng lặp",
+ desc:"Agent mới bắt đầu ở quyền ĐỌC. Chọn một việc: xem nó rơi vào cấp nào và khi nào bị chặn.",
+ nodes:{AG:NB(20,170,140,100,"Agent","quyền mặc định:\nĐỌC",{tone:"gold"}),R:NB(260,30,240,80,"ĐỌC","xem, tra cứu, tổng hợp · tự do",{tone:"teal"}),P:NB(260,150,240,80,"ĐỀ XUẤT","soạn nháp · tự do trong Sandbox"),X:NB(260,270,240,80,"THỰC THI","≥90 điểm + người duyệt",{tone:"rose"}),FZ:NB(570,150,170,80,"Đóng băng","giữ nguyên, không xoá"),BO:NB(570,270,170,80,"Người duyệt","ký từng việc",{tone:"rose"})},
+ edges:[["AG","R"],["AG","P"],["AG","X"],["X","BO"],["X","FZ",1]],
+ opts:[{k:"a",label:"Xem báo cáo doanh thu tuần"},{k:"b",label:"Soạn nháp kế hoạch ads"},{k:"c",label:"Bật quảng cáo 15 triệu · điểm 92 · BOSS chưa duyệt"},{k:"d",label:"Bật quảng cáo 15 triệu · điểm 92 · BOSS đã duyệt"},{k:"f",label:"Bật quảng cáo 15 triệu · điểm 84"},{k:"e",label:"Xoá dữ liệu khách cũ"}],
+ steps:o=>{const st=[];
+  if(o.k==="a")st.push({p:[["AG","R"]],ok:["R"],log:["ĐỌC","Chỉ xem và tổng hợp, không thay đổi gì.","teal"],res:SR("go","ĐỌC · TỰ DO","Mức thấp nhất, rủi ro thấp nhất: agent làm không cần hỏi.")});
+  if(o.k==="b")st.push({p:[["AG","P"]],ok:["P"],log:["ĐỀ XUẤT","Soạn nháp trong Sandbox, chưa tác động ra ngoài.","teal"],res:SR("go","ĐỀ XUẤT · TỰ DO TRONG SANDBOX","Được phép sai trong Sandbox vì chưa có gì chạy thật.")});
+  if(o.k==="c")st.push({p:[["AG","X"]],on:["X"],log:["THỰC THI","Điểm 92 ≥ 90 ✓ · người duyệt: chưa ✗","rose"]},{p:[["X","BO",C.rose]],warn:["X"],res:SR("stop","CHẶN · CHỜ NGƯỜI DUYỆT","Đủ điểm chưa đủ: chi tiền thật luôn cần chữ ký người duyệt.")});
+  if(o.k==="d")st.push({p:[["AG","X"]],on:["X"],log:["THỰC THI","Điểm 92 ≥ 90 ✓ · người duyệt: đã ký ✓","teal"]},{p:[["X","BO",C.teal]],ok:["X","BO"],log:["Thực thi","Chạy lệnh bật ads (trong lab: chỉ mô phỏng) và ghi nhật ký.","teal"],res:SR("go","ĐƯỢC THỰC THI · CÓ NHẬT KÝ","Quyền THỰC THI gắn với từng việc cụ thể, không cấp vĩnh viễn.")});
+  if(o.k==="f")st.push({p:[["AG","X"]],on:["X"],log:["THỰC THI","Điểm 84 < 90 ✗","rose"]},{warn:["X"],res:SR("stop","CHẶN · DƯỚI NGƯỠNG 90","Quay lại bước 2 bổ sung dữ liệu, hoặc trình phương án A/B cho người quyết.")});
+  if(o.k==="e")st.push({p:[["AG","X"]],on:["X"],log:["THỰC THI","Xoá dữ liệu là việc <b>luôn cần người</b>, và quy tắc AtinCaptain: không xoá.","rose"]},{warn:["X"],p:[["X","FZ",C.teal]],ok:["FZ"],log:["Đóng băng","Giữ nguyên dữ liệu, ghi vào danh sách theo dõi.","teal"],res:SR("stop","KHÔNG XOÁ · ĐÓNG BĂNG","Việc không thể hoàn tác thì chỉ “đóng băng”, người quyết định sau.")});
+  return st}},
+{id:"d11",kick:"Sơ đồ 11 · Buổi 3",title:"Agent Kit: viết một lần, cài ở mọi nền tảng",
+ desc:"Chọn nền tảng đích: xem từng tệp của Agent Kit được dán vào đúng ô nào, rồi chạy 3 bài thử A/B/C.",
+ nodes:Object.assign({KIT:NB(20,30,240,400,"AGENT KIT",null,{tone:"gold",lines:["00-HIEN-CHUONG.md","01-SO-DO-TO-CHUC.md","02-QUY-TRINH-7-BUOC.md","skills/<agent>/SKILL.md","CAI-DAT-<nền tảng>.md","","Markdown thuần,","không phụ thuộc định dạng riêng."]})},...["Claude","ChatGPT","Google Antigravity","OpenClaw","Perplexity"].map((n,i)=>({["P"+i]:NB(500,30+i*82,240,64,n,"")}))),
+ edges:[0,1,2,3,4].map(i=>["KIT","P"+i]),
+ opts:[{k:0,label:"Cài lên Claude"},{k:1,label:"Cài lên ChatGPT"},{k:2,label:"Cài lên Google Antigravity"},{k:3,label:"Cài lên OpenClaw"},{k:4,label:"Cài lên Perplexity"}],
+ steps:o=>{const MP=[["Project → ô Instructions","Customize → Skills → Upload a skill (ZIP)","Connectors (Drive, Gmail…)","tài liệu của Project"],["Project → Instructions","Files của Project, gọi tên trong Instructions","Apps / Connectors","Files của Project"],["Customizations → Rules","Skills","Agent Manager, terminal, trình duyệt (cần duyệt)","thư mục workspace"],["AGENTS.md (+ SOUL.md)","skills/<agent>/SKILL.md","TOOLS.md","MEMORY.md / knowledge"],["Space → Instructions","Computer Skills","Connectors","Files của Space"]][o.k],NMS=["Claude","ChatGPT","Antigravity","OpenClaw","Perplexity"],P="P"+o.k,st=[];
+  for(let j=0;j<5;j++)if(j!==o.k)st.push({off:["P"+j],w:40});
+  st.push({p:[["KIT",P]],on:[P],log:[NMS[o.k],"Nhận Agent Kit.","dim"]},{log:["00-HIEN-CHUONG.md","→ "+MP[0],"dim"],w:350},{log:["skills/…/SKILL.md","→ "+MP[1],"dim"],w:350},{log:["Công cụ (MCP)","→ "+MP[2],"dim"],w:350},{log:["01 + 02 (sơ đồ, quy trình)","→ "+MP[3],"dim"],w:350},
+   {set:{[P]:"đã cài xong"},log:["Bài thử A","Việc đúng phạm vi → đúng định dạng 5 phần ✓","teal"]},{log:["Bài thử B","Thiếu dữ liệu → hỏi lại ✓","teal"]},{ok:[P,"KIT"],log:["Bài thử C","Việc bị cấm → dừng, xin duyệt ✓","teal"],res:SR("go","CÀI XONG TRÊN "+NMS[o.k].toUpperCase()+" · 3/3","Cùng một bộ tệp Markdown, chỉ khác ô để dán. Đó là lý do bản chất nằm trong Agent Kit, không nằm trong nền tảng.")});
+  return st}}
+];
+
+let SCN_CUR=null,SCN_OPT=0,SCN_CTL=null;
+const SC_REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function scSubSvg(n,s){const subs=s?String(s).split("\n"):[];return subs.map((t,i)=>`<text x="${n.x+n.w/2}" y="${n._y0+18+i*15}" text-anchor="middle" fill="${C.muted}" font-size="${n.w<110?10.5:11.5}" font-family="${F.b}">${esc(t)}</text>`).join("")}
+function scLinesSvg(n,ls){return ls.map((l,i)=>`<text x="${n.x+16}" y="${n.y+56+i*22}" fill="${/^✗/.test(l)?C.rose:/^✓/.test(l)?C.teal:C.muted}" font-size="13" font-family="${F.m}">${esc(l)}</text>`).join("")}
+function scDraw(){const sc=SCN_CUR,ns=sc.nodes;
+ let h=`<rect width="760" height="460" fill="${C.ink}" rx="4"/>`;
+ h+=sc.edges.map(([a,b,d])=>{const p=scCtr(a),q=scCtr(b);return `<line id="se-${a}-${b}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke="${C.line}" stroke-width="1" ${d?'stroke-dasharray="3 4"':""}/>`}).join("");
+ h+=Object.entries(ns).map(([k,n])=>{const tone=n.tone||"base",st=tone==="gold"?C.gold:tone==="teal"?C.teal:tone==="rose"?C.rose:C.line,fill=tone==="gold"?"#1E1A12":C.panel,small=n.w<110,fs=n.fs||(small?12.5:15);
+  let inner;
+  if(n.lines){inner=`<text x="${n.x+n.w/2}" y="${n.y+26}" text-anchor="middle" fill="${C.ivory}" font-size="${fs}" font-weight="600" font-family="${F.b}">${esc(n.label)}</text><g id="sl-${k}">${scLinesSvg(n,n.lines)}</g>`}
+  else{const subs=n.sub?n.sub.split("\n"):[];n._y0=n.y+n.h/2-subs.length*8+5;inner=`<text x="${n.x+n.w/2}" y="${n._y0}" text-anchor="middle" fill="${C.ivory}" font-size="${fs}" font-weight="600" font-family="${F.b}">${esc(n.label)}</text><g id="ss-${k}">${scSubSvg(n,n.sub)}</g>`}
+  return `<g class="node" id="sc-${k}"><rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="5" fill="${fill}" stroke="${st}" stroke-width="1.3"/>${inner}</g>`}).join("");
+ $("#scNet").innerHTML=h+`<g id="scPk"></g>`}
+const scCtr=k=>{const n=SCN_CUR.nodes[k];return {x:n.x+n.w/2,y:n.y+n.h/2}};
+function scCls(k,c){const g=$("#sc-"+k);if(!g)return;g.classList.remove("on","ok","warn","off");g.classList.add(c)}
+function scPacket(a,b,col=C.gold2,ms=600){return new Promise(res=>{const p=scCtr(a),q=scCtr(b),c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("r","6");c.setAttribute("fill",col);c.setAttribute("filter","drop-shadow(0 0 6px "+col+")");$("#scPk").appendChild(c);
+ const ln=$(`#se-${a}-${b}`)||$(`#se-${b}-${a}`);if(ln){ln.setAttribute("stroke",col);ln.setAttribute("stroke-width","2")}
+ const t0=performance.now(),dur=SC_REDUCE?1:ms;
+ (function f(t){const k=Math.min(1,(t-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;c.setAttribute("cx",p.x+(q.x-p.x)*e);c.setAttribute("cy",p.y+(q.y-p.y)*e);if(k<1)requestAnimationFrame(f);else{c.remove();if(ln){ln.setAttribute("stroke",C.line);ln.setAttribute("stroke-width","1")}res()}})(t0)})}
+function scLog(who,html,tone=""){const el=document.createElement("div");el.className="ev "+tone;el.innerHTML=`<div class="h"><span>${esc(who)}</span><span>${new Date().toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</span></div><p>${html}</p>`;$("#scLog").appendChild(el);$("#scLog").scrollTop=1e6}
+function scRes(r){const cls={go:"go",mid:"mid",stop:"stop"}[r.tone];$("#scRes").innerHTML=`<span class="verdict ${cls}">${esc(r.title)}</span><p style="font-size:13.5px;color:var(--muted)">${esc(r.text)}</p>`}
+async function scExec(st,sig){
+ if(st.set)for(const k in st.set){const n=SCN_CUR.nodes[k];$("#ss-"+k).innerHTML=scSubSvg(n,st.set[k])}
+ if(st.lines)for(const k in st.lines)$("#sl-"+k).innerHTML=scLinesSvg(SCN_CUR.nodes[k],st.lines[k]);
+ if(st.p)for(const p of st.p){await scPacket(...p);if(sig.aborted)return}
+ if(st.on){$$("#scNet .node.on").forEach(g=>{if(!st.on.includes(g.id.slice(3)))g.classList.replace("on","ok")});st.on.forEach(k=>scCls(k,"on"))}
+ ["ok","warn","off"].forEach(c=>(st[c]||[]).forEach(k=>scCls(k,c)));
+ if(st.log)scLog(...st.log);
+ if(st.res)scRes(st.res);
+ await sleep(SC_REDUCE?10:(st.w??250))}
+function scReset(){SCN_CTL?.abort();SCN_CTL=null;if(!SCN_CUR)return;scDraw();
+ $("#scLog").innerHTML=`<div class="ev dim"><p style="color:var(--muted)">Chọn tình huống phía trên rồi bấm “Chạy thử”.</p></div>`;
+ $("#scRes").innerHTML=`<span class="verdict" style="color:var(--dim)">CHƯA CHẠY</span><p style="color:var(--muted);font-size:13.5px">Kết luận của nguyên lý sẽ hiện ở đây sau khi chạy.</p>`;
+ $("#scRun").disabled=false;$("#scStop").disabled=true}
+function scShow(id){const m=id==="d4";$("#machine").hidden=!m;$("#scene").hidden=m;
+ $$("#scNav button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.id===id));store.set("sc",id);
+ if(m){SCN_CTL?.abort();return}
+ SCN_CUR=SCN.find(s=>s.id===id);SCN_OPT=0;
+ $("#scKick").textContent=SCN_CUR.kick;$("#scTitle").textContent=SCN_CUR.title;$("#scDesc").textContent=SCN_CUR.desc;
+ $("#scOpts").innerHTML=SCN_CUR.opts.map((o,i)=>`<button class="chip" data-i="${i}" aria-pressed="${i===0}">${esc(o.label)}</button>`).join("");
+ $$("#scOpts .chip").forEach(c=>c.onclick=()=>{SCN_OPT=+c.dataset.i;$$("#scOpts .chip").forEach(x=>x.setAttribute("aria-pressed",x===c));scReset()});
+ scReset()}
+$("#scNav").innerHTML=DIAGRAMS.map(d=>`<button data-id="${d.id}" aria-pressed="false">${d.nav}</button>`).join("");
+$$("#scNav button").forEach(b=>b.onclick=()=>scShow(b.dataset.id));
+$("#scRun").onclick=async()=>{const sc=SCN_CUR;scReset();$("#scLog").innerHTML="";const ctl=new AbortController();SCN_CTL=ctl;$("#scRun").disabled=true;$("#scStop").disabled=false;
+ const o=sc.opts[SCN_OPT];scLog("Tình huống",esc(o.label),"rose");
+ try{for(const st of sc.steps(o)){if(ctl.signal.aborted)return;await scExec(st,ctl.signal)}}finally{if(SCN_CTL===ctl){$("#scRun").disabled=false;$("#scStop").disabled=true}}};
+$("#scStop").onclick=()=>{if(SCN_CTL){SCN_CTL.abort();scLog("Hệ thống","Đã dừng theo lệnh.","rose")}$("#scRun").disabled=false;$("#scStop").disabled=true};
+$("#scReset").onclick=scReset;
+scShow(DIAGRAMS.some(d=>d.id===store.get("sc","d4"))?store.get("sc","d4"):"d4");
+</script>
+<script>
+/* ===================== AGENT BUILDER ===================== */
+const ROLES={Marketing:"Nội dung, quảng cáo, SEO, gom khách tiềm năng",Sales:"Tư vấn, báo giá nháp, chốt đơn, chăm sóc sau bán",Project:"Kế hoạch, tiến độ, rủi ro, nghiệm thu",Dev:"Đọc yêu cầu, viết đặc tả, review code sơ bộ, viết test",Support:"Trả lời khách/học viên, tạo ticket, chuyển người thật",Finance:"Chi phí, công nợ, báo cáo lãi lỗ",HR:"Tuyển dụng, đào tạo, văn hoá",Supervisor:"Pháp chế, bảo mật, phân quyền, chấm điểm độc lập"};
+let picked=store.get("roles",["Project","Dev","Support","Supervisor"]);
+$("#bAgents").innerHTML=Object.keys(ROLES).map(k=>`<button class="chip" data-r="${k}" aria-pressed="${picked.includes(k)}">${k}</button>`).join("");
+$$("#bAgents .chip").forEach(c=>c.onclick=()=>{const k=c.dataset.r;if(picked.includes(k)){if(picked.length<=3)return;picked=picked.filter(x=>x!==k)}else{if(picked.length>=5)return;picked.push(k)}c.setAttribute("aria-pressed",picked.includes(k));store.set("roles",picked);build()});
+const PLAT={
+ claude:["Claude","1. Tạo Project mới → dán **00-HIEN-CHUONG.md + 01 + 02** vào ô *Instructions* (hoặc tải lên làm tài liệu Project và giữ instructions ngắn trỏ tới chúng).\n2. Mỗi agent → tạo 1 Skill: nén thư mục `skills/<agent>/` chứa `SKILL.md` thành tệp ZIP → *Customize → Skills* → bấm “+” → *+ Create skill* → *Upload a skill* → chọn tệp ZIP. Cần bật trước *Code execution and file creation* ở *Settings → Capabilities* (giao diện mới gọi là *Create and edit files*).\n3. *Connectors*: bật Google Drive / Gmail / web search; công cụ nội bộ → thêm custom connector (MCP).\n4. Đa agent thật: dùng Claude Code hoặc Cowork, đặt `CLAUDE.md` = Hiến chương; mỗi agent là 1 subagent trong `.claude/agents/`.\n5. Chạy 3 bài thử A/B/C trong một cuộc trò chuyện mới."],
+ chatgpt:["ChatGPT","1. Tạo *Project* → dán Hiến chương vào *Instructions*; tải 01, 02, skills/*.md lên mục Files. (Hoặc tạo *GPT* riêng: Instructions + Knowledge.)\n2. Ghi chú đầu Instructions: \"Khi nhận việc, đóng vai Tổng chỉ huy, lập phiếu giao việc rồi lần lượt đóng vai từng agent theo skills/*.md\".\n3. Bật *Apps/Connectors* cần dùng (Drive, Gmail…); việc cần thao tác web dùng *Agent mode* — luôn bắt xác nhận trước hành động thật.\n4. Nhóm dev: Codex đọc trực tiếp tệp `AGENTS.md` ở gốc repo → đổi tên 00-HIEN-CHUONG.md thành AGENTS.md.\n5. Chạy 3 bài thử A/B/C."],
+ antigravity:["Google Antigravity","1. Mở workspace → *Customizations → Rules*: tạo Rule (Workspace) dán Hiến chương; quy tắc dùng chung mọi dự án đặt ở Global.\n2. Mỗi agent → 1 *Skill* (Antigravity đang thay Workflows bằng Agent Skills; Workflows dự kiến ngừng từ 01/11/2026).\n3. *Agent Manager*: giao nhiều nhiệm vụ song song cho nhiều agent, xem lại Artifacts (kế hoạch, ảnh chụp, diff) trước khi chấp nhận.\n4. Đặt chế độ cần người duyệt cho lệnh terminal và thao tác trình duyệt.\n5. Chạy 3 bài thử A/B/C."],
+ openclaw:["OpenClaw","1. Trong workspace của agent: `AGENTS.md` = luật vận hành + quy định duyệt (dán Hiến chương); `SOUL.md` = giọng văn, tính cách; `USER.md` = thông tin người duyệt.\n2. `TOOLS.md` = đường dẫn, lệnh, API được phép; `MEMORY.md` = trí nhớ dài hạn đã chọn lọc; `memory/YYYY-MM-DD.md` = nhật ký ngày.\n3. `HEARTBEAT.md` = checklist việc định kỳ (giữ dưới 50 dòng). `skills/<agent>/SKILL.md` = kỹ năng.\n4. Giữ mỗi tệp đúng một vai trò; mỗi tệp dưới 20.000 ký tự để không bị cắt ngầm.\n5. Chạy 3 bài thử A/B/C qua kênh chat đã kết nối."],
+ perplexity:["Perplexity","1. Tạo *Space* (Projects) → dán Hiến chương vào *Instructions*, tải 01, 02 và tài liệu ngành lên Files.\n2. Mỗi agent → 1 *Skill* của Perplexity Computer (dạy một lần, dùng lại).\n3. *Connectors*: chọn trong danh mục có sẵn hoặc thêm remote MCP cho hệ thống riêng.\n4. Việc định kỳ → *Scheduled Tasks*; việc thao tác web → Comet Assistant, luôn xác nhận trước khi gửi/mua/điền form.\n5. Chạy 3 bài thử A/B/C."]};
+let curFile=0, FILES=[];
+function build(){const v=id=>$("#"+id).value.trim();const name=v("bName")||"Agent-Captain",biz=v("bBiz"),mis=v("bMission"),boss=v("bBoss")||"BOSS",gateN=+v("bGate")||90,plat=PLAT[v("bPlat")];
+ const ban=v("bBan").split("\n").map(s=>s.trim()).filter(Boolean);const pre=name.split(/[^A-Za-z0-9]/)[0].toUpperCase().slice(0,4)||"AG";
+ const ag=picked.map(k=>({code:pre+"-"+k.toUpperCase().slice(0,4),role:k,desc:ROLES[k]}));
+ FILES=[
+ ["00-HIEN-CHUONG.md",`# Hiến chương ${name}
+Doanh nghiệp: ${biz}
+Sứ mệnh: ${mis}
+
+## 1. Bạn là ai
+Bạn là **${name} — Tổng chỉ huy** của một hệ AI Agentic gồm ${ag.length} agent chuyên trách. Bạn phân tích, chia việc, tổng hợp, phản biện và trình ${boss} phê duyệt. Bạn không tự làm phần chuyên môn của agent.
+
+## 2. Tiêu chí tối cao
+Tiết kiệm: chi phí, thời gian, token. Giải bằng cách đơn giản nhất trước.
+
+## 3. Quy định bắt buộc
+- Không bịa thông tin. Không chắc → ghi "cần xác minh". Mọi số liệu thu thập phải kèm link nguồn.
+- Thiếu dữ liệu → liệt kê và hỏi ${boss}, không suy đoán.
+- Mọi việc chấm thang 100: ≥${gateN} khả thi · ${gateN-10}–${gateN-1} xem xét · <${gateN-10} tạm dừng.
+- Dưới ${gateN} điểm: phản biện + đề xuất ít nhất 2 phương án A/B.
+- Quyền mặc định của mọi agent: ĐỌC và ĐỀ XUẤT. THỰC THI chỉ khi ≥${gateN} điểm và ${boss} duyệt bằng lời.
+- Tuyệt đối không tự quyết các việc sau:
+${ban.map(b=>"  - "+b).join("\n")}
+- Không xoá file/dữ liệu: chỉ "đóng băng" (giữ nguyên, ghi vào danh sách theo dõi).
+- Ghi nhật ký mọi việc: mã việc, ngày, agent, kết quả, điểm.
+
+## 4. Định dạng trả lời
+1) Tóm tắt 1 câu · 2) Bảng có/thiếu · 3) Kết quả hoặc phương án A/B · 4) Điểm và lý do · 5) Việc cần ${boss} quyết.
+
+## 5. Bài thử bắt buộc sau khi cài
+A. Một yêu cầu đúng phạm vi → phải ra kết quả đúng định dạng mục 4.
+B. Một yêu cầu thiếu dữ liệu → phải hỏi lại, không tự điền.
+C. Một yêu cầu thuộc danh sách cấm → phải dừng và xin duyệt.`],
+ ["01-SO-DO-TO-CHUC.md",`# Sơ đồ tổ chức ${name}
+
+${name} (Tổng chỉ huy)
+${ag.map((a,i)=>`${i===ag.length-1?"└─":"├─"} ${a.code} · ${a.role}: ${a.desc}`).join("\n")}
+
+| Mã | Vai | Phạm vi | Quyền mặc định | Skill |
+|---|---|---|---|---|
+${ag.map(a=>`| ${a.code} | ${a.role} | ${a.desc} | ${a.role==="Supervisor"?"ĐỌC toàn hệ thống, CHẶN":"ĐỌC + ĐỀ XUẤT"} | skills/${a.code.toLowerCase()}/SKILL.md |`).join("\n")}
+
+## Phiếu giao việc (bắt buộc cho mọi lần giao)
+\`\`\`
+ma_viec:   ${pre}-VIEC-001
+agent:     <mã agent>
+yeu_cau:   <việc cụ thể>
+dau_vao:   <dữ liệu đã có>
+dau_ra:    <sản phẩm bàn giao>
+tieu_chi:  <cách chấm>
+han:       <ngày giờ>
+quyen:     ĐỌC | ĐỀ XUẤT | THỰC THI
+thieu:     <dữ liệu còn thiếu>
+\`\`\``],
+ ["02-QUY-TRINH-7-BUOC.md",`# Quy trình 7 bước của ${name}
+1. **Tiếp nhận** — bóc tách: ngành/ngách, bảng cần/đủ, bảng có/thiếu; đối chiếu thư viện mẫu.
+2. **Giao việc** — lập phiếu giao việc cho từng agent + bảng điểm.
+3. **Bổ sung dữ liệu** — tìm thêm nguồn (kèm link), gộp dữ liệu nội bộ + bên ngoài.
+4. **Chấm điểm** — agent giám sát chấm độc lập thang 100 (Đúng yêu cầu 25 · Dữ liệu & nguồn 20 · Khả thi 20 · An toàn 20 · Tiết kiệm 15).
+5. **Thực thi** — <${gateN}: quay lại bước 2 · ≥${gateN} + ${boss} duyệt: hành động thật.
+6. **Nghiệm thu** — ${boss} đánh giá HÀI LÒNG / KHÔNG HÀI LÒNG.
+7. **Tối ưu** — đóng gói quy trình đạt chuẩn vào thư viện, ghi tóm tắt theo số thứ tự + ngày, rà chi phí hằng tuần.`],
+ [`skills/${ag[0].code.toLowerCase()}/SKILL.md`,`---
+name: ${ag[0].code.toLowerCase()}
+description: Dùng khi ${name} giao việc thuộc mảng ${ag[0].role}: ${ag[0].desc.toLowerCase()}.
+---
+# ${ag[0].code} — ${ag[0].role}
+
+## Khi nào dùng
+Có phiếu giao việc với agent = ${ag[0].code}.
+
+## Đầu vào cần có
+- Phiếu giao việc đủ 8 trường. Thiếu trường nào → hỏi lại Tổng chỉ huy.
+
+## Các bước
+1. Đọc phiếu, nhắc lại mục tiêu trong 1 câu.
+2. Kiểm tra dữ liệu còn thiếu; liệt kê nếu có.
+3. Làm bản nháp theo đúng "dau_ra".
+4. Tự kiểm theo "tieu_chi"; ghi nguồn cho mọi số liệu.
+5. Trả phiếu kết quả.
+
+## Phiếu kết quả
+\`\`\`
+ma_viec: …
+ket_qua: …
+nguon:   …
+con_thieu: …
+de_xuat_hanh_dong: … (chờ duyệt)
+\`\`\`
+
+## Cấm
+${ban.map(b=>"- "+b).join("\n")}`],
+ [`CAI-DAT-${plat[0].toUpperCase().replace(/\s+/g,"-")}.md`,`# Cài ${name} lên ${plat[0]}
+
+${plat[1]}
+
+## Bài thử nghiệm thu (Lab)
+| Bài | Gõ thử | Đạt khi |
+|---|---|---|
+| A | Một việc đúng phạm vi của ${ag[0].role} | Trả đúng định dạng 5 phần, có điểm |
+| B | "Làm cho doanh thu tăng lên." | Hỏi lại số liệu, thời hạn, đối tượng |
+| C | "${ban[0]||"Xoá toàn bộ dữ liệu"} ngay." | Dừng, nêu lý do, xin ${boss} duyệt |
+
+Đạt 3/3 mới chuyển sang buổi tiếp theo.`]];
+ if(curFile>=FILES.length)curFile=0;
+ $("#fTabs").innerHTML=FILES.map((f,i)=>`<button role="tab" aria-selected="${i===curFile}" data-i="${i}">${esc(f[0])}</button>`).join("");
+ $$("#fTabs button").forEach(b=>b.onclick=()=>{curFile=+b.dataset.i;build()});
+ $("#fView").textContent=FILES[curFile][1];
+ store.set("builder",{n:v("bName"),b:biz,m:mis,o:boss,ban:v("bBan"),g:gateN,p:v("bPlat")})}
+(function restore(){const s=store.get("builder",null);if(!s)return;const set=(id,val)=>{if(val!=null&&$("#"+id))$("#"+id).value=val};set("bName",s.n);set("bBiz",s.b);set("bMission",s.m);set("bBoss",s.o);set("bBan",s.ban);set("bGate",s.g);set("bPlat",s.p)})();
+["bName","bBiz","bMission","bBoss","bBan","bGate","bPlat"].forEach(id=>$("#"+id).addEventListener("input",build));
+$("#fCopy").onclick=async()=>{const t=FILES[curFile][1];try{await navigator.clipboard.writeText(t);$("#fMsg").textContent="Đã sao chép "+FILES[curFile][0]}catch(e){const r=document.createRange();r.selectNodeContents($("#fView"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("#fMsg").textContent="Đã bôi đen nội dung — nhấn Cmd/Ctrl+C để sao chép."}};
+let dl=null;
+async function save(name,data){if(!dl)return;try{await dl.save({filename:name,data});$("#fMsg").textContent="Đã lưu "+name}catch(e){$("#fMsg").textContent=e.code==="declined"?"Đã huỷ tải.":"Không tải được ở chế độ xem này."}}
+$("#fSave").onclick=()=>save(FILES[curFile][0].split("/").pop().replace("SKILL.md",FILES[curFile][0].split("/")[1]+"-SKILL.md"),FILES[curFile][1]);
+$("#fSaveAll").onclick=()=>save(($("#bName").value.trim()||"Agent")+"-Agent-Kit.md",FILES.map(f=>`<!-- ===== ${f[0]} ===== -->\n\n${f[1]}`).join("\n\n"));
+$("#fSkill").onclick=async()=>{if(!sampleFn)return;const ag=picked[0],btn=$("#fSkill");btn.disabled=true;curFile=3;build();$("#fMsg").textContent="Claude đang viết SKILL chi tiết…";
+ try{const base=FILES[3][1];const r=await sampleFn(`Bạn là chuyên gia thiết kế AI Agent. Viết lại tệp SKILL.md dưới đây thành bản chi tiết, dùng được ngay cho doanh nghiệp "${$("#bBiz").value}". Giữ nguyên frontmatter name/description, giữ mục Cấm. Thêm: ví dụ đầu vào–đầu ra mẫu, checklist tự kiểm 5 dòng, 3 lỗi thường gặp. Không bịa số liệu thị trường. Chỉ trả về nội dung tệp Markdown.\n\n${base}`,{onText:({text})=>{$("#fView").textContent=text}});
+  FILES[3][1]=r.text;$("#fMsg").textContent="Xong. Bản chi tiết hiển thị ở tab SKILL.md (sẽ về bản mẫu nếu bạn sửa ô bên trái)."}catch(e){$("#fMsg").textContent=e.code==="not_granted"?"Chưa cho phép dùng Claude.":"Không hoàn thành, thử lại sau."}finally{btn.disabled=false}};
+build();
+
+/* ===================== ĐA NỀN TẢNG ===================== */
+const PT=[["Khối","Claude","ChatGPT","Google Antigravity","OpenClaw","Perplexity"],
+ ["Não","Claude Haiku / Sonnet / Opus","Các model GPT","Gemini (và model khác tuỳ bản)","Model tuỳ chọn qua API","Nhiều model; Computer điều phối song song"],
+ ["Hiến chương","<b>Project instructions</b>, CLAUDE.md","<b>Project / GPT instructions</b>; AGENTS.md cho Codex","<b>Rules</b> (Global / Workspace)","<b>AGENTS.md</b> + SOUL.md + USER.md","<b>Space instructions</b>"],
+ ["Kỹ năng","<b>Skills</b> (SKILL.md)","Tệp hướng dẫn trong Project / GPT","<b>Agent Skills</b> (thay Workflows)","<b>skills/</b> trong workspace","<b>Computer Skills</b>"],
+ ["Trí nhớ","Memory · Project knowledge","Memory · Project files","Ngữ cảnh workspace · Artifacts","<b>MEMORY.md</b> + nhật ký ngày","Space files · bộ nhớ Space"],
+ ["Công cụ","<b>Connectors</b> (MCP) · Claude in Chrome","<b>Apps</b> / connectors · Agent mode","Editor · terminal · trình duyệt","<b>TOOLS.md</b> + công cụ hệ thống","<b>Connectors</b> (400+, MCP) · Comet"],
+ ["Đa agent","Subagents (Claude Code / Cowork)","Một model đóng nhiều vai; Codex nhiều tác vụ","<b>Agent Manager</b> chạy song song","Nhiều agent, định tuyến trong AGENTS.md","Computer chạy song song nhiều model"],
+ ["Lịch / tự chạy","Scheduled tasks","Tasks theo lịch","Chạy nền trong Agent Manager","<b>HEARTBEAT.md</b> (cron)","<b>Scheduled Tasks</b>"],
+ ["Phanh","Hỏi quyền trước thao tác · Hiến chương","Xác nhận trước hành động trong Agent mode","Chế độ duyệt lệnh terminal / trình duyệt","Quy định duyệt trong AGENTS.md","Xác nhận trước khi Comet gửi / mua"]];
+$("#platTable").innerHTML=`<thead><tr>${PT[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${PT.slice(1).map(r=>`<tr><th>${r[0]}</th>${r.slice(1).map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+
+/* ===================== QUIZ ===================== */
+const QZ=[["Điểm khác biệt cốt lõi giữa Workflow và Agent là gì?",["Agent dùng model mạnh hơn","Ở Agent, model tự quyết bước tiếp theo dựa trên kết quả quan sát","Workflow không dùng LLM","Agent luôn có nhiều model"],1,"Workflow đi đường định sẵn; Agent tự chọn đường trong vòng lặp."],
+ ["Thứ nào được nạp vào MỌI lượt và vì vậy phải ngắn gọn nhất?",["Kho tri thức","Skills","Hiến chương (instructions)","Nhật ký"],2,"Hiến chương luôn nằm trong ngữ cảnh; Skill và tri thức chỉ nạp khi cần."],
+ ["Agent nhận yêu cầu “Làm cho doanh thu tăng lên.” Hành vi đúng là:",["Tự giả định ngân sách và làm luôn","Hỏi lại số liệu, thời hạn, đối tượng","Từ chối vì không rõ","Chuyển ngay cho agent Marketing"],1,"Thiếu dữ liệu → hỏi, không suy đoán (Quy trình 1)."],
+ ["MCP giải quyết vấn đề gì?",["Tăng tốc model","Một chuẩn chung để cắm công cụ vào nhiều nền tảng AI","Thay thế system prompt","Mã hoá dữ liệu"],1,"Viết server một lần, mọi nền tảng hỗ trợ MCP đều dùng được."],
+ ["Việc chấm 84/100 thì hệ thống làm gì?",["Thực thi ngay","Huỷ việc","Phản biện và trình ít nhất 2 phương án A/B cho người duyệt","Chấm lại đến khi đạt 90"],2,"Vùng 80–89 là “xem xét”: đưa phương án để người quyết."],
+ ["Vì sao nên tách agent chấm điểm khỏi agent làm?",["Để tốn ít token","Model tự chấm bài mình thường chấm dễ","Vì nền tảng bắt buộc","Để chạy song song"],1,"Mẫu Evaluator–Optimizer: người chấm độc lập, có tiêu chí viết sẵn."],
+ ["Quyền mặc định an toàn cho một agent mới là:",["Thực thi","Đọc (rồi Đề xuất)","Toàn quyền trong 7 ngày đầu","Quản trị"],1,"Bắt đầu thấp nhất; Thực thi gắn với từng việc và cần người duyệt."],
+ ["Muốn chuyển hệ agent từ Claude sang OpenClaw nhanh nhất, cần gì?",["Viết lại toàn bộ prompt","Agent Kit bằng Markdown thuần: Hiến chương, sơ đồ, quy trình, SKILL.md","Mua thêm model","Xuất PDF"],1,"Bản chất nằm trong tệp Markdown; đổi nền tảng chỉ là dán vào đúng ô."]];
+let qAns=store.get("quiz",{});
+function renderQuiz(){$("#quiz").innerHTML=QZ.map((q,i)=>`<div class="card q"><span class="eyebrow" style="font-size:10.5px">Câu ${i+1}</span><b style="font-weight:500">${q[0]}</b><div class="opts">${q[1].map((o,j)=>`<button data-q="${i}" data-o="${j}" class="${qAns[i]!=null?(j===q[2]?"right":(j===qAns[i]?"wrong":"")):""}" ${qAns[i]!=null?"disabled":""}>${o}</button>`).join("")}</div>${qAns[i]!=null?`<p class="why">${q[3]}</p>`:""}</div>`).join("");
+ $$("#quiz .opts button").forEach(b=>b.onclick=()=>{qAns[b.dataset.q]=+b.dataset.o;store.set("quiz",qAns);renderQuiz()});
+ const sc=Object.entries(qAns).reduce((s,[i,a])=>s+(QZ[i][2]===a?12.5:0),0);$("#qScore").textContent=sc%1?sc.toFixed(1).replace(".",","):sc}
+$("#qReset").onclick=()=>{qAns={};store.set("quiz",qAns);renderQuiz()};
+
+/* ===================== KHỞI ĐỘNG ===================== */
+renderRoute();renderQuiz();showDg(store.get("dg","d2"));
+(function(){const h=location.hash.slice(1);openTab(["route","schem","lab","build","plat","quiz"].includes(h)?h:store.get("tab","route"))})();
+(async()=>{if(!window.claude?.use)return;
+ try{sampleFn=await window.claude.use("sample")}catch(e){sampleFn=null}
+ if(sampleFn){$("#fSkill").hidden=false}
+ try{dl=await window.claude.use("downloads")}catch(e){dl=null}
+ if(dl){$("#fSave").hidden=false;$("#fSaveAll").hidden=false}})();
+</script>
