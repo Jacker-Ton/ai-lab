@@ -43,7 +43,7 @@ p{margin:0}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-@media (max-width:900px){.grid3,.grid2{grid-template-columns:1fr}}
+@media (max-width:900px){.grid3,.grid2{grid-template-columns:minmax(0,1fr)}}
 .mono{font-family:var(--f-body);font-size:14px;letter-spacing:.02em}
 .tag{display:inline-block;font:500 13px var(--f-body);letter-spacing:.06em;padding:2px 8px;border-radius:3px;border:1px solid var(--line2);color:var(--muted)}
 .tag.gold{color:var(--gold2);border-color:#5a4a2a}
@@ -86,7 +86,7 @@ label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
 .dgnote li b{color:var(--ivory)}
 /* Phòng lab */
 .labgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px}
-@media (max-width:980px){.labgrid{grid-template-columns:1fr}}
+@media (max-width:980px){.labgrid{grid-template-columns:minmax(0,1fr)}}
 #net{width:100%;height:auto;display:block}
 .node rect{transition:stroke .3s,fill .3s}
 .node.on rect{stroke:var(--gold2);fill:#2A2414}
@@ -106,7 +106,8 @@ label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
 .samples{display:flex;flex-wrap:wrap;gap:6px}
 .samples button{font:400 14.5px var(--f-body);background:none;border:1px dashed var(--line2);color:var(--muted);border-radius:3px;padding:5px 9px;cursor:pointer;text-align:left}
 .samples button:hover{color:var(--ivory);border-color:var(--gold)}
-.gauge{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.gauge{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+@media (max-width:520px){.gauge{grid-template-columns:minmax(0,1fr)}}
 .gauge .num{font:600 54px/1 var(--f-display);color:var(--gold2);font-variant-numeric:tabular-nums;min-width:90px}
 .bars{display:grid;gap:6px}
 .bar{display:grid;grid-template-columns:160px 1fr 44px;gap:8px;align-items:center;font-size:14.5px;color:var(--muted)}
@@ -195,7 +196,7 @@ td{color:var(--muted)} td b{color:var(--ivory);font-weight:500}
     <p class="lead">Mỗi nguyên lý trong tab Sơ đồ đều chạy thử được ở đây: chọn nguyên lý, chọn tình huống, rồi bấm Chạy thử.</p>
   </div>
   <div class="dgnav" id="scNav"></div>
-  <div id="machine" style="display:grid;gap:22px">
+  <div id="machine" style="display:grid;grid-template-columns:minmax(0,1fr);gap:22px">
   <div class="card" style="display:grid;gap:12px">
     <div class="row" style="justify-content:space-between">
       <div class="mode" role="group" aria-label="Chế độ chạy">
