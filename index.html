@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AtinCaptain Agentic Lab</title>
 <style>
 /* Layout: phòng thí nghiệm tối — thanh điều hướng 6 phòng, nội dung căn giữa 1180px, sơ đồ 16:9 */
@@ -33,7 +35,7 @@ nav.tabs a.tab-ngoai:focus-visible{outline:1px solid var(--gold);outline-offset:
 .nut-sandbox:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
 main{padding-block:28px 64px}
 [hidden]{display:none!important}
-section.pane{display:grid;gap:22px;scroll-margin-top:60px}
+section.pane{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;scroll-margin-top:60px}
 h2{font-family:var(--f-display);font-weight:600;font-size:32px;line-height:1.15;margin:0;text-wrap:balance}
 h3{font-family:var(--f-display);font-weight:600;font-size:23px;margin:0}
 p{margin:0}
