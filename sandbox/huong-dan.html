@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="vi" xml:lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Nhiều tài khoản + model miễn phí</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+  :root{color-scheme:dark}
+  body{background:#0A0F1C;color:#F2EBDD;font:17px/1.6 "Times New Roman",Times,serif;max-width:900px;margin:0 auto;padding:24px 16px 60px}
+  a{color:#E6CC8F} h1,h2,h3{line-height:1.2} h2{color:#E6CC8F;margin-top:32px}
+  blockquote{border-left:2px solid #C8A96A;margin:0;padding-left:12px;color:#A3ACBE}
+  code{font-family:Menlo,Consolas,monospace;font-size:14px;color:#E6CC8F}
+  table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+  th,td{border:1px solid #27324D;padding:6px 8px;vertical-align:top;text-align:left} th{color:#E6CC8F}
+  .quay-lai{display:inline-block;margin-bottom:12px}
+  </style>
+</head>
+<body>
+<a class="quay-lai" href="./">← Mở web-app Sandbox</a>
+<h1
+id="khai-thác-nhiều-tài-khoản-tự-chọn-model-ai-miễn-phí-cách-làm-đúng-luật">Khai
+thác nhiều tài khoản + tự chọn model AI miễn phí — cách làm đúng
+luật</h1>
+<blockquote>
+<p>Tài liệu kèm web-app <code>AC-LAB-Buoi-3-Sandbox-webapp.html</code>
+(buổi 3 — Sandbox &amp; giám sát token). Bản online: <a
+href="https://ai-lab.acgentic.com/sandbox/"
+class="uri">https://ai-lab.acgentic.com/sandbox/</a> · Soạn 29/10/2026.
+Mọi số liệu trong web-app là <strong>mô phỏng</strong>, trừ những chỗ
+ghi nguồn bên dưới.</p>
+</blockquote>
+<h2 id="điều-cần-nói-rõ-trước">1. Điều cần nói rõ trước</h2>
+<p><strong>Không làm:</strong> tự lập nhiều tài khoản ở <strong>cùng một
+nhà cung cấp</strong> để cộng dồn hạn mức miễn phí.</p>
+<ul>
+<li>Điều khoản dịch vụ của nhiều nhà cung cấp AI cấm lập nhiều tài khoản
+để né giới hạn; vi phạm có thể bị khoá <strong>cả loạt</strong> tài
+khoản, mất luôn khoá đang dùng thật.</li>
+<li>Thường cũng <strong>vô ích</strong>: trang Limits của OpenRouter ghi
+rõ lập thêm tài khoản hay khoá API không làm thay đổi hạn mức, vì họ
+quản lý dung lượng trên toàn hệ thống (nguồn: <a
+href="https://openrouter.ai/docs/api-reference/limits"
+class="uri">https://openrouter.ai/docs/api-reference/limits</a>, đọc
+29/10/2026).</li>
+<li>Mỗi nhà cung cấp có điều khoản riêng và thay đổi theo thời gian →
+<strong>đọc điều khoản của từng nơi trước khi dùng</strong>. Tài liệu
+này không thay thế việc đọc điều khoản.</li>
+</ul>
+<p>“Nhiều tài khoản” ở đây nghĩa là <strong>nhiều nguồn hợp lệ</strong>,
+mỗi nguồn một tài khoản thật, đúng chủ.</p>
+<h2 id="năm-nguồn-hợp-lệ">2. Năm nguồn hợp lệ</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Nguồn</th>
+<th>Miễn phí đến đâu</th>
+<th>Rủi ro / lưu ý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Nhiều nhà cung cấp khác nhau</strong>, mỗi nơi một tài khoản
+(gói free chính thức: Google AI Studio, Groq, OpenRouter…)</td>
+<td>Theo hạn mức từng nơi</td>
+<td>Hạn mức và điều khoản mỗi nơi khác nhau, hay đổi → kiểm trang chính
+thức trước mỗi khoá học</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>OpenRouter — model đuôi <code>:free</code></strong> (một
+khoá, nhiều model)</td>
+<td>20 yêu cầu/phút; 50 yêu cầu/ngày nếu đã mua &lt; 10 credit,
+1000/ngày nếu đã mua ≥ 10 credit (nguồn trên)</td>
+<td>Model free có thể bị nhà cung cấp lưu / dùng dữ liệu tuỳ cài đặt
+riêng tư; danh sách model free thay đổi liên tục</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Khoá của từng học viên</strong> — mỗi người dùng tài khoản
+của chính mình</td>
+<td>Theo tài khoản mỗi người</td>
+<td>Học viên tự chịu điều khoản và chi phí của mình; không gom khoá của
+người khác về dùng chung</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Model tự host</strong> (Ollama trên máy lớp)</td>
+<td>Miễn phí thật, không giới hạn lượt</td>
+<td>Chậm, yếu hơn; nhưng dữ liệu không ra khỏi máy</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Khoá trả phí của tổ chức</strong> làm lớp cuối để leo thang
+(Haiku → Sonnet → Opus)</td>
+<td>Không — trả theo token</td>
+<td>Cần trần chi phí; giá Claude: Haiku 5.5 từ 0,10/0,50 · Sonnet 5.5
+2/10 · Opus 5.5 4/20 USD mỗi triệu token (đối chiếu trang Anthropic
+24/10/2026 — kiểm lại trước buổi)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bộ-định-tuyến-rẻ-trước-leo-thang-mô-phỏng-theo-agads">3. Bộ định
+tuyến “rẻ trước + leo thang” (mô phỏng theo AGADS)</h2>
+<p>Cơ chế lấy từ cổng AI của AGADS — công cụ vận hành thật của
+AtinCaptain (áp dụng từ 21/10/2026). Web-app chỉ <strong>mô phỏng
+lại</strong> để học.</p>
+<ol type="1">
+<li><strong>Xếp ứng viên.</strong> Khoá cá nhân của người hỏi trước, rồi
+khoá chung. Trong mỗi nhóm: model miễn phí <strong>đã gọi thử
+được</strong> (tối đa 3, nhanh trước) → model có giá, rẻ dần lên → model
+chưa có giá xếp sau cùng. Tối đa 6 ứng viên mỗi nhóm.</li>
+<li><strong>Dò model miễn phí mỗi ngày</strong> (AGADS chạy 3h sáng):
+gọi thử một câu rất ngắn; gọi được mới tin là free. Nhãn “giá 0” nhiều
+khi sai (giá 0 tạm thời, gọi thật báo 402 cần nạp credit).</li>
+<li><strong>Gọi lần lượt.</strong> Lỗi → sang model kế. Lỗi <strong>cấp
+tài khoản</strong> (key sai, hết tiền, hết lượt free trong ngày) → bỏ
+luôn các model còn lại của tài khoản đó. Lỗi 429 theo phút thường chỉ
+của một model → thử model khác cùng hãng.</li>
+<li><strong>Bước kiểm.</strong> Câu trả lời sai khuôn / bịa giá / thiếu
+mục → hỏi lại <strong>một lần</strong> bằng model đắt hơn; vẫn hỏng →
+chuyển người.</li>
+<li><strong>Trần chi phí tháng</strong> (khoá chung): chạm trần → chỉ
+còn khoá cá nhân; không có → AI tạm dừng.</li>
+<li><strong>Dữ liệu có thông tin khách (C26):</strong> không dùng khoá
+cá nhân, không gửi tới nhà cung cấp có thể dùng dữ liệu hoặc chưa kiểm
+điều khoản.</li>
+</ol>
+<h3 id="vì-sao-miễn-phí-mà-vẫn-mạnh">Vì sao “miễn phí” mà vẫn mạnh</h3>
+<p>Model free không mạnh bằng model đắt. Hệ thống mạnh vì <strong>việc
+dễ chiếm phần lớn</strong> (phân loại, tóm tắt, trích xuất) → đi model
+free; việc khó hoặc câu không qua bước kiểm mới leo thang. Chất lượng
+được giữ bởi <strong>bước kiểm + cổng điểm (≥ 90 + người
+duyệt)</strong>, không phải bởi model đắt. Trên web-app, thử 20 yêu cầu
+trộn dễ/khó: phần lớn do model free trả lời, chi phí chỉ bằng một phần
+nhỏ so với dòng “ước chi nếu toàn Opus” (số mô phỏng — đo thật bằng
+Langfuse theo slide 41).</p>
+<h2 id="cách-dùng-web-app-trong-buổi-học">4. Cách dùng web-app trong
+buổi học</h2>
+<p>Mở <a href="https://ai-lab.acgentic.com/sandbox/"
+class="uri">https://ai-lab.acgentic.com/sandbox/</a> (hoặc tệp
+<code>AC-LAB-Buoi-3-Sandbox-webapp.html</code> tải về máy — chạy không
+cần mạng, không cần cài gì).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phần slide</th>
+<th>Tab web-app</th>
+<th>Gợi ý cho trainer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S6–S8 Sandbox, hai làn</td>
+<td>1 · Phòng điều khiển — mục “Làn thật”</td>
+<td>Chỉ việc ≥ 90 điểm có nút “ok”; 80–89 phải chọn A/B; &lt; 80 không
+có nút</td>
+</tr>
+<tr>
+<td>S17–S18 Cổng điểm</td>
+<td>1 · Kết quả lượt gần nhất</td>
+<td>Thanh 3 vùng + điểm</td>
+</tr>
+<tr>
+<td>S24–S27 Langfuse</td>
+<td>3 · Giám sát token</td>
+<td>1 yêu cầu = 1 trace, mỗi lần gọi = 1 generation; tải CSV để so
+trước/sau</td>
+</tr>
+<tr>
+<td>S36–S41 Tiết kiệm token</td>
+<td>1 · tick “Prompt caching”, “connector thừa”, đổi cỡ Hiến chương</td>
+<td>So token vào trước/sau đúng <strong>một</strong> đòn bẩy</td>
+</tr>
+<tr>
+<td>S38 Rẻ trước + leo thang</td>
+<td>2 · Kho tài khoản (ép lỗi, hạn mức) + 4 · Kịch bản kiểm</td>
+<td>Cho học viên đoán trước bước nào lỗi rồi bấm “Chạy &amp; xem”</td>
+</tr>
+</tbody>
+</table>
+<p>Tab 4 có 16 kịch bản tự đối chiếu kết quả mong đợi (đã chạy: 16/16
+đạt; đã kiểm đối chứng — cố ý làm hỏng 3 chỗ trong thuật toán thì đúng
+kịch bản tương ứng báo TRƯỢT).</p>
+<h2 id="từ-mô-phỏng-sang-nền-tảng-của-riêng-bạn">5. Từ mô phỏng sang nền
+tảng của riêng bạn</h2>
+<p>Web-app là <strong>demo mô phỏng</strong> để hiểu cơ chế — nó không
+gọi API, không cần khoá. Sau buổi học, mỗi học viên tự dựng bộ định
+tuyến trên nền tảng và tài khoản <strong>của chính mình</strong>:</p>
+<ol type="1">
+<li><strong>Chọn 2–3 nguồn hợp lệ</strong> ở mục 2 (ví dụ: OpenRouter
+<code>:free</code> + một gói free chính thức khác + một model trả phí rẻ
+làm lớp leo thang). Mỗi nguồn một tài khoản của chính bạn; đọc điều
+khoản của từng nơi.</li>
+<li><strong>Giữ khoá ở phía máy chủ / tệp <code>.env</code></strong>,
+không bao giờ dán khoá vào trang HTML hay tài liệu chia sẻ.</li>
+<li><strong>Viết lại đúng 6 bước ở mục 3</strong>: danh sách ứng viên có
+giá + kết quả dò; xếp rẻ trước; vòng thử với hai loại lỗi (cấp tài khoản
+/ cấp model); một bước kiểm đầu ra; hỏi lại một lần bằng model đắt hơn;
+ghi từng lượt.</li>
+<li><strong>Gắn giám sát</strong> như LAB 3: 1 yêu cầu = 1 trace, mỗi
+lần gọi model = 1 generation (Langfuse).</li>
+<li><strong>Tự đặt trần chi phí</strong> cho khoá trả phí của bạn trước
+khi chạy vòng lặp tự động.</li>
+<li><strong>Chỉ dùng dữ liệu mẫu</strong> khi thử với model miễn
+phí.</li>
+<li><strong>Đối chiếu với tab 4</strong> của web-app: bộ định tuyến của
+bạn phải cho đúng các nhánh như 16 kịch bản mẫu.</li>
+</ol>
+<h2 id="chưa-kiểm-được">6. Chưa kiểm được</h2>
+<ul>
+<li>Hạn mức và điều khoản của Google AI Studio, Groq trong web-app là
+<strong>số minh hoạ</strong>, chưa đối chiếu trang chính thức tại thời
+điểm dạy.</li>
+<li>Nhãn “có thể dùng dữ liệu / chưa kiểm điều khoản” của từng nhà cung
+cấp trong web-app là <strong>giả định để dạy</strong>, không phải kết
+luận pháp lý — trainer kiểm điều khoản thật trước buổi.</li>
+<li>Tên model free là minh hoạ; danh sách model <code>:free</code> của
+OpenRouter thay đổi liên tục.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sandbox Định tuyến Token</title>
+<style>
+/* Cùng hệ màu với AC-LAB-Agentic-webapp.html: phòng thí nghiệm tối, chữ Times */
+:root{
+  --ink:#0A0F1C; --panel:#111A2E; --panel2:#16213A; --line:#27324D; --line2:#34405F;
+  --ivory:#F2EBDD; --muted:#A3ACBE; --dim:#6E7891;
+  --gold:#C8A96A; --gold2:#E6CC8F; --teal:#6FB7AE; --rose:#D98C7A; --amber:#E0B060;
+  --f:"Times New Roman",Times,"Liberation Serif",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--ivory);font-family:var(--f);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--gold2)}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px}
+header.top{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0D1424,var(--ink))}
+.brand{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;padding-block:24px 16px}
+.brand h1{font-weight:600;font-size:clamp(26px,4vw,42px);line-height:1.05;margin:0}
+.brand h1 em{color:var(--gold2);font-weight:500}
+.eyebrow{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.brand .meta{color:var(--muted);font-size:13px;max-width:460px}
+nav.tabs{position:sticky;top:0;z-index:20;background:rgba(10,15,28,.95);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto}
+nav.tabs button{font:500 15px var(--f);color:var(--muted);background:none;border:0;padding:13px 12px 11px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ivory);border-color:var(--gold)}
+main{padding-block:22px 60px}
+[hidden]{display:none!important}
+section.pane{display:grid;gap:18px}
+h2{font-weight:600;font-size:28px;line-height:1.15;margin:0}
+h3{font-weight:600;font-size:20px;margin:0}
+p{margin:0}
+.lead{color:var(--muted);max-width:80ch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px;align-items:start}
+@media (max-width:900px){.grid2,.grid3,.ctl{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:10px 12px}
+.kpi b{display:block;font-size:24px;font-weight:500;color:var(--gold2);line-height:1.2}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.tag{display:inline-block;font:500 12.5px var(--f);letter-spacing:.04em;padding:1px 7px;border-radius:3px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.tag.gold{color:var(--gold2);border-color:#5a4a2a}
+.tag.teal{color:var(--teal);border-color:#2f5753}
+.tag.rose{color:var(--rose);border-color:#6a3d34}
+.tag.amber{color:var(--amber);border-color:#5f4b22}
+.btn{font:600 14.5px var(--f);color:var(--ink);background:var(--gold);border:0;border-radius:4px;padding:9px 14px;cursor:pointer}
+.btn:hover{background:var(--gold2)}
+.btn.ghost{background:transparent;color:var(--ivory);border:1px solid var(--line2)}
+.btn.ghost:hover{border-color:var(--gold)}
+.btn.sm{padding:5px 10px;font-size:13.5px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,nav.tabs button:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+input,textarea,select{width:100%;font:400 15px var(--f);color:var(--ivory);background:var(--panel2);border:1px solid var(--line2);border-radius:4px;padding:8px 10px}
+textarea{resize:vertical;min-height:70px}
+label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--ivory);cursor:pointer}
+.chk input{width:16px;height:16px;margin-top:3px;accent-color:var(--gold);flex:none}
+.chk small{color:var(--muted);display:block;font-size:12.5px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.stack{display:grid;gap:10px}
+.muted{color:var(--muted)} .dim{color:var(--dim)}
+.small{font-size:13px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-weight:500;color:var(--gold2);border-bottom:1px solid var(--line2);padding:6px 6px}
+.tbl td{border-bottom:1px solid var(--line);padding:6px 6px;vertical-align:top}
+.tbl td.n,.tbl th.n{text-align:right;white-space:nowrap}
+.scroll{overflow-x:auto}
+.bar{height:7px;background:var(--line);border-radius:2px;overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;background:var(--gold)}
+.bar.teal i{background:var(--teal)}
+.steps{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.steps li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;padding:8px 10px;background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--line2);border-radius:4px;font-size:14px}
+.steps li.ok{border-left-color:var(--teal)}
+.steps li.loi{border-left-color:var(--rose)}
+.steps li.hong{border-left-color:var(--amber)}
+.steps .no{font-size:18px;color:var(--gold);line-height:1.2}
+.steps .why{color:var(--muted);font-size:13px}
+.verdict{padding:10px 12px;border-radius:4px;border:1px solid var(--line2);font-size:15px}
+.verdict.ok{border-color:#2f5753;background:#0f1f22}
+.verdict.warn{border-color:#5f4b22;background:#1e1a12}
+.verdict.bad{border-color:#6a3d34;background:#22140f}
+.gate{display:grid;grid-template-columns:repeat(3,1fr);height:10px;border-radius:2px;overflow:hidden;margin-top:6px}
+.gate i:nth-child(1){background:#6a3d34}.gate i:nth-child(2){background:#5f4b22}.gate i:nth-child(3){background:#2f5753}
+.acc{display:grid;gap:10px}
+.acc header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:flex-start}
+.acc.off{opacity:.55}
+details.tr{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:6px 10px}
+details.tr summary{cursor:pointer;font-size:14px}
+details.tr[open]{padding-bottom:10px}
+.res td{font-size:13.5px}
+.pass{color:var(--teal);font-weight:600}.fail{color:var(--rose);font-weight:600}
+.doc{max-width:86ch;display:grid;gap:12px}
+.doc h3{margin-top:10px;color:var(--gold2)}
+.doc ul,.doc ol{margin:0;padding-left:20px}
+.doc li{margin:4px 0}
+.note{font-size:13px;color:var(--muted);border-left:2px solid var(--gold);padding-left:10px}
+code{font-family:Menlo,Consolas,monospace;font-size:13px;color:var(--gold2)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap brand">
+  <div>
+    <div class="eyebrow">AtinCaptain Lab · Buổi 3 · Sandbox &amp; giám sát token</div>
+    <h1>Sandbox <em>định tuyến model</em> — rẻ trước, leo thang khi cần</h1>
+  </div>
+  <p class="meta">Toàn bộ là <b>dữ liệu mô phỏng</b>: không có khoá thật, không gọi API thật, không tốn tiền. Thuật toán chọn model mô phỏng theo cổng AI của AGADS — công cụ vận hành thật của AtinCaptain.</p>
+</div></header>
+
+<nav class="tabs" aria-label="Phòng"><div class="wrap" role="tablist">
+  <button role="tab" aria-selected="true" data-tab="dieukhien">1 · Phòng điều khiển</button>
+  <button role="tab" aria-selected="false" data-tab="kho">2 · Kho tài khoản / khoá</button>
+  <button role="tab" aria-selected="false" data-tab="giamsat">3 · Giám sát token</button>
+  <button role="tab" aria-selected="false" data-tab="kichban">4 · Kịch bản kiểm</button>
+  <button role="tab" aria-selected="false" data-tab="huongdan">5 · Nhiều tài khoản đúng luật</button>
+</div></nav>
+
+<main class="wrap">
+
+<!-- 1. PHÒNG ĐIỀU KHIỂN -->
+<section class="pane" id="p-dieukhien">
+  <div class="stack">
+    <h2>Gửi việc vào bộ định tuyến</h2>
+    <p class="lead">Mỗi yêu cầu đi qua 4 bước: <b>xếp ứng viên</b> (khoá cá nhân trước, rồi khoá chung; trong mỗi nhóm: model miễn phí đã dò được → có giá tăng dần → chưa có giá) → <b>gọi lần lượt</b> (lỗi thì sang model kế; lỗi cấp tài khoản thì bỏ cả tài khoản) → <b>bước kiểm</b> (hỏng thì hỏi lại MỘT lần bằng model đắt hơn) → <b>cổng điểm</b> (≥ 90 mới được người duyệt đẩy sang làn thật).</p>
+  </div>
+  <div class="kpis" id="kpiTop"></div>
+  <div class="ctl">
+    <div class="card stack">
+      <h3>Yêu cầu</h3>
+      <label>Loại việc
+        <select id="tinhNang">
+          <option value="phan_loai">Phân loại tin nhắn khách — dễ, đầu ra ngắn</option>
+          <option value="tom_tat">Tóm tắt hội thoại — vừa</option>
+          <option value="ke_hoach">Soạn kế hoạch chiến dịch — khó, đầu ra dài</option>
+        </select>
+      </label>
+      <label>Nội dung (chỉ để ước lượng token — không gửi đi đâu)
+        <textarea id="nhap">Khách hỏi: "Combo men vi sinh có giao Đà Nẵng trong 2 ngày không, giá bao nhiêu?" — phân loại ý định và mức ưu tiên.</textarea>
+      </label>
+      <div class="grid2">
+        <label>Hiến chương / system prompt (token)
+          <input id="sysTok" type="number" min="0" step="100" value="1200">
+        </label>
+        <label>Trần chi phí tháng, khoá chung (USD) — để trống = chỉ theo dõi
+          <input id="tran" type="number" min="0" step="0.01" placeholder="không đặt">
+        </label>
+      </div>
+      <label class="chk"><input type="checkbox" id="kiemTra" checked><span>Bật bước kiểm của tính năng<small>Câu trả lời sai khuôn / bịa giá → hỏi lại một lần bằng model đắt hơn.</small></span></label>
+      <label class="chk"><input type="checkbox" id="baoMat"><span>Dữ liệu có thông tin khách (quy tắc C26)<small>Không dùng khoá cá nhân; không gửi tới nhà cung cấp có thể dùng dữ liệu để huấn luyện hoặc chưa kiểm điều khoản.</small></span></label>
+      <label class="chk"><input type="checkbox" id="caching" checked><span>Prompt caching (đòn bẩy 06)<small>Hiến chương ≥ 512 token được lưu đệm 5 phút ở hãng hỗ trợ (mô phỏng Claude): lượt đầu ghi 1,25×, lượt sau đọc 0,1× / 0,05×.</small></span></label>
+      <label class="chk"><input type="checkbox" id="connector"><span>Bật connector thừa (+800 token định nghĩa công cụ mỗi lượt)<small>Đòn bẩy 08: tắt đi để thấy token vào giảm.</small></span></label>
+      <div class="row">
+        <button class="btn" id="btnGui">Gửi 1 yêu cầu</button>
+        <button class="btn ghost" id="btnDon">Bắn 10 yêu cầu dồn dập (2 giây/lượt)</button>
+        <button class="btn ghost" id="btnDo">Dò model miễn phí</button>
+        <button class="btn ghost" id="btnNgay">Sang ngày mới</button>
+        <button class="btn ghost" id="btnReset">Đặt lại tất cả</button>
+      </div>
+      <p class="small dim" id="dongHo"></p>
+    </div>
+    <div class="card stack" id="ketQua" aria-live="polite">
+      <h3>Kết quả lượt gần nhất</h3>
+      <p class="muted">Chưa có yêu cầu nào. Bấm “Gửi 1 yêu cầu”.</p>
+    </div>
+  </div>
+  <div class="card stack">
+    <h3>Thứ tự ứng viên hiện tại <span class="tag">tối đa 3 model miễn phí + 6 ứng viên mỗi nhóm khoá</span></h3>
+    <div class="scroll" id="thuTu"></div>
+  </div>
+  <div class="card stack">
+    <h3>Làn thật (production — mô phỏng)</h3>
+    <p class="small muted">Chỉ việc đạt ≥ 90 điểm VÀ người duyệt bấm “ok” mới xuống đây; vùng 80–89 phải chọn một trong hai phương án A/B; dưới 80 tạm dừng, quay lại bổ sung dữ liệu.</p>
+    <div id="lanThat" class="small muted">Chưa có việc nào xuống làn thật.</div>
+  </div>
+</section>
+
+<!-- 2. KHO TÀI KHOẢN -->
+<section class="pane" id="p-kho" hidden>
+  <div class="stack">
+    <h2>Kho tài khoản / khoá (mô phỏng)</h2>
+    <p class="lead">Mỗi thẻ là MỘT tài khoản hợp lệ của một nhà cung cấp khác nhau (hoặc khoá của chính học viên). Bật/tắt, ép lỗi, chỉnh hạn mức để xem bộ định tuyến phản ứng. Tên model và hạn mức là <b>số minh hoạ</b> — trừ hạn mức OpenRouter lấy theo trang chính thức (xem tab 5).</p>
+  </div>
+  <div class="grid2" id="dsTaiKhoan"></div>
+</section>
+
+<!-- 3. GIÁM SÁT -->
+<section class="pane" id="p-giamsat" hidden>
+  <div class="stack">
+    <h2>Giám sát token &amp; chi phí</h2>
+    <p class="lead">Giống Langfuse thu nhỏ: 1 yêu cầu = 1 trace; mỗi lần gọi model = 1 generation (kể cả lần lỗi). Không lưu nội dung câu hỏi / câu trả lời — chỉ số liệu.</p>
+  </div>
+  <div class="kpis" id="kpiFull"></div>
+  <div class="card stack">
+    <h3>Theo model</h3>
+    <div class="scroll" id="theoModel"></div>
+  </div>
+  <div class="card stack">
+    <h3>Theo tài khoản (hạn mức hôm nay)</h3>
+    <div class="scroll" id="theoTk"></div>
+  </div>
+  <div class="card stack">
+    <div class="row" style="justify-content:space-between"><h3>Trace gần nhất</h3><button class="btn ghost sm" id="btnCsv">Tải CSV các lần gọi</button></div>
+    <div id="dsTrace" class="stack"></div>
+  </div>
+</section>
+
+<!-- 4. KỊCH BẢN KIỂM -->
+<section class="pane" id="p-kichban" hidden>
+  <div class="stack">
+    <h2>Kịch bản kiểm — phủ hết các nhánh</h2>
+    <p class="lead">Mỗi kịch bản dựng lại trạng thái từ đầu (cùng hạt giống ngẫu nhiên), chạy và tự đối chiếu với kết quả mong đợi. Dùng để trainer demo từng nhánh, hoặc học viên đoán trước kết quả rồi bấm chạy. <b>Lưu ý:</b> chạy kịch bản sẽ xoá trạng thái đang có.</p>
+  </div>
+  <div class="row"><button class="btn" id="btnChayHet">Chạy tất cả kịch bản</button><span class="small muted" id="tongKb"></span></div>
+  <div class="card scroll"><table class="tbl res" id="bangKb"></table></div>
+</section>
+
+<!-- 5. HƯỚNG DẪN -->
+<section class="pane" id="p-huongdan" hidden>
+  <div class="doc">
+    <h2>Khai thác nhiều tài khoản + tự chọn model miễn phí — cách làm đúng luật</h2>
+    <p class="lead">Tóm tắt từ tài liệu đầy đủ <a href="huong-dan.html">Hướng dẫn đầy đủ</a> · bản online: <a href="https://ai-lab.acgentic.com/sandbox/huong-dan.html">ai-lab.acgentic.com/sandbox/huong-dan.html</a>.</p>
+    <div class="verdict bad"><b>Không làm:</b> tự lập nhiều tài khoản ở CÙNG một nhà cung cấp để cộng dồn hạn mức miễn phí. Điều khoản của nhiều nhà cung cấp cấm việc này, tài khoản có thể bị khoá cả loạt — và thường cũng vô ích: OpenRouter ghi rõ lập thêm tài khoản hay khoá API <i>không</i> làm thay đổi hạn mức vì họ quản lý dung lượng trên toàn hệ thống.</div>
+    <h3>Năm nguồn hợp lệ để có “nhiều tài khoản”</h3>
+    <ol>
+      <li><b>Nhiều nhà cung cấp khác nhau</b>, mỗi nơi một tài khoản: gói free chính thức của từng hãng (Google AI Studio, Groq, OpenRouter…) cộng lại thành một kho.</li>
+      <li><b>OpenRouter — model đuôi <code>:free</code></b>: một khoá, nhiều model. Hạn mức theo trang chính thức: 20 yêu cầu/phút; 50 yêu cầu/ngày nếu đã mua dưới 10 credit, 1000/ngày nếu đã mua từ 10 credit trở lên.</li>
+      <li><b>Khoá của từng học viên</b>: mỗi người dùng tài khoản của chính mình (giống “key riêng” trong AGADS — thử trước khoá chung, không tính vào trần của lớp).</li>
+      <li><b>Model tự host</b> (Ollama trên máy lớp): miễn phí thật, không gửi dữ liệu ra ngoài, nhưng chậm và yếu.</li>
+      <li><b>Khoá trả phí của tổ chức</b> làm lớp cuối để leo thang (Haiku → Sonnet → Opus), có trần chi phí.</li>
+    </ol>
+    <h3>Vì sao “miễn phí” mà vẫn mạnh?</h3>
+    <p>Không phải model free mạnh bằng model đắt — mà là <b>việc dễ chiếm phần lớn</b>. Bộ định tuyến cho việc dễ đi model free, chỉ việc khó hoặc câu trả lời không qua bước kiểm mới leo thang. Chất lượng được giữ bởi <b>bước kiểm + cổng điểm</b>, không phải bởi model đắt. Xem số “Ước chi nếu toàn Opus” ở tab 3 để thấy khoản tiết kiệm.</p>
+    <h3>Ba bẫy đã gặp thật ở AGADS</h3>
+    <ul>
+      <li>Nhãn “miễn phí” sai: giá 0 tạm thời nhưng gọi thì báo 402 chưa nạp credit → chỉ tin model free <b>đã gọi thử được</b> (nút “Dò model miễn phí”).</li>
+      <li>Hết lượt trong ngày là lỗi <b>cấp tài khoản</b> → bỏ luôn các model còn lại của tài khoản đó; còn 429 theo phút thường là của riêng một model → thử model khác cùng hãng.</li>
+      <li>Model free có thể bị nhà cung cấp lưu / dùng dữ liệu → dữ liệu khách thật không đi đường free (quy tắc C26).</li>
+    </ul>
+    <h3>Sau buổi học: dựng trên nền tảng của riêng bạn</h3>
+    <ol>
+      <li>Chọn 2–3 nguồn hợp lệ ở trên, mỗi nguồn một tài khoản của chính bạn; đọc điều khoản từng nơi.</li>
+      <li>Giữ khoá trong tệp <code>.env</code> / phía máy chủ — không bao giờ dán khoá vào trang HTML.</li>
+      <li>Viết lại 4 bước: xếp rẻ trước → thử lần lượt (phân biệt lỗi cấp tài khoản / cấp model) → bước kiểm → hỏi lại một lần bằng model đắt hơn.</li>
+      <li>Gắn Langfuse như LAB 3; tự đặt trần chi phí cho khoá trả phí; chỉ dùng dữ liệu mẫu với model free.</li>
+      <li>Đối chiếu với tab 4: bộ định tuyến của bạn phải ra đúng các nhánh như 16 kịch bản mẫu.</li>
+    </ol>
+    <p class="note">Các ngưỡng trong mô phỏng (tối đa 3 model free, 6 ứng viên, hỏi lại một lần, cổng 80/90) lấy từ AGADS và Hiến chương AtinCaptain — dùng làm điểm khởi đầu, bạn tự chỉnh cho bộ máy của mình.</p>
+  </div>
+</section>
+</main>
+
+<script>
+"use strict";
+/* ============ Dữ liệu mô phỏng ============ */
+// tl: 'ca_nhan' = khoá của học viên (thử trước, không tính trần lớp), 'chung' = khoá chung.
+// thuDuLieu: true = có thể bị nhà cung cấp lưu/dùng dữ liệu; 'chua' = chưa kiểm điều khoản; false = không.
+// thatSu: '402' = nhãn giá 0 nhưng gọi thật báo cần credit (bẫy đã gặp ở AGADS).
+function khoTaiKhoanMau(){
+  return [
+    {id:'or-an', ten:'HV An · OpenRouter', tl:'ca_nhan', nguon:'Khoá của chính học viên · model :free', quotaNgay:50, thuDuLieu:true,
+      models:[
+        {id:'llama-70b:free', nhan:'Llama 70B (:free)', giaVao:0, giaRa:0, manh:2.5, ms:1400, rpm:20},
+        {id:'qwen-32b:free', nhan:'Qwen 32B (:free)', giaVao:0, giaRa:0, manh:2.5, ms:1100, rpm:20},
+        {id:'deepseek:free', nhan:'DeepSeek (:free)', giaVao:0, giaRa:0, manh:3, ms:2600, rpm:20},
+        {id:'model-x', nhan:'Model X (giá 0 tạm thời)', giaVao:0, giaRa:0, manh:3, ms:1500, rpm:20, thatSu:'402'}]},
+    {id:'gg-lop', ten:'Lớp · Google AI Studio', tl:'chung', nguon:'Gói free chính thức', quotaNgay:250, thuDuLieu:true,
+      models:[{id:'gemini-flash', nhan:'Gemini Flash (free tier)', giaVao:0, giaRa:0, manh:3, ms:900, rpm:10}]},
+    {id:'groq-lop', ten:'Lớp · Groq', tl:'chung', nguon:'Gói free chính thức', quotaNgay:1000, thuDuLieu:'chua',
+      models:[{id:'llama-8b', nhan:'Llama 8B instant', giaVao:0, giaRa:0, manh:1, ms:300, rpm:30}]},
+    {id:'ollama', ten:'Máy lớp · Ollama tự host', tl:'chung', nguon:'Tự host — miễn phí thật, chậm', quotaNgay:null, thuDuLieu:false,
+      models:[{id:'qwen-7b', nhan:'Qwen 7B (tự host)', giaVao:0, giaRa:0, manh:1.5, ms:4000, rpm:4}]},
+    {id:'anthropic', ten:'Tổ chức · Anthropic', tl:'chung', nguon:'Khoá trả phí — lớp leo thang', quotaNgay:null, thuDuLieu:false,
+      models:[
+        {id:'claude-haiku-5-5', nhan:'Claude Haiku 5.5', giaVao:0.10, giaRa:0.50, manh:3, ms:1200, rpm:50, cacheX:0.1},
+        {id:'claude-sonnet-5-5', nhan:'Claude Sonnet 5.5', giaVao:2, giaRa:10, manh:4, ms:2200, rpm:50, cacheX:0.05},
+        {id:'claude-opus-5-5', nhan:'Claude Opus 5.5', giaVao:4, giaRa:20, manh:5, ms:3800, rpm:50, cacheX:0.05}]},
+    {id:'mistral', ten:'Đối tác · Mistral', tl:'chung', nguon:'Chưa có giá trong hệ thống', quotaNgay:null, thuDuLieu:'chua',
+      models:[{id:'mistral-medium', nhan:'Mistral Medium (chưa giá)', giaVao:null, giaRa:null, manh:3.5, ms:1500, rpm:30}]},
+  ].map(a=>({...a, bat:true, loiEp:'', dungNgay:0, cache:null,
+    models:a.models.map(m=>({...m, bat:true, thuOk:null, thuMs:null, lyDoDo:'', goi:[]}))}));
+}
+const VIEC = {
+  phan_loai:{ten:'Phân loại tin nhắn', kho:1, ra:60},
+  tom_tat:{ten:'Tóm tắt hội thoại', kho:2, ra:300},
+  ke_hoach:{ten:'Soạn kế hoạch chiến dịch', kho:4, ra:900},
+};
+// Theo cơ chế chọn model của AGADS (áp dụng từ 21/10/2026)
+const TOKEN_VAO_UOC=3000, TOKEN_RA_UOC=400, TOI_DA_MIEN_PHI=3, TOI_DA_UNG_VIEN=6;
+const OPUS={giaVao:4, giaRa:20};
+
+/* ============ Trạng thái ============ */
+let S;
+function rngTu(seed){ // mulberry32 — cùng hạt giống thì cùng kết quả, để kịch bản kiểm lặp lại được
+  return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed);
+    t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
+}
+function datLai(seed=20261029){
+  S={seed, rng:rngTu(seed), t:0, ngay:1, tk:khoTaiKhoanMau(), traces:[], daChiThang:0, lanThat:[], ep:{hong:0}, nhatKyDo:[]};
+}
+
+/* ============ Thuật toán ============ */
+const chiPhiUoc = m => (m.giaVao===null||m.giaRa===null) ? null : (m.giaVao*TOKEN_VAO_UOC+m.giaRa*TOKEN_RA_UOC)/1e6;
+
+function xepMotNhom(ds){
+  const dung = ds.filter(u=>u.m.thuOk!==false);
+  const nhanh=(a,b)=>(a.m.thuMs??Infinity)-(b.m.thuMs??Infinity);
+  // Nhãn "miễn phí" hay sai → chỉ tin model miễn phí ĐÃ gọi thử được.
+  const mienPhi = dung.filter(u=>chiPhiUoc(u.m)===0 && u.m.thuOk===true).sort(nhanh).slice(0,TOI_DA_MIEN_PHI);
+  const coGia = dung.filter(u=>(chiPhiUoc(u.m)??0)>0).sort((a,b)=>chiPhiUoc(a.m)-chiPhiUoc(b.m)||nhanh(a,b));
+  const chuaGia = dung.filter(u=>chiPhiUoc(u.m)===null).sort(nhanh);
+  return [...mienPhi,...coGia,...chuaGia].slice(0,TOI_DA_UNG_VIEN);
+}
+function dsUngVien(cfg){
+  const vuotTran = cfg.tran!==null && S.daChiThang>=cfg.tran;
+  const ds=[];
+  for(const a of S.tk){
+    if(!a.bat) continue;
+    if(cfg.baoMat && (a.tl==='ca_nhan' || a.thuDuLieu!==false)) continue;
+    if(vuotTran && a.tl!=='ca_nhan') continue;
+    for(const m of a.models) if(m.bat) ds.push({a,m});
+  }
+  return {vuotTran, ds:[...xepMotNhom(ds.filter(u=>u.a.tl==='ca_nhan')), ...xepMotNhom(ds.filter(u=>u.a.tl!=='ca_nhan'))]};
+}
+const loiCapTaiKhoan = s => /key bị từ chối|tài khoản của hãng hết tiền|hết lượt model miễn phí trong ngày/i.test(s);
+
+function uocToken(cfg){
+  const chu=(cfg.nhap||'').length;
+  return {sys:cfg.sysTok, cc:cfg.connector?800:0, nhap:Math.max(20,Math.ceil(chu/3.5))};
+}
+// Gọi "hãng" giả lập: ném lỗi theo đúng loại, hoặc trả số token.
+function goiModel(a,m,cfg,viec){
+  if(a.loiEp==='401') throw new Error('401 key bị từ chối');
+  if(a.loiEp==='402') throw new Error('402 tài khoản của hãng hết tiền');
+  if(a.loiEp==='500') throw new Error('500 hãng lỗi tạm thời');
+  if(a.loiEp==='timeout') throw new Error('quá 30 giây không trả lời (timeout)');
+  if(m.thatSu==='402') throw new Error('402 model cần nạp credit — nhãn "miễn phí" sai');
+  if(a.quotaNgay!==null && a.dungNgay>=a.quotaNgay) throw new Error(`429 hết lượt model miễn phí trong ngày (${a.dungNgay}/${a.quotaNgay})`);
+  const gan = m.goi.filter(t=>S.t-t<60).length;
+  if(gan>=m.rpm) throw new Error(`429 vượt hạn mức gọi ${m.rpm} lượt/phút của model`);
+  m.goi.push(S.t); a.dungNgay++;
+  const tk=uocToken(cfg);
+  let cacheDoc=0, cacheGhi=0, vao=tk.sys+tk.cc+tk.nhap;
+  if(cfg.caching && m.cacheX && tk.sys>=512){
+    if(a.cache && a.cache.sys===tk.sys && S.t-a.cache.t<=300){ cacheDoc=tk.sys; } else { cacheGhi=tk.sys; }
+    a.cache={sys:tk.sys, t:S.t};
+    vao-=tk.sys;
+  }
+  const ra=Math.round(viec.ra*(0.8+S.rng()*0.4));
+  const ms=Math.round(m.ms*(0.75+S.rng()*0.5));
+  return {vao, ra, cacheDoc, cacheGhi, ms};
+}
+function tinhChiPhi(m,k){
+  if(m.giaVao===null) return null;
+  const x=m.cacheX||0.1;
+  return (k.vao*m.giaVao + k.ra*m.giaRa + k.cacheDoc*m.giaVao*x + k.cacheGhi*m.giaVao*1.25)/1e6;
+}
+function hongKiem(m,viec){
+  if(S.ep.hong>0){ S.ep.hong--; return 'ép hỏng (kịch bản)'; }
+  const p=Math.max(0.03, Math.min(0.9, 0.15+(viec.kho-m.manh)*0.2));
+  return S.rng()<p ? ['sai khuôn đầu ra','bịa giá / link','thiếu mục bắt buộc'][Math.floor(S.rng()*3)] : null;
+}
+
+function guiYeuCau(cfg){
+  S.t += cfg.buoc ?? 6;
+  const viec=VIEC[cfg.tinhNang];
+  const tr={id:'TR-'+String(S.traces.length+1).padStart(3,'0'), t:S.t, ngay:S.ngay, viec:viec.ten, tinhNang:cfg.tinhNang, buoc:[], ketQua:'', diem:null, baoMat:cfg.baoMat};
+  const {vuotTran, ds}=dsUngVien(cfg);
+  tr.soUngVien=ds.length;
+  if(ds.length===0){
+    tr.ketQua = vuotTran ? 'chan-tran' : 'khong-model';
+    tr.loi = vuotTran ? `Đã chạm trần chi phí tháng (${usd(S.daChiThang)} / ${usd(cfg.tran)} USD) và không còn khoá cá nhân → tạm dừng AI.`
+                      : 'Không có model nào dùng được với điều kiện hiện tại (tất cả bị tắt, bị loại khi dò, hoặc bị loại vì dữ liệu có thông tin khách).';
+    S.traces.unshift(tr); return tr;
+  }
+  const boQua=new Set(); let duPhong=null, giaDuPhong=null;
+  for(const u of ds){
+    const {a,m}=u;
+    if(boQua.has(a.id)){ tr.buoc.push({a:a.ten,m:m.nhan,kq:'bo-qua',lyDo:'tài khoản đã lỗi cấp tài khoản ở bước trước'}); continue; }
+    const c=chiPhiUoc(m);
+    if(duPhong && giaDuPhong!==null && c!==null && c<=giaDuPhong){ tr.buoc.push({a:a.ten,m:m.nhan,kq:'bo-qua',lyDo:'không đắt hơn model vừa hỏng bước kiểm'}); continue; }
+    const b={a:a.ten,aId:a.id,m:m.nhan,mId:m.id,tl:a.tl,free:c===0,gia:m.giaVao};
+    try{
+      const k=goiModel(a,m,cfg,viec);
+      const cp=tinhChiPhi(m,k);
+      Object.assign(b,k,{chiPhi:cp});
+      if(cp && a.tl!=='ca_nhan') S.daChiThang+=cp;
+      const hong = cfg.kiemTra ? hongKiem(m,viec) : null;
+      if(hong && !duPhong){
+        b.kq='hong'; b.lyDo=`câu trả lời không qua bước kiểm (${hong}) → hỏi lại MỘT lần bằng model đắt hơn`;
+        tr.buoc.push(b); duPhong=b; giaDuPhong=c; continue;
+      }
+      if(hong && duPhong){
+        b.kq='hong'; b.lyDo=`vẫn không qua bước kiểm (${hong}) → không leo thang thêm, chuyển người xem`;
+        tr.buoc.push(b); tr.ketQua='can-nguoi'; tr.diem=60+Math.floor(S.rng()*20); break;
+      }
+      b.kq='ok'; b.lyDo= duPhong ? 'model đắt hơn trả lời đạt bước kiểm' : 'trả lời đạt';
+      tr.buoc.push(b);
+      tr.ketQua = duPhong ? 'leo-thang-ok' : 'ok';
+      tr.diem = 80+Math.floor(S.rng()*19);
+      break;
+    }catch(e){
+      b.kq='loi'; b.lyDo=e.message; b.ms=Math.round(200+S.rng()*300);
+      if(loiCapTaiKhoan(e.message)){ boQua.add(a.id); b.lyDo+=' → lỗi cấp tài khoản: bỏ các model còn lại của tài khoản này'; }
+      tr.buoc.push(b);
+    }
+  }
+  if(!tr.ketQua){
+    if(duPhong){ tr.ketQua='can-nguoi'; tr.diem=60+Math.floor(S.rng()*20); tr.loi='Không còn model đắt hơn để hỏi lại — trả câu cuối, chuyển người xem.'; }
+    else { tr.ketQua='that-bai'; tr.loi='Không model nào trả lời được — xem lý do từng bước.'; }
+  }
+  S.traces.unshift(tr); return tr;
+}
+
+// Dò model miễn phí: gọi thử 1 câu rất ngắn mỗi ứng viên; hết lượt ngày thì dừng tài khoản đó.
+function doMienPhi(){
+  S.t+=1; const log=[];
+  for(const a of S.tk){
+    if(!a.bat) continue;
+    for(const m of a.models){
+      if(chiPhiUoc(m)!==0) continue;
+      if(a.loiEp==='401'||a.loiEp==='402'){ m.thuOk=false; m.lyDoDo=a.loiEp==='401'?'key bị từ chối':'tài khoản hết tiền'; log.push(`${m.nhan}: hỏng (${m.lyDoDo})`); continue; }
+      if(a.quotaNgay!==null && a.dungNgay>=a.quotaNgay){ log.push(`${a.ten}: hết lượt ngày → dừng dò, giữ kết quả cũ`); break; }
+      a.dungNgay++;
+      if(m.thatSu==='402'){ m.thuOk=false; m.lyDoDo='402 cần nạp credit (nhãn free sai)'; }
+      else if(a.loiEp){ m.thuOk=false; m.lyDoDo=a.loiEp; }
+      else { m.thuOk=true; m.thuMs=Math.round(m.ms*(0.85+S.rng()*0.3)); m.lyDoDo=''; }
+      log.push(`${m.nhan}: ${m.thuOk?'gọi được '+m.thuMs+' ms':'hỏng ('+m.lyDoDo+')'}`);
+    }
+  }
+  S.nhatKyDo=log; return log;
+}
+function sangNgayMoi(){ S.ngay++; S.t+=3600*20; for(const a of S.tk){ a.dungNgay=0; a.cache=null; for(const m of a.models) m.goi=[]; } return doMienPhi(); }
+
+/* ============ Giao diện ============ */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const usd=n=>n===null||n===undefined?'—':(n===0?'0':n<0.001?n.toLocaleString('vi-VN',{maximumFractionDigits:8,maximumSignificantDigits:2}):n.toLocaleString('vi-VN',{maximumFractionDigits:4}));
+const so=n=>Number(n||0).toLocaleString('vi-VN');
+function docCfg(){
+  const tran=$('#tran').value.trim();
+  return {tinhNang:$('#tinhNang').value, nhap:$('#nhap').value, sysTok:Math.max(0,+$('#sysTok').value||0),
+    tran: tran===''?null:Math.max(0,+tran), kiemTra:$('#kiemTra').checked, baoMat:$('#baoMat').checked,
+    caching:$('#caching').checked, connector:$('#connector').checked};
+}
+const NHAN_KQ={
+  'ok':['ok','Trả lời đạt ngay — không leo thang'],
+  'leo-thang-ok':['warn','Leo thang một lần rồi đạt'],
+  'can-nguoi':['bad','Vẫn hỏng sau khi leo thang → chuyển người'],
+  'that-bai':['bad','Mọi model đều lỗi'],
+  'chan-tran':['bad','Chạm trần chi phí — AI tạm dừng'],
+  'khong-model':['bad','Không có model dùng được'],
+};
+function vung(d){ return d===null?null : d>=90?['teal','KHẢ THI ≥ 90']: d>=80?['amber','XEM XÉT 80–89']:['rose','TẠM DỪNG < 80']; }
+function tongTrace(tr){
+  return tr.buoc.reduce((s,b)=>({vao:s.vao+(b.vao||0), ra:s.ra+(b.ra||0), cd:s.cd+(b.cacheDoc||0), cp:s.cp+(b.chiPhi||0), ms:s.ms+(b.ms||0)}),{vao:0,ra:0,cd:0,cp:0,ms:0});
+}
+function htmlBuoc(tr){
+  if(!tr.buoc.length) return '';
+  return '<ol class="steps">'+tr.buoc.map((b,i)=>{
+    const so_ = b.kq==='ok'||b.kq==='hong' ? ` · vào ${so(b.vao)} · ra ${so(b.ra)}${b.cacheDoc?` · đọc cache ${so(b.cacheDoc)}`:''}${b.cacheGhi?` · ghi cache ${so(b.cacheGhi)}`:''} · ${so(b.ms)} ms · ${usd(b.chiPhi)} USD` : '';
+    const nhan={ok:'<span class="tag teal">đạt</span>',loi:'<span class="tag rose">lỗi</span>',hong:'<span class="tag amber">hỏng bước kiểm</span>','bo-qua':'<span class="tag">bỏ qua</span>'}[b.kq];
+    return `<li class="${b.kq}"><span class="no">${i+1}</span><div><b>${esc(b.m)}</b> <span class="dim small">· ${esc(b.a)}${b.tl==='ca_nhan'?' (khoá cá nhân)':''}</span> ${nhan}<div class="why">${esc(b.lyDo||'')}${so_}</div></div></li>`;
+  }).join('')+'</ol>';
+}
+function htmlCong(tr){
+  const v=vung(tr.diem); if(!v) return '';
+  const da=S.lanThat.find(x=>x.id===tr.id);
+  let nut='';
+  if(da) nut=`<span class="tag teal">Đã xuống làn thật${da.pa?' · phương án '+da.pa:''}</span>`;
+  else if(tr.diem>=90) nut=`<button class="btn sm" data-duyet="${tr.id}">Người duyệt: ok → làn thật</button>`;
+  else if(tr.diem>=80) nut=`<button class="btn ghost sm" data-duyet="${tr.id}" data-pa="A">Chọn phương án A</button> <button class="btn ghost sm" data-duyet="${tr.id}" data-pa="B">Chọn phương án B</button>`;
+  else nut=`<span class="small muted">Tạm dừng — quay lại bước 2, bổ sung dữ liệu. Không có nút duyệt.</span>`;
+  return `<div class="stack"><div class="row"><span>Điểm chấm: <b style="font-size:22px;color:var(--gold2)">${tr.diem}</b>/100</span><span class="tag ${v[0]}">${v[1]}</span></div><div class="gate"><i></i><i></i><i></i></div><div class="row">${nut}</div></div>`;
+}
+function veKetQua(tr){
+  const [cls,txt]=NHAN_KQ[tr.ketQua]; const t=tongTrace(tr);
+  $('#ketQua').innerHTML=`<div class="row" style="justify-content:space-between"><h3>${tr.id} · ${esc(tr.viec)}</h3><span class="small dim">ngày ${tr.ngay} · giây ${so(tr.t)}</span></div>
+    <div class="verdict ${cls}"><b>${txt}.</b> ${tr.loi?esc(tr.loi):''} ${tr.buoc.length?`Tổng: ${so(t.vao)} token vào · ${so(t.ra)} ra · ${usd(t.cp)} USD · ${so(t.ms)} ms.`:''}</div>
+    ${htmlBuoc(tr)}${htmlCong(tr)}`;
+}
+function veThuTu(){
+  const cfg=docCfg(); const {vuotTran,ds}=dsUngVien(cfg);
+  const loai=[]; for(const a of S.tk) for(const m of a.models) if(a.bat&&m.bat&&m.thuOk===false) loai.push(`${m.nhan} (${m.lyDoDo})`);
+  $('#thuTu').innerHTML = (vuotTran?'<p class="verdict warn small">Đã chạm trần chi phí tháng → chỉ còn khoá cá nhân.</p>':'')+
+    (ds.length?`<table class="tbl"><tr><th>#</th><th>Model</th><th>Tài khoản</th><th class="n">Ước 1 lượt (USD)</th><th>Dò</th></tr>`+
+    ds.map((u,i)=>{const c=chiPhiUoc(u.m);return `<tr><td>${i+1}</td><td>${esc(u.m.nhan)}</td><td>${esc(u.a.ten)} ${u.a.tl==='ca_nhan'?'<span class="tag gold">cá nhân</span>':''}</td><td class="n">${c===null?'<span class="tag">chưa giá</span>':c===0?'<span class="tag teal">miễn phí</span>':usd(c)}</td><td>${u.m.thuOk===true?u.m.thuMs+' ms':u.m.thuOk===null?'<span class="dim">chưa dò</span>':''}</td></tr>`}).join('')+'</table>'
+    :'<p class="muted">Không có ứng viên nào.</p>')+
+    (loai.length?`<p class="small muted" style="margin-top:8px">Bị loại khi dò: ${esc(loai.join(' · '))}</p>`:'')+
+    (S.nhatKyDo.length?`<details class="tr" style="margin-top:8px"><summary>Nhật ký lần dò gần nhất (${S.nhatKyDo.length} dòng)</summary><div class="small muted">${S.nhatKyDo.map(esc).join('<br>')}</div></details>`:'');
+}
+function thongKe(){
+  let goi=0,ok=0,loi=0,vao=0,ra=0,cd=0,cp=0,ms=0,freeOk=0,opus=0,n=0;
+  const theoM=new Map();
+  for(const tr of S.traces){ n++;
+    for(const b of tr.buoc){ if(b.kq==='bo-qua') continue; goi++;
+      const k=b.a+'|'+b.m; const x=theoM.get(k)||{a:b.a,m:b.m,goi:0,ok:0,loi:0,vao:0,ra:0,cd:0,cp:0,free:b.free};
+      x.goi++; if(b.kq==='loi'){x.loi++;loi++;} else { x.vao+=b.vao; x.ra+=b.ra; x.cd+=b.cacheDoc; x.cp+=b.chiPhi||0;
+        vao+=b.vao; ra+=b.ra; cd+=b.cacheDoc; cp+=b.chiPhi||0; opus+=((b.vao+b.cacheDoc+b.cacheGhi)*OPUS.giaVao+b.ra*OPUS.giaRa)/1e6; }
+      if(b.kq==='ok'){x.ok++;ok++; if(b.free) freeOk++;}
+      ms+=b.ms||0; theoM.set(k,x);
+    }
+  }
+  const datTr=S.traces.filter(t=>t.ketQua==='ok'||t.ketQua==='leo-thang-ok').length;
+  return {n,goi,ok,loi,vao,ra,cd,cp,ms,freeOk,opus,datTr,theoM:[...theoM.values()]};
+}
+function kpiHtml(k,day){
+  const it=[[so(k.n),'yêu cầu (trace)'],[k.datTr?Math.round(k.freeOk/k.datTr*100)+'%':'—','yêu cầu đạt do model miễn phí trả lời'],
+    [usd(k.cp),'USD đã chi (mô phỏng)'],[usd(k.opus),'USD ước chi nếu toàn Opus 5.5']];
+  if(day) it.push([so(k.vao),'token vào'],[so(k.ra),'token ra'],[so(k.cd),'token đọc cache'],[so(k.loi),'lần gọi lỗi'],[k.goi?so(Math.round(k.ms/k.goi)):'—','ms trung bình / lần gọi'],[usd(S.daChiThang),'USD tháng này tính vào trần (khoá chung)']);
+  return it.map(([b,s])=>`<div class="kpi"><b>${b}</b><span>${s}</span></div>`).join('');
+}
+function veGiamSat(){
+  const k=thongKe();
+  $('#kpiTop').innerHTML=kpiHtml(k,false); $('#kpiFull').innerHTML=kpiHtml(k,true);
+  const maxCp=Math.max(...k.theoM.map(x=>x.vao+x.ra),1);
+  $('#theoModel').innerHTML=k.theoM.length?`<table class="tbl"><tr><th>Model</th><th class="n">Lần gọi</th><th class="n">Đạt</th><th class="n">Lỗi</th><th class="n">Token vào</th><th class="n">Token ra</th><th class="n">Đọc cache</th><th class="n">USD</th><th>Tỉ trọng token</th></tr>`+
+    k.theoM.sort((a,b)=>b.goi-a.goi).map(x=>`<tr><td>${esc(x.m)}<div class="dim small">${esc(x.a)}</div></td><td class="n">${x.goi}</td><td class="n">${x.ok}</td><td class="n">${x.loi}</td><td class="n">${so(x.vao)}</td><td class="n">${so(x.ra)}</td><td class="n">${so(x.cd)}</td><td class="n">${usd(x.cp)}</td><td><div class="bar ${x.free?'teal':''}"><i style="width:${Math.round((x.vao+x.ra)/maxCp*100)}%"></i></div></td></tr>`).join('')+'</table>'
+    :'<p class="muted">Chưa có số liệu.</p>';
+  $('#theoTk').innerHTML=`<table class="tbl"><tr><th>Tài khoản</th><th>Loại</th><th class="n">Đã dùng hôm nay</th><th>Hạn mức ngày</th><th>Trạng thái</th></tr>`+
+    S.tk.map(a=>{const p=a.quotaNgay?Math.min(100,Math.round(a.dungNgay/a.quotaNgay*100)):0;
+      return `<tr><td>${esc(a.ten)}</td><td>${a.tl==='ca_nhan'?'cá nhân':'chung'}</td><td class="n">${a.dungNgay}${a.quotaNgay?' / '+a.quotaNgay:''}</td><td>${a.quotaNgay?`<div class="bar"><i style="width:${p}%;${p>=100?'background:var(--rose)':''}"></i></div>`:'<span class="dim">không giới hạn</span>'}</td><td>${!a.bat?'<span class="tag">tắt</span>':a.loiEp?`<span class="tag rose">ép lỗi ${a.loiEp}</span>`:a.quotaNgay&&a.dungNgay>=a.quotaNgay?'<span class="tag rose">hết lượt</span>':'<span class="tag teal">sẵn sàng</span>'}</td></tr>`}).join('')+'</table>';
+  $('#dsTrace').innerHTML=S.traces.length?S.traces.slice(0,30).map(tr=>{const t=tongTrace(tr);const v=vung(tr.diem);
+    return `<details class="tr"><summary><b>${tr.id}</b> · ${esc(tr.viec)} · <span class="tag ${NHAN_KQ[tr.ketQua][0]==='ok'?'teal':NHAN_KQ[tr.ketQua][0]==='warn'?'amber':'rose'}">${NHAN_KQ[tr.ketQua][1]}</span> ${v?`<span class="tag ${v[0]}">${tr.diem} điểm</span>`:''} <span class="dim small">· ${tr.buoc.length} bước · ${usd(t.cp)} USD · ${so(t.ms)} ms</span></summary>${tr.loi?`<p class="small muted">${esc(tr.loi)}</p>`:''}${htmlBuoc(tr)}</details>`}).join('')
+    :'<p class="muted">Chưa có trace.</p>';
+}
+function veKho(){
+  $('#dsTaiKhoan').innerHTML=S.tk.map(a=>`<div class="card acc ${a.bat?'':'off'}">
+    <header><div><h3>${esc(a.ten)}</h3><p class="small muted">${esc(a.nguon)}</p></div>
+      <div class="row">${a.tl==='ca_nhan'?'<span class="tag gold">khoá cá nhân</span>':'<span class="tag">khoá chung</span>'}
+      ${a.thuDuLieu===true?'<span class="tag rose">có thể dùng dữ liệu</span>':a.thuDuLieu==='chua'?'<span class="tag amber">chưa kiểm điều khoản</span>':'<span class="tag teal">không dùng dữ liệu</span>'}</div></header>
+    <div class="grid3">
+      <label class="chk"><input type="checkbox" data-tk="${a.id}" data-f="bat" ${a.bat?'checked':''}><span>Bật tài khoản</span></label>
+      <label>Ép lỗi<select data-tk="${a.id}" data-f="loiEp">${[['','không'],['401','401 key sai'],['402','402 hết tiền'],['500','500 hãng lỗi'],['timeout','timeout']].map(([v,t])=>`<option value="${v}" ${a.loiEp===v?'selected':''}>${t}</option>`).join('')}</select></label>
+      <label>Hạn mức / ngày (trống = không)<input type="number" min="0" data-tk="${a.id}" data-f="quotaNgay" value="${a.quotaNgay??''}"></label>
+    </div>
+    <p class="small muted">Đã dùng hôm nay: <b>${a.dungNgay}</b>${a.quotaNgay?' / '+a.quotaNgay:''}</p>
+    <div class="scroll"><table class="tbl"><tr><th>Bật</th><th>Model</th><th class="n">Giá vào/ra (USD/1M)</th><th class="n">Lượt/phút</th><th>Dò</th></tr>
+    ${a.models.map((m,i)=>`<tr><td><input type="checkbox" style="width:16px;accent-color:var(--gold)" data-tk="${a.id}" data-m="${i}" ${m.bat?'checked':''} aria-label="Bật ${esc(m.nhan)}"></td><td>${esc(m.nhan)}<div class="dim small">sức mạnh ${m.manh}/5</div></td><td class="n">${m.giaVao===null?'chưa giá':m.giaVao===0?'0 / 0':`${usd(m.giaVao)} / ${usd(m.giaRa)}`}</td><td class="n"><input type="number" min="1" style="width:70px" data-tk="${a.id}" data-rpm="${i}" value="${m.rpm}"></td><td>${m.thuOk===true?`<span class="tag teal">${m.thuMs} ms</span>`:m.thuOk===false?`<span class="tag rose">${esc(m.lyDoDo)}</span>`:'<span class="dim small">'+(chiPhiUoc(m)===0?'chưa dò':'không cần')+'</span>'}</td></tr>`).join('')}
+    </table></div></div>`).join('');
+}
+function veTatCa(){ veThuTu(); veGiamSat(); veKho();
+  $('#dongHo').textContent=`Đồng hồ mô phỏng: ngày ${S.ngay} · giây ${so(S.t)} · hạt giống ${S.seed}`;
+  $('#lanThat').innerHTML=S.lanThat.length?'<table class="tbl"><tr><th>Trace</th><th>Việc</th><th class="n">Điểm</th><th>Duyệt</th></tr>'+S.lanThat.map(x=>`<tr><td>${x.id}</td><td>${esc(x.viec)}</td><td class="n">${x.diem}</td><td>${x.pa?'phương án '+x.pa:'ok'}</td></tr>`).join('')+'</table>':'Chưa có việc nào xuống làn thật.';
+}
+
+/* ============ Sự kiện ============ */
+document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('section.pane').forEach(p=>p.hidden=p.id!=='p-'+b.dataset.tab);
+}));
+$('#btnGui').onclick=()=>{ const tr=guiYeuCau(docCfg()); veKetQua(tr); veTatCa(); };
+$('#btnDon').onclick=()=>{ let tr; for(let i=0;i<10;i++) tr=guiYeuCau({...docCfg(),buoc:2}); veKetQua(tr); veTatCa(); };
+$('#btnDo').onclick=()=>{ doMienPhi(); veTatCa(); };
+$('#btnNgay').onclick=()=>{ sangNgayMoi(); veTatCa(); };
+$('#btnReset').onclick=()=>{ datLai(); doMienPhi(); $('#ketQua').innerHTML='<h3>Kết quả lượt gần nhất</h3><p class="muted">Đã đặt lại. Bấm “Gửi 1 yêu cầu”.</p>'; veTatCa(); };
+['#tinhNang','#baoMat','#tran','#sysTok','#caching','#connector'].forEach(s=>$(s).addEventListener('change',veThuTu));
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-duyet]'); if(!b) return;
+  const tr=S.traces.find(t=>t.id===b.dataset.duyet); if(!tr||S.lanThat.some(x=>x.id===tr.id)) return;
+  S.lanThat.push({id:tr.id,viec:tr.viec,diem:tr.diem,pa:b.dataset.pa||''}); veKetQua(S.traces[0]); veTatCa();
+});
+$('#dsTaiKhoan').addEventListener('change',e=>{
+  const el=e.target, a=S.tk.find(x=>x.id===el.dataset.tk); if(!a) return;
+  if(el.dataset.f==='bat') a.bat=el.checked;
+  else if(el.dataset.f==='loiEp') a.loiEp=el.value;
+  else if(el.dataset.f==='quotaNgay') a.quotaNgay=el.value===''?null:Math.max(0,+el.value);
+  else if(el.dataset.m!==undefined) a.models[+el.dataset.m].bat=el.checked;
+  else if(el.dataset.rpm!==undefined) a.models[+el.dataset.rpm].rpm=Math.max(1,+el.value||1);
+  veTatCa();
+});
+$('#btnCsv').onclick=()=>{
+  const dong=[['trace','ngay','giay','viec','ket_qua','diem','buoc','tai_khoan','model','kq','token_vao','token_ra','cache_doc','cache_ghi','usd','ms','ly_do']];
+  for(const tr of [...S.traces].reverse()) tr.buoc.forEach((b,i)=>dong.push([tr.id,tr.ngay,tr.t,tr.viec,tr.ketQua,tr.diem??'',i+1,b.a,b.m,b.kq,b.vao??'',b.ra??'',b.cacheDoc??'',b.cacheGhi??'',b.chiPhi??'',b.ms??'',b.lyDo||'']));
+  const csv='﻿'+dong.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='sandbox-token.csv'; a.click(); URL.revokeObjectURL(a.href);
+};
+
+/* ============ Kịch bản kiểm ============ */
+const CFG0={tinhNang:'phan_loai', nhap:'Khách hỏi giá combo, giao Đà Nẵng mấy ngày?', sysTok:1200, tran:null, kiemTra:true, baoMat:false, caching:true, connector:false};
+const tk=id=>S.tk.find(a=>a.id===id);
+const KICH_BAN=[
+  {ten:'Việc dễ → model miễn phí trả lời, chi 0 USD', mong:'Bước 1 là model miễn phí, đạt ngay, chi phí 0', chay(){ doMienPhi(); const tr=guiYeuCau({...CFG0,kiemTra:false});
+    return [tr.buoc[0].free && tr.buoc[0].kq==='ok' && tr.ketQua==='ok' && tongTrace(tr).cp===0, `${tr.buoc[0].m}: ${tr.ketQua}, ${usd(tongTrace(tr).cp)} USD`]; }},
+  {ten:'Model gắn nhãn “miễn phí” nhưng cần credit bị loại khi dò', mong:'Model X: thuOk=false, không có trong thứ tự ứng viên', chay(){ doMienPhi(); const x=tk('or-an').models[3];
+    const co=dsUngVien(CFG0).ds.some(u=>u.m===x); return [x.thuOk===false && !co, `thuOk=${x.thuOk}, trong ứng viên: ${co}`]; }},
+  {ten:'Chưa dò → không tin model miễn phí, đi thẳng model có giá', mong:'Không bước nào là model miễn phí của nhà cung cấp đám mây', chay(){ const tr=guiYeuCau({...CFG0,kiemTra:false});
+    return [tr.buoc.every(b=>!b.free) && tr.buoc[0].m==='Claude Haiku 5.5', `bước 1: ${tr.buoc[0].m}`]; }},
+  {ten:'Hết lượt free trong ngày → bỏ cả tài khoản, sang tài khoản kế', mong:'1 bước lỗi “hết lượt” của OpenRouter, các model khác cùng tài khoản bị bỏ qua, cuối cùng đạt', chay(){ doMienPhi(); const a=tk('or-an'); a.dungNgay=a.quotaNgay;
+    const tr=guiYeuCau({...CFG0,kiemTra:false}); const cuaOr=tr.buoc.filter(b=>b.a===a.ten);
+    return [cuaOr[0].kq==='loi' && /hết lượt/.test(cuaOr[0].lyDo) && cuaOr.slice(1).every(b=>b.kq==='bo-qua') && tr.ketQua==='ok', `${cuaOr.map(b=>b.kq).join(', ')} → ${tr.buoc.at(-1).m}`]; }},
+  {ten:'429 theo phút → thử model khác CÙNG tài khoản', mong:'Lượt 2: model đầu báo 429/phút, model kế của cùng OpenRouter trả lời', chay(){ doMienPhi(); const ds=dsUngVien(CFG0).ds; ds[0].m.rpm=1;
+    guiYeuCau({...CFG0,kiemTra:false,buoc:2}); const tr=guiYeuCau({...CFG0,kiemTra:false,buoc:2});
+    return [tr.buoc[0].kq==='loi' && /lượt\/phút/.test(tr.buoc[0].lyDo) && tr.buoc[1].a===tr.buoc[0].a && tr.buoc[1].kq==='ok', `${tr.buoc[0].m} lỗi → ${tr.buoc[1].m} ${tr.buoc[1].kq}`]; }},
+  {ten:'OpenRouter còn 5 lượt, bắn dồn 50 lượt trong 50 giây → tự trải qua nhiều tài khoản', mong:'Ít nhất 3 tài khoản khác nhau cùng phục vụ, không lượt nào thất bại', chay(){ doMienPhi(); const a=tk('or-an'); a.dungNgay=a.quotaNgay-5;
+    let trs=[]; for(let i=0;i<50;i++) trs.push(guiYeuCau({...CFG0,kiemTra:false,buoc:1}));
+    const tkDung=new Set(trs.map(t=>t.buoc.at(-1).a)); return [tkDung.size>=3 && trs.every(t=>t.ketQua==='ok'), `${tkDung.size} tài khoản: ${[...tkDung].join(' · ')}`]; }},
+  {ten:'Key sai (401) → bỏ cả tài khoản', mong:'Chỉ 1 lần gọi tới tài khoản lỗi, phần còn lại bỏ qua', chay(){ doMienPhi(); const a=tk('or-an'); a.loiEp='401';
+    const tr=guiYeuCau({...CFG0,kiemTra:false}); const goiThat=tr.buoc.filter(b=>b.a===a.ten&&b.kq!=='bo-qua');
+    return [goiThat.length===1 && goiThat[0].kq==='loi' && tr.ketQua==='ok', `${goiThat.length} lần gọi tài khoản lỗi, kết quả ${tr.ketQua}`]; }},
+  {ten:'Hỏng bước kiểm → hỏi lại MỘT lần bằng model đắt hơn', mong:'Bước “hỏng” ở model free, rồi model có giá > 0 đạt; kết quả leo-thang-ok', chay(){ doMienPhi(); S.ep.hong=1;
+    const tr=guiYeuCau(CFG0); const h=tr.buoc.find(b=>b.kq==='hong'), ok=tr.buoc.find(b=>b.kq==='ok');
+    return [h && h.free && ok && ok.gia>0 && tr.ketQua==='leo-thang-ok', `${h?.m} hỏng → ${ok?.m} đạt`]; }},
+  {ten:'Vẫn hỏng sau leo thang → chuyển người, không có nút duyệt', mong:'2 bước hỏng, kết quả can-nguoi, điểm < 80', chay(){ doMienPhi(); S.ep.hong=2;
+    const tr=guiYeuCau(CFG0); return [tr.buoc.filter(b=>b.kq==='hong').length===2 && tr.ketQua==='can-nguoi' && tr.diem<80, `${tr.ketQua}, ${tr.diem} điểm`]; }},
+  {ten:'Mọi hãng lỗi tạm thời → báo thất bại kèm lý do', mong:'Kết quả that-bai, mọi bước đều là lỗi', chay(){ doMienPhi(); S.tk.forEach(a=>a.loiEp='500');
+    const tr=guiYeuCau(CFG0); return [tr.ketQua==='that-bai' && tr.buoc.length>0 && tr.buoc.every(b=>b.kq==='loi'), `${tr.ketQua}, ${tr.buoc.length} bước lỗi`]; }},
+  {ten:'Chạm trần chi phí → chỉ còn khoá cá nhân', mong:'Mọi bước đều thuộc khoá cá nhân', chay(){ doMienPhi(); S.daChiThang=1;
+    const tr=guiYeuCau({...CFG0,tran:0.5,kiemTra:false}); return [tr.buoc.length>0 && tr.buoc.every(b=>b.tl==='ca_nhan') && tr.ketQua==='ok', `${tr.buoc.map(b=>b.a).join(', ')}`]; }},
+  {ten:'Chạm trần và không có khoá cá nhân → AI tạm dừng', mong:'Kết quả chan-tran, không gọi model nào', chay(){ doMienPhi(); S.daChiThang=1; tk('or-an').bat=false;
+    const tr=guiYeuCau({...CFG0,tran:0.5}); return [tr.ketQua==='chan-tran' && tr.buoc.length===0, tr.ketQua]; }},
+  {ten:'Dữ liệu có thông tin khách (C26) → chỉ nhà cung cấp không dùng dữ liệu', mong:'Không khoá cá nhân, không tài khoản “có thể dùng dữ liệu” / “chưa kiểm”', chay(){ doMienPhi();
+    const tr=guiYeuCau({...CFG0,baoMat:true,kiemTra:false}); const hop=new Set(S.tk.filter(a=>a.tl!=='ca_nhan'&&a.thuDuLieu===false).map(a=>a.ten));
+    return [tr.buoc.length>0 && tr.buoc.every(b=>hop.has(b.a)), tr.buoc.map(b=>b.m).join(' → ')]; }},
+  {ten:'Prompt caching: lượt 2 đọc cache, rẻ hơn lượt 1', mong:'Lượt 1 ghi cache, lượt 2 đọc cache và chi phí thấp hơn', chay(){ S.tk.forEach(a=>{ if(a.id!=='anthropic') a.bat=false; });
+    const c={...CFG0,kiemTra:false}; const t1=guiYeuCau(c), t2=guiYeuCau(c); const b1=t1.buoc[0], b2=t2.buoc[0];
+    return [b1.cacheGhi>0 && b2.cacheDoc>0 && b2.chiPhi<b1.chiPhi, `${usd(b1.chiPhi)} → ${usd(b2.chiPhi)} USD`]; }},
+  {ten:'Sang ngày mới → hạn mức ngày về 0 và dò lại', mong:'OpenRouter từ hết lượt trở lại phục vụ được', chay(){ doMienPhi(); const a=tk('or-an'); a.dungNgay=a.quotaNgay; sangNgayMoi();
+    const tr=guiYeuCau({...CFG0,kiemTra:false}); return [tr.buoc[0].a===a.ten && tr.buoc[0].kq==='ok', `ngày ${S.ngay}: ${tr.buoc[0].m} ${tr.buoc[0].kq}`]; }},
+  {ten:'Model chưa có giá xếp SAU model có giá', mong:'Mistral (chưa giá) đứng sau mọi model Claude khi bỏ giới hạn 6 ứng viên', chay(){ doMienPhi(); ['or-an','gg-lop','groq-lop','ollama'].forEach(id=>tk(id).bat=false);
+    const ds=dsUngVien(CFG0).ds.map(u=>u.m.nhan); return [ds.at(-1).startsWith('Mistral') && ds.indexOf('Claude Opus 5.5')<ds.length-1, ds.join(' → ')]; }},
+];
+function chayKichBan(i){
+  datLai(); let ok,chiTiet;
+  try{ [ok,chiTiet]=KICH_BAN[i].chay(); }catch(e){ ok=false; chiTiet='Lỗi chạy: '+e.message; }
+  return {ok:!!ok, chiTiet};
+}
+function veBangKb(kq){
+  $('#bangKb').innerHTML='<tr><th>#</th><th>Kịch bản</th><th>Mong đợi</th><th>Thực tế</th><th>Kết quả</th><th></th></tr>'+
+    KICH_BAN.map((k,i)=>{const r=kq[i];return `<tr><td>${i+1}</td><td>${esc(k.ten)}</td><td class="muted">${esc(k.mong)}</td><td>${r?esc(r.chiTiet):'<span class="dim">chưa chạy</span>'}</td><td>${r?(r.ok?'<span class="pass">ĐẠT</span>':'<span class="fail">TRƯỢT</span>'):''}</td><td><button class="btn ghost sm" data-kb="${i}">Chạy &amp; xem</button></td></tr>`}).join('');
+}
+const kqKb=[];
+$('#btnChayHet').onclick=()=>{ KICH_BAN.forEach((_,i)=>kqKb[i]=chayKichBan(i)); veBangKb(kqKb);
+  const dat=kqKb.filter(r=>r.ok).length; $('#tongKb').textContent=`${dat}/${KICH_BAN.length} kịch bản đạt`;
+  datLai(); doMienPhi(); veTatCa(); };
+$('#bangKb').addEventListener('click',e=>{ const b=e.target.closest('[data-kb]'); if(!b) return; const i=+b.dataset.kb;
+  kqKb[i]=chayKichBan(i); veBangKb(kqKb); veTatCa(); if(S.traces[0]) veKetQua(S.traces[0]);
+  document.querySelector('[data-tab="dieukhien"]').click(); window.scrollTo(0,0); });
+
+/* ============ Khởi động: mô phỏng lần dò 3h sáng ============ */
+datLai(); doMienPhi(); veBangKb(kqKb); veTatCa();
+window.__sandbox={get S(){return S}, guiYeuCau, doMienPhi, sangNgayMoi, dsUngVien, chayKichBan, KICH_BAN, CFG0};
+</script>
+</body>
+</html>
