@@ -25,6 +25,9 @@ nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto}
 nav.tabs button{font:500 15.5px var(--f-body);color:var(--muted);background:none;border:0;padding:14px 14px 12px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
 nav.tabs button[aria-selected="true"]{color:var(--ivory);border-color:var(--gold)}
 nav.tabs button:focus-visible{outline:1px solid var(--gold);outline-offset:-3px}
+nav.tabs a.tab-ngoai{font:600 15.5px var(--f-body);color:var(--gold2);text-decoration:none;padding:14px 14px 12px;border-bottom:2px solid transparent;white-space:nowrap;margin-left:auto}
+nav.tabs a.tab-ngoai:hover{border-color:var(--gold2)}
+nav.tabs a.tab-ngoai:focus-visible{outline:1px solid var(--gold);outline-offset:-3px}
 main{padding-block:28px 64px}
 [hidden]{display:none!important}
 section.pane{display:grid;gap:22px;scroll-margin-top:60px}
@@ -151,6 +154,7 @@ td{color:var(--muted)} td b{color:var(--ivory);font-weight:500}
       <button role="tab" data-tab="build" aria-selected="false">Agent Builder</button>
       <button role="tab" data-tab="plat" aria-selected="false">Đa nền tảng</button>
       <button role="tab" data-tab="quiz" aria-selected="false">Kiểm tra</button>
+      <a class="tab-ngoai" href="https://ai-lab.acgentic.com/sandbox/" title="Mô phỏng định tuyến model rẻ trước + giám sát token">Sandbox buổi 3 ↗</a>
     </div>
   </nav>
 </header>
